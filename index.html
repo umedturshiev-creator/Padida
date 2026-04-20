@@ -2,100 +2,403 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Theatre Padida — Заявки</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Theatre Padida v1.0.0 — Заявки на выступления</title>
   <meta name="theme-color" content="#5b21b6" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="Padida" />
-  <link rel="manifest" href="manifest.json" />
-  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
-  <link rel="apple-touch-icon" href="icon-192.png" />
   <style>
-    :root{--bg:linear-gradient(180deg,#f8f6ff 0%,#eef2ff 100%);--card:#ffffffee;--text:#231942;--muted:#6b6680;--line:#e8defe;--primary:#6d28d9;--primary2:#9333ea;--danger:#dc2626;--warning:#f59e0b;--success:#16a34a;--shadow:0 16px 40px rgba(109,40,217,.10);--radius:22px;--today:#ffe7e7;--soon:#fff4d9;--future:#edf9f2;--cancel:#eff1f5}
-    *{box-sizing:border-box}html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}body{min-height:100vh}button,input,select,textarea{font:inherit}
-    .hero{position:sticky;top:0;z-index:20;color:#fff;background:radial-gradient(circle at top left, rgba(236,72,153,.24), transparent 28%),radial-gradient(circle at top right, rgba(147,51,234,.20), transparent 30%),linear-gradient(135deg,#4c1d95 0%,#6d28d9 55%,#a21caf 100%);box-shadow:0 8px 28px rgba(76,29,149,.18);padding:12px 12px 14px}
-    .hero-top{display:flex;align-items:center;justify-content:space-between;gap:10px}.brand-wrap{display:flex;gap:10px;min-width:0;align-items:center}.logo-badge{width:48px;height:48px;border-radius:16px;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);overflow:hidden;border:1px solid rgba(255,255,255,.15);flex:0 0 auto}.logo-badge img{width:100%;height:100%;object-fit:cover}.brand{min-width:0}.brand h1{margin:0;font-size:21px;line-height:1.05}.brand p{margin:4px 0 0;font-size:12px;opacity:.9;line-height:1.35}.hero-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
-    .mini-btn,.btn,.chip{border:none;border-radius:14px;font-weight:700;cursor:pointer;transition:.15s ease}.mini-btn:active,.btn:active,.chip:active{transform:scale(.98)}.mini-btn{background:rgba(255,255,255,.15);color:#fff;padding:9px 10px;font-size:12px;backdrop-filter:blur(5px)}.sync-pill{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:7px 10px;font-size:12px;font-weight:700}
-    .stats-bar{margin-top:10px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.stat-chip{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:8px 10px;min-width:0}.stat-chip span{display:block;font-size:10px;opacity:.88;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.stat-chip b{display:block;margin-top:4px;font-size:16px;line-height:1.1}
-    .container{max-width:1120px;margin:0 auto;padding:12px}.layout{display:grid;grid-template-columns:360px 1fr;gap:12px;align-items:start}.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px;backdrop-filter:blur(10px)}.panel h2{margin:0 0 10px;font-size:19px}.hint{margin:-2px 0 10px;font-size:12px;color:var(--muted);line-height:1.45}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.full{grid-column:1/-1}label{display:block;margin-bottom:6px;font-size:12px;font-weight:700}
-    input,select,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--text);outline:none}input:focus,select:focus,textarea:focus{border-color:#a78bfa;box-shadow:0 0 0 4px rgba(167,139,250,.14)}textarea{min-height:84px;resize:vertical}.btn{width:100%;padding:11px 14px;font-size:14px;margin-top:8px}.btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff}.btn-secondary{background:#f3e8ff;color:var(--primary)}.btn-light{background:#f8fafc;color:var(--text)}.btn-danger{background:var(--danger);color:#fff}
-    .toolbar{display:grid;grid-template-columns:1fr 160px;gap:10px;margin-bottom:10px}.filters{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}.section-title{margin:2px 0 10px;font-size:17px}.subtle-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}.list{display:flex;flex-direction:column;gap:10px}.booking{position:relative;overflow:hidden;border-left:5px solid #c4b5fd}.booking::after{content:"";position:absolute;right:-34px;bottom:-34px;width:100px;height:100px;background:radial-gradient(circle, rgba(236,72,153,.08), transparent 70%);pointer-events:none}.booking.today{background:var(--today);border-left-color:var(--danger)}.booking.soon{background:var(--soon);border-left-color:var(--warning)}.booking.future{background:var(--future);border-left-color:var(--success)}.booking.cancelled{background:var(--cancel);border-left-color:#6b7280}
-    .booking-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;margin-bottom:9px}.booking-title{font-size:18px;font-weight:800;margin-bottom:3px}.booking-sub{font-size:12px;color:var(--muted)}.badge{background:rgba(255,255,255,.86);border-radius:999px;padding:7px 11px;font-size:11px;font-weight:800;white-space:nowrap}.booking-meta{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 10px;font-size:13px;line-height:1.45}.booking-meta div{background:rgba(255,255,255,.7);border-radius:12px;padding:9px 10px}.comment-box{margin-top:10px;background:rgba(255,255,255,.76);border-radius:14px;padding:11px;font-size:13px;line-height:1.45}.comment-title{font-weight:800;margin-bottom:5px}.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}.empty{text-align:center;color:var(--muted);padding:24px 12px;font-size:14px}.hidden{display:none!important}
-    .settings-summary{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;background:#faf5ff;border-radius:14px;margin-top:8px;font-size:12px;color:#6b21a8}.chip{padding:8px 10px;background:#f3e8ff;color:var(--primary);font-size:12px}dialog{border:none;width:min(92vw,480px);padding:0;border-radius:22px;box-shadow:0 30px 60px rgba(0,0,0,.22)}dialog::backdrop{background:rgba(36,19,72,.45)}.modal-box{padding:18px;background:#fff}.modal-box h3{margin:0 0 10px;font-size:20px}.modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.help{margin-top:10px;padding:10px 12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;color:#475569;font-size:12px;line-height:1.5}
-    @media (max-width:900px){.layout{grid-template-columns:1fr}.toolbar,.filters,.actions,.booking-meta,.grid{grid-template-columns:1fr}.hero-top,.booking-head{flex-direction:column;align-items:stretch}.hero-actions{justify-content:stretch}.mini-btn{width:100%}.stats-bar{grid-template-columns:repeat(2,minmax(0,1fr))}}
-    @media (max-width:640px){body{font-size:14px}.hero{padding:11px 10px 12px}.brand h1{font-size:19px}.brand p{font-size:11px}.logo-badge{width:44px;height:44px;border-radius:14px}.container{padding:10px}.panel{padding:12px;border-radius:18px}.panel h2{font-size:17px}input,select,textarea{font-size:16px;padding:11px}.btn{padding:11px 12px}.booking-title{font-size:16px}.booking-sub,.hint,.comment-box,.booking-meta,.help{font-size:12px}.stats-bar{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.stat-chip{padding:7px 8px;border-radius:14px}.stat-chip b{font-size:14px}.stat-chip span{font-size:9px}.sync-pill{font-size:11px;padding:6px 8px}.badge{align-self:flex-start}}
+    :root {
+      --bg: linear-gradient(180deg, #f8f5ff 0%, #eef2ff 100%);
+      --card: rgba(255,255,255,0.9);
+      --text: #1f1736;
+      --muted: #6f6786;
+      --primary: #5b21b6;
+      --primary-2: #7c3aed;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --warning: #f59e0b;
+      --line: #e9ddff;
+      --today: #ffe3e3;
+      --soon: #fff3d2;
+      --future: #ebfff2;
+      --cancelled: #ececf1;
+      --shadow: 0 14px 40px rgba(91, 33, 182, 0.12);
+      --radius: 20px;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      min-height: 100vh;
+    }
+
+    .hero {
+      background:
+        radial-gradient(circle at top left, rgba(236,72,153,0.28), transparent 30%),
+        radial-gradient(circle at top right, rgba(124,58,237,0.25), transparent 34%),
+        linear-gradient(135deg, #4c1d95 0%, #6d28d9 55%, #a21caf 100%);
+      color: white;
+      padding: 14px 12px 18px;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      box-shadow: 0 8px 24px rgba(76, 29, 149, 0.18);
+    }
+
+    .hero-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .brand-title {
+      font-size: 22px;
+      font-weight: 800;
+      margin: 0;
+      letter-spacing: 0.2px;
+    }
+
+    .brand-subtitle {
+      margin-top: 4px;
+      opacity: 0.92;
+      font-size: 12px;
+      line-height: 1.35;
+      max-width: 700px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .lang-switch {
+      display: flex;
+      background: rgba(255,255,255,0.16);
+      padding: 3px;
+      border-radius: 12px;
+      backdrop-filter: blur(4px);
+    }
+
+    .lang-btn, .mini-btn, .btn {
+      border: none;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.15s ease;
+    }
+
+    .lang-btn {
+      background: transparent;
+      color: white;
+      padding: 8px 10px;
+      font-size: 12px;
+    }
+
+    .lang-btn.active {
+      background: white;
+      color: var(--primary);
+    }
+
+    .mini-btn:active, .btn:active, .lang-btn:active { transform: scale(0.98); }
+
+    .mini-btn {
+      background: rgba(255,255,255,0.16);
+      color: white;
+      padding: 9px 11px;
+      font-size: 12px;
+      backdrop-filter: blur(4px);
+    }
+
+    .hero-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .hero-stat {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 16px;
+      padding: 10px 12px;
+      backdrop-filter: blur(4px);
+    }
+
+    .hero-stat span {
+      display: block;
+      font-size: 11px;
+      opacity: 0.9;
+      line-height: 1.25;
+    }
+
+    .hero-stat b {
+      display: block;
+      font-size: 18px;
+      margin-top: 3px;
+    }
+
+    .container { max-width: 1080px; margin: 0 auto; padding: 10px; }
+    .layout { display: grid; grid-template-columns: 390px 1fr; gap: 14px; align-items: start; }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid rgba(233,221,255,0.9);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 14px;
+      backdrop-filter: blur(10px);
+    }
+
+    .panel h2 { margin: 0 0 12px; font-size: 19px; }
+    .section-note { color: var(--muted); font-size: 12px; line-height: 1.45; margin-top: -2px; margin-bottom: 12px; }
+
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .full { grid-column: 1 / -1; }
+
+    label { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 700; }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.95);
+      border-radius: 14px;
+      padding: 12px;
+      font-size: 14px;
+      outline: none;
+      color: var(--text);
+    }
+
+    textarea { resize: vertical; min-height: 90px; }
+    input:focus, select:focus, textarea:focus {
+      border-color: rgba(124,58,237,0.7);
+      box-shadow: 0 0 0 4px rgba(124,58,237,0.08);
+    }
+
+    .btn { width: 100%; padding: 12px 14px; font-size: 14px; margin-top: 8px; }
+    .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-2)); color: white; }
+    .btn-secondary { background: #f3e8ff; color: var(--primary); }
+    .btn-danger { background: var(--danger); color: white; }
+    .btn-light { background: #f8fafc; color: var(--text); }
+
+    .toolbar { display: grid; grid-template-columns: 1fr 170px; gap: 10px; margin-bottom: 12px; }
+    .filters { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-bottom: 12px; }
+    .list { display: flex; flex-direction: column; gap: 12px; }
+
+    .booking { border-left: 6px solid #c4b5fd; position: relative; overflow: hidden; }
+    .booking::after {
+      content: "";
+      position: absolute;
+      inset: auto -40px -40px auto;
+      width: 110px;
+      height: 110px;
+      background: radial-gradient(circle, rgba(236,72,153,0.08), transparent 70%);
+      pointer-events: none;
+    }
+
+    .booking.today { background: var(--today); border-left-color: var(--danger); }
+    .booking.soon { background: var(--soon); border-left-color: var(--warning); }
+    .booking.future { background: var(--future); border-left-color: var(--success); }
+    .booking.cancelled { background: var(--cancelled); border-left-color: #6b7280; opacity: 0.92; }
+
+    .booking-head { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+    .booking-title { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
+    .booking-sub { color: var(--muted); font-size: 13px; }
+
+    .badge {
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 800;
+      background: rgba(255,255,255,0.85);
+      white-space: nowrap;
+    }
+
+    .booking-meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px 12px;
+      color: #3b3551;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .booking-meta div {
+      background: rgba(255,255,255,0.62);
+      border-radius: 12px;
+      padding: 10px 12px;
+    }
+
+    .comment-box {
+      margin-top: 10px;
+      background: rgba(255,255,255,0.72);
+      border-radius: 14px;
+      padding: 12px;
+      line-height: 1.45;
+      font-size: 14px;
+    }
+
+    .comment-title { font-weight: 800; margin-bottom: 6px; }
+    .actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
+    .empty { text-align: center; color: var(--muted); padding: 28px 16px; font-size: 15px; }
+
+    dialog {
+      border: none;
+      width: min(92vw, 520px);
+      padding: 0;
+      border-radius: 22px;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.22);
+    }
+    dialog::backdrop { background: rgba(36, 19, 72, 0.45); }
+    .modal-box { padding: 18px; background: white; }
+    .modal-box h3 { margin: 0 0 10px; font-size: 20px; }
+    .modal-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+    .install-tip { margin-top: 10px; padding: 10px 12px; background: #faf5ff; border: 1px solid #e9d5ff; border-radius: 14px; color: #6b21a8; font-size: 13px; line-height: 1.5; }
+
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      .toolbar, .filters, .hero-strip, .actions, .booking-meta, .grid { grid-template-columns: 1fr; }
+      .hero-top, .booking-head { flex-direction: column; align-items: stretch; }
+      .hero-actions { justify-content: stretch; }
+      .mini-btn { width: 100%; }
+      .lang-switch { width: fit-content; }
+    }
+
+    @media (max-width: 640px) {
+      body { font-size: 14px; }
+      .brand-title { font-size: 21px; }
+      .brand-subtitle { font-size: 12px; }
+      .panel { padding: 12px; border-radius: 16px; }
+      .panel h2 { font-size: 18px; }
+      input, select, textarea { font-size: 16px; padding: 11px; }
+      .btn { padding: 11px 12px; font-size: 14px; }
+      .booking-title { font-size: 17px; }
+      .booking-sub, .section-note, .comment-box, .booking-meta { font-size: 13px; }
+      .badge { align-self: flex-start; }
+    }
   </style>
 </head>
 <body>
   <header class="hero">
     <div class="hero-top">
-      <div class="brand-wrap">
-        <div class="logo-badge"><img src="icon-192.png" alt="Theatre Padida" /></div>
-        <div class="brand">
-          <h1>Theatre Padida</h1>
-          <p>Заявки на выступления, синхронизация с Google Sheets и уведомления в Telegram</p>
-        </div>
+      <div class="brand">
+        <div class="brand-title">Theatre Padida <span id="appVersion" style="font-size:12px;font-weight:700;opacity:0.9;vertical-align:middle;">v1.0.0</span></div>
+        <div class="brand-subtitle" data-i18n="brandSubtitle">Журнал заявок на выступления для свадеб, корпоративов, частных приёмов и других мероприятий</div>
       </div>
       <div class="hero-actions">
-        <div class="sync-pill" id="syncStatus">Локально</div>
-        <button class="mini-btn hidden" id="installBtn">Установить</button>
-        <button class="mini-btn" id="exportBtn">Экспорт JSON</button>
+        <div class="lang-switch">
+          <button class="lang-btn active" data-lang="ru">RU</button>
+          <button class="lang-btn" data-lang="tj">TJ</button>
+        </div>
+        <button class="mini-btn" id="installBtn" hidden data-i18n="installBtn">Установить</button>
+        <button class="mini-btn" id="exportBtn" data-i18n="exportBtn">Экспорт JSON</button>
+        <button class="mini-btn" id="clearDoneBtn" data-i18n="clearDoneBtn">Очистить отменённые</button>
       </div>
     </div>
-    <div class="stats-bar">
-      <div class="stat-chip"><span>Всего</span><b id="statTotal">0</b></div>
-      <div class="stat-chip"><span>Активные</span><b id="statActive">0</b></div>
-      <div class="stat-chip"><span>Сегодня/скоро</span><b id="statUrgent">0</b></div>
-      <div class="stat-chip"><span>Отменённые</span><b id="statCancelled">0</b></div>
+    <div class="hero-strip">
+      <div class="hero-stat">
+        <span data-i18n="statTotalLabel">Всего заявок</span>
+        <b id="statTotal">0</b>
+      </div>
+      <div class="hero-stat">
+        <span data-i18n="statUpcomingLabel">Активные</span>
+        <b id="statUpcoming">0</b>
+      </div>
+      <div class="hero-stat">
+        <span data-i18n="statCancelledLabel">Отменённые</span>
+        <b id="statCancelled">0</b>
+      </div>
     </div>
   </header>
 
   <main class="container">
     <div class="layout">
       <section class="panel">
-        <div class="subtle-row">
-          <h2 id="formTitle">Новая заявка</h2>
-          <button class="chip" id="toggleSettingsBtn" type="button">Интеграции</button>
-        </div>
-        <div class="hint">Обязательные поля: дата, время и место проведения. Без них запись не сохранится.</div>
-        <div id="settingsBox" class="hidden">
-          <label for="scriptUrl">URL Google Apps Script</label>
-          <input id="scriptUrl" placeholder="Вставьте URL веб-приложения Apps Script" />
-          <button class="btn btn-light" id="saveSettingsBtn">Сохранить интеграцию</button>
-          <div class="settings-summary">После сохранения новые и изменённые заявки будут уходить в Google Sheets. Бэкап и Telegram обрабатываются на стороне Apps Script.</div>
-        </div>
+        <h2 data-i18n="newBookingTitle">Новая заявка</h2>
+        <div class="section-note" data-i18n="sectionNote">Обязательные поля: дата, время и место проведения. Без них заявка не сохранится.</div>
+
         <div class="grid">
-          <div class="full"><label for="clientName">Имя заказчика</label><input id="clientName" placeholder="Например: Ахмаджон" /></div>
-          <div><label for="phone">Телефон</label><input id="phone" placeholder="937771669" inputmode="numeric" maxlength="9" /></div>
-          <div><label for="eventType">Тип мероприятия</label><select id="eventType"><option>Свадьба</option><option>Корпоратив</option><option>Частный приём</option><option>День рождения</option><option>Другое</option></select></div>
-          <div><label for="eventDate">Дата выступления</label><input id="eventDate" type="date" /></div>
-          <div><label for="eventTime">Время выступления</label><input id="eventTime" type="time" /></div>
-          <div class="full"><label for="location">Место проведения</label><input id="location" placeholder="Например: Ресторан Яккачинар" /></div>
-          <div><label for="city">Город</label><input id="city" placeholder="Душанбе" /></div>
-          <div><label for="fee">Сумма</label><input id="fee" placeholder="3000" inputmode="numeric" /></div>
-          <div class="full"><label for="comment">Комментарий</label><textarea id="comment" placeholder="Например: 2 номера, прибыть к 17:00"></textarea></div>
+          <div class="full">
+            <label for="clientName" data-i18n="clientNameLabel">Имя заказчика</label>
+            <input id="clientName" data-placeholder="clientNamePlaceholder" placeholder="Например: Ахмаджон" />
+          </div>
+
+          <div>
+            <label for="phone" data-i18n="phoneLabel">Телефон</label>
+            <input id="phone" data-placeholder="phonePlaceholder" placeholder="937771669" inputmode="numeric" maxlength="9" />
+          </div>
+
+          <div>
+            <label for="eventType" data-i18n="eventTypeLabel">Тип мероприятия</label>
+            <select id="eventType"></select>
+          </div>
+
+          <div>
+            <label for="eventDate" data-i18n="eventDateLabel">Дата выступления</label>
+            <input id="eventDate" type="date" />
+          </div>
+
+          <div>
+            <label for="eventTime" data-i18n="eventTimeLabel">Время выступления</label>
+            <input id="eventTime" type="time" />
+          </div>
+
+          <div class="full">
+            <label for="location" data-i18n="locationLabel">Место проведения</label>
+            <input id="location" data-placeholder="locationPlaceholder" placeholder="Например: Ресторан Яккачинар" />
+          </div>
+
+          <div>
+            <label for="city" data-i18n="cityLabel">Город</label>
+            <input id="city" data-placeholder="cityPlaceholder" placeholder="Душанбе" />
+          </div>
+
+          <div>
+            <label for="fee" data-i18n="feeLabel">Сумма</label>
+            <input id="fee" data-placeholder="feePlaceholder" placeholder="3000" inputmode="numeric" />
+          </div>
+
+          <div class="full">
+            <label for="comment" data-i18n="commentLabel">Комментарий</label>
+            <textarea id="comment" data-placeholder="commentPlaceholder" placeholder="Например: 2 номера, национальный танец, прибыть к 17:00"></textarea>
+          </div>
         </div>
-        <button class="btn btn-primary" id="saveBtn">Сохранить заявку</button>
-        <button class="btn btn-secondary hidden" id="cancelEditBtn">Отменить редактирование</button>
-        <button class="btn btn-light" id="demoBtn">Добавить демо-данные</button>
-        <div class="help">Приложение работает офлайн и хранит данные на телефоне. При наличии Apps Script будет автоматически отправлять изменения в Google Sheets и создавать очередь, если интернет пропал.</div>
+
+        <button class="btn btn-primary" id="saveBtn" data-i18n="saveBtn">Сохранить заявку</button>
+        <button class="btn btn-secondary" id="demoBtn" data-i18n="demoBtn">Добавить демо-данные</button>
+
+        <div class="install-tip" data-i18n="installTip">
+          Для установки как приложение понадобится ещё manifest.json и service-worker. Основной интерфейс и логика уже готовы, дальше можно добавить полноценный PWA-пакет.
+        </div>
       </section>
 
       <section class="panel">
-        <h2 id="listTitle">Активные заявки</h2>
+        <h2 data-i18n="listTitle">Список заявок</h2>
+
         <div class="toolbar">
-          <input id="searchInput" placeholder="Поиск по имени, телефону, месту или типу мероприятия" />
-          <select id="sortMode"><option value="nearest">Сначала ближайшие</option><option value="latest">Сначала дальние</option></select>
+          <input id="searchInput" data-placeholder="searchPlaceholder" placeholder="Поиск по имени, телефону, месту или типу мероприятия" />
+          <select id="sortMode"></select>
         </div>
+
         <div class="filters">
-          <select id="timeFilter"><option value="all">Все даты</option><option value="today">Только сегодня</option><option value="week">Ближайшие 7 дней</option></select>
-          <button class="btn btn-light" id="resetFiltersBtn" style="margin-top:0">Сбросить фильтры</button>
-          <button class="btn btn-light" id="toggleCancelledBtn" style="margin-top:0">Показать только отменённые</button>
+          <select id="timeFilter"></select>
+          <button class="btn btn-light" id="resetFiltersBtn" style="margin-top:0;" data-i18n="resetFiltersBtn">Сбросить фильтры</button>
         </div>
+
+        <h3 style="margin:0 0 10px;font-size:18px;" data-i18n="activeListTitle">Активные заявки</h3>
         <div class="list" id="bookingList"></div>
-        <div id="cancelledSection" class="hidden" style="margin-top:18px">
-          <h3 class="section-title">Отменённые заявки</h3>
+
+        <div style="margin-top:14px;">
+          <button class="btn btn-light" id="toggleCancelledBtn" style="margin-top:0;" data-i18n="showCancelledBtn">Показать только отменённые</button>
+        </div>
+
+        <div id="cancelledSection" data-open="false" style="margin-top:18px; display:none;">
+          <h3 style="margin:0 0 10px;font-size:18px;" data-i18n="cancelledListTitle">Отменённые заявки</h3>
           <div class="list" id="cancelledList"></div>
         </div>
       </section>
@@ -104,50 +407,468 @@
 
   <dialog id="commentDialog">
     <div class="modal-box">
-      <h3>Комментарий</h3>
-      <textarea id="commentDialogText" placeholder="Введите комментарий"></textarea>
+      <h3 data-i18n="commentDialogTitle">Добавить комментарий</h3>
+      <textarea id="commentDialogText" data-placeholder="commentDialogPlaceholder" placeholder="Введите комментарий"></textarea>
       <div class="modal-actions">
-        <button class="btn btn-primary" id="commentSaveBtn" style="margin-top:0">Сохранить</button>
-        <button class="btn btn-light" id="commentCloseBtn" style="margin-top:0">Отмена</button>
+        <button class="btn btn-primary" id="commentSaveBtn" style="margin-top:0;" data-i18n="commentSaveBtn">Сохранить</button>
+        <button class="btn btn-light" id="commentCloseBtn" style="margin-top:0;" data-i18n="cancelBtn">Отмена</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="editDialog">
+    <div class="modal-box">
+      <h3 data-i18n="editDialogTitle">Редактировать заявку</h3>
+      <div class="grid">
+        <div class="full">
+          <label for="editClientName" data-i18n="clientNameLabel">Имя заказчика</label>
+          <input id="editClientName" />
+        </div>
+        <div>
+          <label for="editPhone" data-i18n="phoneLabel">Телефон</label>
+          <input id="editPhone" inputmode="numeric" maxlength="9" />
+        </div>
+        <div>
+          <label for="editEventType" data-i18n="eventTypeLabel">Тип мероприятия</label>
+          <select id="editEventType"></select>
+        </div>
+        <div>
+          <label for="editEventDate" data-i18n="eventDateLabel">Дата выступления</label>
+          <input id="editEventDate" type="date" />
+        </div>
+        <div>
+          <label for="editEventTime" data-i18n="eventTimeLabel">Время выступления</label>
+          <input id="editEventTime" type="time" />
+        </div>
+        <div class="full">
+          <label for="editLocation" data-i18n="locationLabel">Место проведения</label>
+          <input id="editLocation" />
+        </div>
+        <div>
+          <label for="editCity" data-i18n="cityLabel">Город</label>
+          <input id="editCity" />
+        </div>
+        <div>
+          <label for="editFee" data-i18n="feeLabel">Сумма</label>
+          <input id="editFee" inputmode="numeric" />
+        </div>
+        <div class="full">
+          <label for="editComment" data-i18n="commentLabel">Комментарий</label>
+          <textarea id="editComment"></textarea>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="editSaveBtn" style="margin-top:0;" data-i18n="saveChangesBtn">Сохранить изменения</button>
+        <button class="btn btn-light" id="editCloseBtn" style="margin-top:0;" data-i18n="cancelBtn">Отмена</button>
       </div>
     </div>
   </dialog>
 
   <script>
-    const STORAGE_KEY='theatre_padida_bookings_v3',QUEUE_KEY='theatre_padida_sync_queue_v1',SETTINGS_KEY='theatre_padida_settings_v1';
-    let deferredPrompt=null,currentCommentId=null,isCancelledOnlyView=false,editingId=null;
-    const els={clientName:clientName,phone:phone,eventType:eventType,eventDate:eventDate,eventTime:eventTime,location:location,city:city,fee:fee,comment:comment,saveBtn:saveBtn,cancelEditBtn:cancelEditBtn,demoBtn:demoBtn,bookingList:bookingList,cancelledList:cancelledList,cancelledSection:cancelledSection,searchInput:searchInput,sortMode:sortMode,timeFilter:timeFilter,resetFiltersBtn:resetFiltersBtn,toggleCancelledBtn:toggleCancelledBtn,installBtn:installBtn,exportBtn:exportBtn,formTitle:formTitle,listTitle:listTitle,statTotal:statTotal,statActive:statActive,statUrgent:statUrgent,statCancelled:statCancelled,syncStatus:syncStatus,commentDialog:commentDialog,commentDialogText:commentDialogText,commentSaveBtn:commentSaveBtn,commentCloseBtn:commentCloseBtn,scriptUrl:scriptUrl,toggleSettingsBtn:toggleSettingsBtn,saveSettingsBtn:saveSettingsBtn,settingsBox:settingsBox};
-    const readJson=(k,f)=>{try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(f))}catch{return f}},writeJson=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
-    const getSettings=()=>readJson(SETTINGS_KEY,{scriptUrl:''}),setSettings=v=>writeJson(SETTINGS_KEY,v),readBookings=()=>readJson(STORAGE_KEY,[]),writeBookings=d=>writeJson(STORAGE_KEY,d),readQueue=()=>readJson(QUEUE_KEY,[]),writeQueue=d=>writeJson(QUEUE_KEY,d);
-    const generateId=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7),normalizePhone=v=>String(v||'').replace(/\D/g,'').slice(0,9);
-    const formatDate=d=>!d?'—':new Intl.DateTimeFormat('ru-RU').format(new Date(d+'T00:00:00')),getEventDateTime=i=>new Date(`${i.eventDate}T${i.eventTime||'00:00'}`),isUrgent=i=>i.status!=='cancelled'&&((getEventDateTime(i)-new Date())/(1000*60*60*24)<=3);
-    function getCardClass(i){if(i.status==='cancelled')return'cancelled';const x=(getEventDateTime(i)-new Date())/(1000*60*60*24);if(x<=1)return'today';if(x<=3)return'soon';return'future'}
-    function getBadgeText(i){if(i.status==='cancelled')return'Отменён';const d=Math.ceil((getEventDateTime(i)-new Date())/(1000*60*60*24));if(d<=0)return'Сегодня';if(d===1)return'Завтра';return`Через ${d} дн.`}
-    function resetForm(){els.clientName.value='';els.phone.value='';els.eventType.value='Свадьба';els.eventDate.value='';els.eventTime.value='';els.location.value='';els.city.value='';els.fee.value='';els.comment.value='';editingId=null;els.formTitle.textContent='Новая заявка';els.saveBtn.textContent='Сохранить заявку';els.cancelEditBtn.classList.add('hidden')}
-    function fillForm(i){els.clientName.value=i.clientName||'';els.phone.value=i.phone||'';els.eventType.value=i.eventType||'Свадьба';els.eventDate.value=i.eventDate||'';els.eventTime.value=i.eventTime||'';els.location.value=i.location||'';els.city.value=i.city||'';els.fee.value=i.fee||'';els.comment.value=i.comment||'';editingId=i.id;els.formTitle.textContent='Редактирование заявки';els.saveBtn.textContent='Сохранить изменения';els.cancelEditBtn.classList.remove('hidden');validateForm();window.scrollTo({top:0,behavior:'smooth'})}
-    function validateForm(){const ok=els.clientName.value.trim()&&normalizePhone(els.phone.value).length===9&&els.eventDate.value&&els.eventTime.value&&els.location.value.trim();els.saveBtn.disabled=!ok}
-    function queueAction(a){const q=readQueue();q.push({...a,queuedAt:new Date().toISOString()});writeQueue(q);updateSyncStatus()}
-    async function syncQueue(){const {scriptUrl}=getSettings(),queue=readQueue();if(!scriptUrl||!navigator.onLine||!queue.length){updateSyncStatus();return}try{const res=await fetch(scriptUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({source:'Theatre Padida PWA',actions:queue})});if(!res.ok)throw new Error('sync failed');writeQueue([])}catch(e){console.error('Sync error',e)}updateSyncStatus()}
-    function updateSyncStatus(){const {scriptUrl}=getSettings(),q=readQueue();if(!scriptUrl){els.syncStatus.textContent='Локально';return}if(q.length){els.syncStatus.textContent=`В очереди: ${q.length}`;return}els.syncStatus.textContent=navigator.onLine?'Синхр.':'Оффлайн'}
-    function saveBooking(){const booking={id:editingId||generateId(),clientName:els.clientName.value.trim(),phone:normalizePhone(els.phone.value),eventType:els.eventType.value,eventDate:els.eventDate.value,eventTime:els.eventTime.value,location:els.location.value.trim(),city:els.city.value.trim(),fee:els.fee.value.trim(),comment:els.comment.value.trim(),status:'active',createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()};let data=readBookings();if(editingId){const old=data.find(x=>x.id===editingId);if(old&&old.status==='cancelled')booking.status='cancelled';if(old&&old.createdAt)booking.createdAt=old.createdAt;data=data.map(x=>x.id===editingId?booking:x)}else data.push(booking);writeBookings(data);queueAction({type:'upsert_booking',booking});resetForm();render();syncQueue()}
-    function setCancelled(id){const data=readBookings().map(i=>i.id===id?{...i,status:'cancelled',updatedAt:new Date().toISOString()}:i),booking=data.find(x=>x.id===id);writeBookings(data);queueAction({type:'upsert_booking',booking});render();syncQueue()}
-    function restoreBooking(id){const data=readBookings().map(i=>i.id===id?{...i,status:'active',updatedAt:new Date().toISOString()}:i),booking=data.find(x=>x.id===id);writeBookings(data);queueAction({type:'upsert_booking',booking});render();syncQueue()}
-    function editBooking(id){const i=readBookings().find(x=>x.id===id);if(i)fillForm(i)} function callClient(p){window.location.href=`tel:+992${p}`}
-    function openCommentDialog(id){currentCommentId=id;const i=readBookings().find(x=>x.id===id);els.commentDialogText.value=i?.comment||'';els.commentDialog.showModal()}
-    function saveComment(){if(!currentCommentId)return;const data=readBookings().map(i=>i.id===currentCommentId?{...i,comment:els.commentDialogText.value.trim(),updatedAt:new Date().toISOString()}:i),booking=data.find(x=>x.id===currentCommentId);writeBookings(data);queueAction({type:'upsert_booking',booking});currentCommentId=null;els.commentDialog.close();render();syncQueue()}
-    function exportJson(){const blob=new Blob([JSON.stringify(readBookings(),null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='theatre-padida-bookings.json';a.click();URL.revokeObjectURL(url)}
-    function addDemoData(){const demo=[{id:generateId(),clientName:'Ахмаджон',phone:'937771669',eventType:'Свадьба',eventDate:new Date(Date.now()+86400000).toISOString().slice(0,10),eventTime:'18:00',location:'Ресторан Яккачинар',city:'Душанбе',fee:'3000',comment:'2 номера, приехать к 17:00',status:'active',createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()},{id:generateId(),clientName:'Фирдавс',phone:'900112233',eventType:'Корпоратив',eventDate:new Date(Date.now()+3*86400000).toISOString().slice(0,10),eventTime:'20:30',location:'Hyatt Regency Hall',city:'Душанбе',fee:'4500',comment:'Современный номер, 3 выхода',status:'active',createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()}];writeBookings([...readBookings(),...demo]);demo.forEach(booking=>queueAction({type:'upsert_booking',booking}));render();syncQueue()}
-    function applyFilters(data){const q=els.searchInput.value.trim().toLowerCase(),time=els.timeFilter.value,todayStr=new Date().toISOString().slice(0,10),weekLimit=new Date(Date.now()+7*86400000);let result=[...data];if(q)result=result.filter(i=>[i.clientName,i.phone,i.location,i.city,i.eventType,i.comment].join(' ').toLowerCase().includes(q));if(time==='today')result=result.filter(i=>i.eventDate===todayStr);else if(time==='week')result=result.filter(i=>{const d=getEventDateTime(i);return d>=new Date(todayStr+'T00:00:00')&&d<=weekLimit});result.sort((a,b)=>els.sortMode.value==='latest'?getEventDateTime(b)-getEventDateTime(a):getEventDateTime(a)-getEventDateTime(b));return result}
-    function buildCard(i){const actionButton=i.status==='cancelled'?`<button class="btn btn-secondary" onclick="restoreBooking('${i.id}')" style="margin-top:0">Вернуть</button>`:`<button class="btn btn-danger" onclick="setCancelled('${i.id}')" style="margin-top:0">Отменить</button>`;return `<article class="panel booking ${getCardClass(i)}"><div class="booking-head"><div><div class="booking-title">${i.clientName}</div><div class="booking-sub">${i.eventType} • ${i.city||'Без города'}</div></div><div class="badge">${getBadgeText(i)}</div></div><div class="booking-meta"><div>📅 <b>Дата:</b><br>${formatDate(i.eventDate)}</div><div>⏰ <b>Время:</b><br>${i.eventTime||'—'}</div><div>📍 <b>Место:</b><br>${i.location}</div><div>📞 <b>Телефон:</b><br>+992 ${i.phone}</div><div>💰 <b>Сумма:</b><br>${i.fee||'—'}</div><div>🗂 <b>Статус:</b><br>${i.status==='cancelled'?'Отменён':'Активный'}</div></div><div class="comment-box"><div class="comment-title">Комментарий</div>${i.comment?i.comment:'Комментарий пока не добавлен'}</div><div class="actions"><button class="btn btn-light" onclick="editBooking('${i.id}')" style="margin-top:0">Редактировать</button>${actionButton}<button class="btn btn-secondary" onclick="callClient('${i.phone}')" style="margin-top:0">Позвонить</button></div></article>`}
-    function renderStats(all){els.statTotal.textContent=all.length;els.statActive.textContent=all.filter(x=>x.status!=='cancelled').length;els.statUrgent.textContent=all.filter(isUrgent).length;els.statCancelled.textContent=all.filter(x=>x.status==='cancelled').length}
-    function renderList(data){const active=data.filter(x=>x.status!=='cancelled'),cancelled=data.filter(x=>x.status==='cancelled');if(isCancelledOnlyView){els.listTitle.textContent='Отменённые заявки';els.bookingList.innerHTML=cancelled.length?cancelled.map(buildCard).join(''):'<div class="panel empty">Отменённых заявок нет.</div>';els.cancelledSection.classList.add('hidden');els.toggleCancelledBtn.textContent='Показать активные';return}els.listTitle.textContent='Активные заявки';els.toggleCancelledBtn.textContent='Показать только отменённые';els.bookingList.innerHTML=active.length?active.map(buildCard).join(''):'<div class="panel empty">Активных заявок пока нет.</div>';els.cancelledSection.classList.remove('hidden');els.cancelledList.innerHTML=cancelled.length?cancelled.map(buildCard).join(''):'<div class="panel empty">Отменённых заявок нет.</div>'}
-    function render(){const all=readBookings(),data=applyFilters(all);renderStats(all);renderList(data);updateSyncStatus()}
-    function saveSettings(){setSettings({scriptUrl:els.scriptUrl.value.trim()});updateSyncStatus();syncQueue()} function initSettings(){const s=getSettings();els.scriptUrl.value=s.scriptUrl||'';updateSyncStatus()}
-    [els.clientName,els.phone,els.eventDate,els.eventTime,els.location].forEach(el=>el.addEventListener('input',validateForm)); els.phone.addEventListener('input',()=>els.phone.value=normalizePhone(els.phone.value));
-    els.saveBtn.addEventListener('click',saveBooking);els.cancelEditBtn.addEventListener('click',resetForm);els.demoBtn.addEventListener('click',addDemoData);els.exportBtn.addEventListener('click',exportJson);els.searchInput.addEventListener('input',render);els.sortMode.addEventListener('change',render);els.timeFilter.addEventListener('change',render);els.resetFiltersBtn.addEventListener('click',()=>{els.searchInput.value='';els.sortMode.value='nearest';els.timeFilter.value='all';render()});els.toggleCancelledBtn.addEventListener('click',()=>{isCancelledOnlyView=!isCancelledOnlyView;render()});els.commentSaveBtn.addEventListener('click',saveComment);els.commentCloseBtn.addEventListener('click',()=>{currentCommentId=null;els.commentDialog.close()});els.toggleSettingsBtn.addEventListener('click',()=>els.settingsBox.classList.toggle('hidden'));els.saveSettingsBtn.addEventListener('click',saveSettings);
-    window.editBooking=editBooking;window.callClient=callClient;window.setCancelled=setCancelled;window.restoreBooking=restoreBooking;window.openCommentDialog=openCommentDialog;
-    window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;els.installBtn.classList.remove('hidden')});els.installBtn.addEventListener('click',async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;els.installBtn.classList.add('hidden')});window.addEventListener('online',syncQueue);if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(console.error));
-    initSettings();validateForm();render();syncQueue();
+    const APP_VERSION = '1.0.0';
+    const STORAGE_KEY = 'theatre_padida_bookings_v2';
+    const LANG_KEY = 'theatre_padida_lang';
+    let deferredPrompt = null;
+    let currentCommentId = null;
+    let currentEditId = null;
+    let showOnlyCancelled = false;
+    let currentLanguage = localStorage.getItem(LANG_KEY) || 'ru';
+
+    const translations = {
+      ru: {
+        brandSubtitle: 'Журнал заявок на выступления для свадеб, корпоративов, частных приёмов и других мероприятий',
+        installBtn: 'Установить', exportBtn: 'Экспорт JSON', clearDoneBtn: 'Очистить отменённые',
+        statTotalLabel: 'Всего заявок', statUpcomingLabel: 'Активные', statCancelledLabel: 'Отменённые',
+        newBookingTitle: 'Новая заявка',
+        sectionNote: 'Обязательные поля: дата, время и место проведения. Без них заявка не сохранится.',
+        clientNameLabel: 'Имя заказчика', clientNamePlaceholder: 'Например: Ахмаджон',
+        phoneLabel: 'Телефон', phonePlaceholder: '937771669',
+        eventTypeLabel: 'Тип мероприятия',
+        eventDateLabel: 'Дата выступления', eventTimeLabel: 'Время выступления',
+        locationLabel: 'Место проведения', locationPlaceholder: 'Например: Ресторан Яккачинар',
+        cityLabel: 'Город', cityPlaceholder: 'Душанбе',
+        feeLabel: 'Сумма', feePlaceholder: '3000',
+        commentLabel: 'Комментарий', commentPlaceholder: 'Например: 2 номера, национальный танец, прибыть к 17:00',
+        saveBtn: 'Сохранить заявку', demoBtn: 'Добавить демо-данные',
+        installTip: 'Для установки как приложение понадобится ещё manifest.json и service-worker. Основной интерфейс и логика уже готовы, дальше можно добавить полноценный PWA-пакет.',
+        listTitle: 'Список заявок', searchPlaceholder: 'Поиск по имени, телефону, месту или типу мероприятия',
+        resetFiltersBtn: 'Сбросить фильтры', activeListTitle: 'Активные заявки', cancelledListTitle: 'Отменённые заявки',
+        showCancelledBtn: 'Показать только отменённые', showActiveBtn: 'Вернуться к активным',
+        commentDialogTitle: 'Добавить комментарий', commentDialogPlaceholder: 'Введите комментарий', commentSaveBtn: 'Сохранить',
+        editDialogTitle: 'Редактировать заявку', saveChangesBtn: 'Сохранить изменения', cancelBtn: 'Отмена',
+        noActive: 'Активных заявок пока нет.', noCancelled: 'Отменённых заявок нет.', noGeneral: 'Пока заявок нет. Добавьте первую запись для Theatre Padida.',
+        noComment: 'Комментарий пока не добавлен',
+        badgeToday: 'Сегодня', badgeTomorrow: 'Завтра', badgeInDays: 'Через {n} дн.', badgeCancelled: 'Отменён',
+        metaDate: 'Дата', metaTime: 'Время', metaPlace: 'Место', metaPhone: 'Телефон', metaFee: 'Сумма', metaStatus: 'Статус',
+        statusActive: 'Активный', statusCancelled: 'Отменён',
+        actionCall: 'Позвонить', actionCancel: 'Отменён', actionComment: 'Комментарий', actionEdit: 'Редактировать',
+        sortNearest: 'Сначала ближайшие', sortLatest: 'Сначала дальние',
+        timeAll: 'Все даты', timeToday: 'Только сегодня', timeWeek: 'Ближайшие 7 дней',
+        typeWedding: 'Свадьба', typeCorporate: 'Корпоратив', typePrivate: 'Частный приём', typeBirthday: 'День рождения', typeOther: 'Другое',
+        cityEmpty: 'Без города'
+      },
+      tj: {
+        brandSubtitle: 'Дафтари дархостҳо барои баромадҳо дар тӯйҳо, корпоративҳо, қабулҳои хусусӣ ва дигар чорабиниҳо',
+        installBtn: 'Насб кардан', exportBtn: 'Содироти JSON', clearDoneBtn: 'Пок кардани бекоршудаҳо',
+        statTotalLabel: 'Ҳамаи дархостҳо', statUpcomingLabel: 'Фаъол', statCancelledLabel: 'Бекоршуда',
+        newBookingTitle: 'Дархости нав',
+        sectionNote: 'Майдонҳои ҳатмӣ: сана, вақт ва ҷойи баргузорӣ. Бе онҳо дархост нигоҳ дошта намешавад.',
+        clientNameLabel: 'Номи фармоишгар', clientNamePlaceholder: 'Масалан: Аҳмадҷон',
+        phoneLabel: 'Телефон', phonePlaceholder: '937771669',
+        eventTypeLabel: 'Навъи чорабинӣ',
+        eventDateLabel: 'Санаи баромад', eventTimeLabel: 'Вақти баромад',
+        locationLabel: 'Ҷойи баргузорӣ', locationPlaceholder: 'Масалан: Тарабхонаи Яккачинор',
+        cityLabel: 'Шаҳр', cityPlaceholder: 'Душанбе',
+        feeLabel: 'Маблағ', feePlaceholder: '3000',
+        commentLabel: 'Шарҳ', commentPlaceholder: 'Масалан: 2 рақам, рақси миллӣ, соати 17:00 ҳозир шудан',
+        saveBtn: 'Нигоҳ доштани дархост', demoBtn: 'Иловаи маълумоти намунавӣ',
+        installTip: 'Барои насб ҳамчун барнома боз manifest.json ва service-worker лозим мешавад. Интерфейси асосӣ ва мантиқ аллакай омодаанд.',
+        listTitle: 'Рӯйхати дархостҳо', searchPlaceholder: 'Ҷустуҷӯ аз рӯйи ном, телефон, ҷой ё навъи чорабинӣ',
+        resetFiltersBtn: 'Аз нав барқарор кардан', activeListTitle: 'Дархостҳои фаъол', cancelledListTitle: 'Дархостҳои бекоршуда',
+        showCancelledBtn: 'Танҳо бекоршудаҳоро нишон диҳед', showActiveBtn: 'Бозгашт ба фаъолҳо',
+        commentDialogTitle: 'Иловаи шарҳ', commentDialogPlaceholder: 'Шарҳро ворид кунед', commentSaveBtn: 'Нигоҳ доштан',
+        editDialogTitle: 'Таҳрири дархост', saveChangesBtn: 'Нигоҳ доштани тағйирот', cancelBtn: 'Бекор кардан',
+        noActive: 'Ҳоло дархости фаъол нест.', noCancelled: 'Дархостҳои бекоршуда нестанд.', noGeneral: 'Ҳоло дархост нест. Дархости аввалро барои Theatre Padida илова кунед.',
+        noComment: 'Шарҳ ҳоло илова нашудааст',
+        badgeToday: 'Имрӯз', badgeTomorrow: 'Фардо', badgeInDays: 'Пас аз {n} рӯз', badgeCancelled: 'Бекоршуда',
+        metaDate: 'Сана', metaTime: 'Вақт', metaPlace: 'Ҷой', metaPhone: 'Телефон', metaFee: 'Маблағ', metaStatus: 'Ҳолат',
+        statusActive: 'Фаъол', statusCancelled: 'Бекоршуда',
+        actionCall: 'Занг задан', actionCancel: 'Бекоршуда', actionComment: 'Шарҳ', actionEdit: 'Таҳрир',
+        sortNearest: 'Наздиктарин аввал', sortLatest: 'Дуртарин аввал',
+        timeAll: 'Ҳама санаҳо', timeToday: 'Танҳо имрӯз', timeWeek: '7 рӯзи наздик',
+        typeWedding: 'Тӯй', typeCorporate: 'Корпоратив', typePrivate: 'Қабули хусусӣ', typeBirthday: 'Зодрӯз', typeOther: 'Дигар',
+        cityEmpty: 'Бе шаҳр'
+      }
+    };
+
+    const els = {
+      clientName: document.getElementById('clientName'), phone: document.getElementById('phone'),
+      eventType: document.getElementById('eventType'), eventDate: document.getElementById('eventDate'), eventTime: document.getElementById('eventTime'),
+      location: document.getElementById('location'), city: document.getElementById('city'), fee: document.getElementById('fee'), comment: document.getElementById('comment'),
+      saveBtn: document.getElementById('saveBtn'), demoBtn: document.getElementById('demoBtn'), bookingList: document.getElementById('bookingList'), cancelledList: document.getElementById('cancelledList'),
+      searchInput: document.getElementById('searchInput'), sortMode: document.getElementById('sortMode'), timeFilter: document.getElementById('timeFilter'), resetFiltersBtn: document.getElementById('resetFiltersBtn'),
+      statTotal: document.getElementById('statTotal'), statUpcoming: document.getElementById('statUpcoming'), statCancelled: document.getElementById('statCancelled'),
+      exportBtn: document.getElementById('exportBtn'), clearDoneBtn: document.getElementById('clearDoneBtn'), installBtn: document.getElementById('installBtn'), toggleCancelledBtn: document.getElementById('toggleCancelledBtn'),
+      commentDialog: document.getElementById('commentDialog'), commentDialogText: document.getElementById('commentDialogText'), commentSaveBtn: document.getElementById('commentSaveBtn'), commentCloseBtn: document.getElementById('commentCloseBtn'),
+      editDialog: document.getElementById('editDialog'), editClientName: document.getElementById('editClientName'), editPhone: document.getElementById('editPhone'), editEventType: document.getElementById('editEventType'),
+      editEventDate: document.getElementById('editEventDate'), editEventTime: document.getElementById('editEventTime'), editLocation: document.getElementById('editLocation'), editCity: document.getElementById('editCity'), editFee: document.getElementById('editFee'), editComment: document.getElementById('editComment'),
+      editSaveBtn: document.getElementById('editSaveBtn'), editCloseBtn: document.getElementById('editCloseBtn')
+    };
+
+    function t(key, vars = {}) {
+      let text = (translations[currentLanguage] && translations[currentLanguage][key]) || translations.ru[key] || key;
+      Object.keys(vars).forEach(k => { text = text.replaceAll(`{${k}}`, vars[k]); });
+      return text;
+    }
+
+    function populateStaticOptions() {
+      const eventTypeValue = els.eventType.value || 'typeWedding';
+      const editEventTypeValue = els.editEventType.value || 'typeWedding';
+      const sortModeValue = els.sortMode.value || 'nearest';
+      const timeFilterValue = els.timeFilter.value || 'all';
+
+      const eventOptions = [
+        { value: 'typeWedding', label: t('typeWedding') },
+        { value: 'typeCorporate', label: t('typeCorporate') },
+        { value: 'typePrivate', label: t('typePrivate') },
+        { value: 'typeBirthday', label: t('typeBirthday') },
+        { value: 'typeOther', label: t('typeOther') }
+      ];
+
+      const sortOptions = [
+        { value: 'nearest', label: t('sortNearest') },
+        { value: 'latest', label: t('sortLatest') }
+      ];
+
+      const timeOptions = [
+        { value: 'all', label: t('timeAll') },
+        { value: 'today', label: t('timeToday') },
+        { value: 'week', label: t('timeWeek') }
+      ];
+
+      const fill = (select, options, selected) => {
+        select.innerHTML = options.map(o => `<option value="${o.value}">${o.label}</option>`).join('');
+        select.value = selected;
+      };
+
+      fill(els.eventType, eventOptions, eventTypeValue);
+      fill(els.editEventType, eventOptions, editEventTypeValue);
+      fill(els.sortMode, sortOptions, sortModeValue);
+      fill(els.timeFilter, timeOptions, timeFilterValue);
+    }
+
+    function applyTranslations() {
+      document.title = `Theatre Padida v${APP_VERSION} — ${t('listTitle')}`;
+      const versionEl = document.getElementById('appVersion');
+      if (versionEl) versionEl.textContent = `v${APP_VERSION}`;
+      document.documentElement.lang = currentLanguage === 'tj' ? 'tg' : 'ru';
+      document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
+      document.querySelectorAll('[data-placeholder]').forEach(el => { el.placeholder = t(el.dataset.placeholder); });
+      populateStaticOptions();
+      document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.lang === currentLanguage));
+      render();
+    }
+
+    function readBookings() {
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch { return []; }
+    }
+    function writeBookings(data) { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
+    function generateId() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+    function normalizePhone(value) { return value.replace(/\D/g, '').slice(0, 9); }
+    function formatDate(dateStr) {
+      if (!dateStr) return '—';
+      const date = new Date(dateStr + 'T00:00:00');
+      return new Intl.DateTimeFormat(currentLanguage === 'tj' ? 'tg-TJ' : 'ru-RU').format(date);
+    }
+    function getEventDateTime(item) {
+      const time = item.eventTime || '00:00';
+      return new Date(`${item.eventDate}T${time}`);
+    }
+    function getCardClass(item) {
+      if (item.status === 'cancelled') return 'cancelled';
+      const diffDays = (getEventDateTime(item) - new Date()) / (1000 * 60 * 60 * 24);
+      if (diffDays <= 1) return 'today';
+      if (diffDays <= 3) return 'soon';
+      return 'future';
+    }
+    function getBadgeText(item) {
+      if (item.status === 'cancelled') return t('badgeCancelled');
+      const diffDays = Math.ceil((getEventDateTime(item) - new Date()) / (1000 * 60 * 60 * 24));
+      if (diffDays <= 0) return t('badgeToday');
+      if (diffDays === 1) return t('badgeTomorrow');
+      return t('badgeInDays', { n: diffDays });
+    }
+
+    function resetForm() {
+      els.clientName.value = ''; els.phone.value = ''; els.eventType.value = 'typeWedding'; els.eventDate.value = ''; els.eventTime.value = ''; els.location.value = ''; els.city.value = ''; els.fee.value = ''; els.comment.value = '';
+    }
+
+    function validateForm() {
+      const ok = els.clientName.value.trim() && normalizePhone(els.phone.value).length === 9 && els.eventDate.value && els.eventTime.value && els.location.value.trim();
+      els.saveBtn.disabled = !ok;
+    }
+
+    function addBooking() {
+      const booking = {
+        id: generateId(), clientName: els.clientName.value.trim(), phone: normalizePhone(els.phone.value), eventType: els.eventType.value,
+        eventDate: els.eventDate.value, eventTime: els.eventTime.value, location: els.location.value.trim(), city: els.city.value.trim(), fee: els.fee.value.trim(), comment: els.comment.value.trim(), status: 'active', createdAt: new Date().toISOString()
+      };
+      const data = readBookings(); data.push(booking); writeBookings(data); resetForm(); validateForm(); render();
+    }
+
+    function addDemoData() {
+      const demo = [
+        { id: generateId(), clientName: 'Ахмаджон', phone: '937771669', eventType: 'typeWedding', eventDate: new Date(Date.now() + 86400000).toISOString().slice(0, 10), eventTime: '18:00', location: 'Ресторан Яккачинар', city: 'Душанбе', fee: '3000', comment: '2 номера, национальный танец, приехать к 17:00', status: 'active', createdAt: new Date().toISOString() },
+        { id: generateId(), clientName: 'Фирдавс', phone: '900112233', eventType: 'typeCorporate', eventDate: new Date(Date.now() + 3 * 86400000).toISOString().slice(0, 10), eventTime: '20:30', location: 'Hyatt Regency Hall', city: 'Душанбе', fee: '4500', comment: 'Современный номер, 3 выхода', status: 'active', createdAt: new Date().toISOString() }
+      ];
+      writeBookings([...readBookings(), ...demo]); render();
+    }
+
+    function setCancelled(id) {
+      const data = readBookings().map(item => item.id === id ? { ...item, status: 'cancelled' } : item);
+      writeBookings(data); render();
+    }
+
+    function callClient(phone) { window.location.href = `tel:+992${phone}`; }
+
+    function openCommentDialog(id) {
+      currentCommentId = id;
+      const item = readBookings().find(x => x.id === id);
+      els.commentDialogText.value = item?.comment || '';
+      els.commentDialog.showModal();
+    }
+
+    function saveComment() {
+      if (!currentCommentId) return;
+      const text = els.commentDialogText.value.trim();
+      const data = readBookings().map(item => item.id === currentCommentId ? { ...item, comment: text } : item);
+      writeBookings(data); currentCommentId = null; els.commentDialog.close(); render();
+    }
+
+    function openEditDialog(id) {
+      currentEditId = id;
+      const item = readBookings().find(x => x.id === id);
+      if (!item) return;
+      els.editClientName.value = item.clientName || '';
+      els.editPhone.value = item.phone || '';
+      els.editEventType.value = item.eventType || 'typeWedding';
+      els.editEventDate.value = item.eventDate || '';
+      els.editEventTime.value = item.eventTime || '';
+      els.editLocation.value = item.location || '';
+      els.editCity.value = item.city || '';
+      els.editFee.value = item.fee || '';
+      els.editComment.value = item.comment || '';
+      els.editDialog.showModal();
+    }
+
+    function saveEditedBooking() {
+      if (!currentEditId) return;
+      const data = readBookings().map(item => item.id === currentEditId ? {
+        ...item,
+        clientName: els.editClientName.value.trim(),
+        phone: normalizePhone(els.editPhone.value),
+        eventType: els.editEventType.value,
+        eventDate: els.editEventDate.value,
+        eventTime: els.editEventTime.value,
+        location: els.editLocation.value.trim(),
+        city: els.editCity.value.trim(),
+        fee: els.editFee.value.trim(),
+        comment: els.editComment.value.trim()
+      } : item);
+      writeBookings(data); currentEditId = null; els.editDialog.close(); render();
+    }
+
+    function exportJson() {
+      const data = readBookings();
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'theatre-padida-bookings.json'; a.click(); URL.revokeObjectURL(url);
+    }
+
+    function clearCancelled() {
+      const filtered = readBookings().filter(item => item.status !== 'cancelled');
+      writeBookings(filtered); render();
+    }
+
+    function applyFilters(data) {
+      const q = els.searchInput.value.trim().toLowerCase();
+      const time = els.timeFilter.value;
+      const todayStr = new Date().toISOString().slice(0, 10);
+      const weekLimit = new Date(Date.now() + 7 * 86400000);
+      let result = [...data];
+
+      if (q) {
+        result = result.filter(item => [item.clientName, item.phone, item.location, item.city, t(item.eventType), item.comment].join(' ').toLowerCase().includes(q));
+      }
+      if (time === 'today') result = result.filter(item => item.eventDate === todayStr);
+      if (time === 'week') {
+        result = result.filter(item => {
+          const eventDate = getEventDateTime(item);
+          return eventDate >= new Date(todayStr + 'T00:00:00') && eventDate <= weekLimit;
+        });
+      }
+      result.sort((a, b) => {
+        const one = getEventDateTime(a).getTime();
+        const two = getEventDateTime(b).getTime();
+        return els.sortMode.value === 'latest' ? two - one : one - two;
+      });
+      return result;
+    }
+
+    function renderStats(data) {
+      els.statTotal.textContent = data.length;
+      els.statUpcoming.textContent = data.filter(item => item.status === 'active').length;
+      els.statCancelled.textContent = data.filter(item => item.status === 'cancelled').length;
+    }
+
+    function buildCard(item) {
+      return `
+        <article class="panel booking ${getCardClass(item)}">
+          <div class="booking-head">
+            <div>
+              <div class="booking-title">${item.clientName}</div>
+              <div class="booking-sub">${t(item.eventType)} • ${item.city || t('cityEmpty')}</div>
+            </div>
+            <div class="badge">${getBadgeText(item)}</div>
+          </div>
+
+          <div class="booking-meta">
+            <div>📅 <b>${t('metaDate')}:</b><br>${formatDate(item.eventDate)}</div>
+            <div>⏰ <b>${t('metaTime')}:</b><br>${item.eventTime || '—'}</div>
+            <div>📍 <b>${t('metaPlace')}:</b><br>${item.location}</div>
+            <div>📞 <b>${t('metaPhone')}:</b><br>+992 ${item.phone}</div>
+            <div>💰 <b>${t('metaFee')}:</b><br>${item.fee || '—'}</div>
+            <div>🗂 <b>${t('metaStatus')}:</b><br>${item.status === 'cancelled' ? t('statusCancelled') : t('statusActive')}</div>
+          </div>
+
+          <div class="comment-box">
+            <div class="comment-title">${t('commentLabel')}</div>
+            ${item.comment ? item.comment : t('noComment')}
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-secondary" onclick="callClient('${item.phone}')" style="margin-top:0;">${t('actionCall')}</button>
+            <button class="btn btn-danger" onclick="setCancelled('${item.id}')" style="margin-top:0;" ${item.status === 'cancelled' ? 'disabled' : ''}>${t('actionCancel')}</button>
+            <button class="btn btn-light" onclick="openCommentDialog('${item.id}')" style="margin-top:0;">${t('actionComment')}</button>
+          </div>
+          <button class="btn btn-light" onclick="openEditDialog('${item.id}')">${t('actionEdit')}</button>
+        </article>
+      `;
+    }
+
+    function renderList(items) {
+      const activeItems = items.filter(item => item.status !== 'cancelled');
+      const cancelledItems = items.filter(item => item.status === 'cancelled');
+      const cancelledSection = document.getElementById('cancelledSection');
+
+      if (showOnlyCancelled) {
+        els.bookingList.style.display = 'none';
+        cancelledSection.style.display = 'block';
+        document.querySelector('[data-i18n="activeListTitle"]').style.display = 'none';
+        els.toggleCancelledBtn.textContent = t('showActiveBtn');
+      } else {
+        els.bookingList.style.display = 'flex';
+        cancelledSection.style.display = 'block';
+        document.querySelector('[data-i18n="activeListTitle"]').style.display = 'block';
+        els.toggleCancelledBtn.textContent = t('showCancelledBtn');
+      }
+
+      els.bookingList.innerHTML = activeItems.length ? activeItems.map(buildCard).join('') : `<div class="panel empty">${t(activeItems.length + cancelledItems.length === 0 ? 'noGeneral' : 'noActive')}</div>`;
+      els.cancelledList.innerHTML = cancelledItems.length ? cancelledItems.map(buildCard).join('') : `<div class="panel empty">${t('noCancelled')}</div>`;
+
+      if (!showOnlyCancelled) {
+        cancelledSection.style.display = 'none';
+      }
+    }
+
+    function render() {
+      const data = readBookings();
+      renderStats(data);
+      renderList(applyFilters(data));
+    }
+
+    [els.clientName, els.phone, els.eventDate, els.eventTime, els.location].forEach(el => el.addEventListener('input', validateForm));
+    els.phone.addEventListener('input', () => { els.phone.value = normalizePhone(els.phone.value); });
+    els.editPhone.addEventListener('input', () => { els.editPhone.value = normalizePhone(els.editPhone.value); });
+    els.saveBtn.addEventListener('click', addBooking);
+    els.demoBtn.addEventListener('click', addDemoData);
+    els.searchInput.addEventListener('input', render);
+    els.sortMode.addEventListener('change', render);
+    els.timeFilter.addEventListener('change', render);
+    els.exportBtn.addEventListener('click', exportJson);
+    els.clearDoneBtn.addEventListener('click', clearCancelled);
+    els.resetFiltersBtn.addEventListener('click', () => { els.searchInput.value = ''; els.sortMode.value = 'nearest'; els.timeFilter.value = 'all'; render(); });
+    els.toggleCancelledBtn.addEventListener('click', () => { showOnlyCancelled = !showOnlyCancelled; render(); });
+    els.commentSaveBtn.addEventListener('click', saveComment);
+    els.commentCloseBtn.addEventListener('click', () => { currentCommentId = null; els.commentDialog.close(); });
+    els.editSaveBtn.addEventListener('click', saveEditedBooking);
+    els.editCloseBtn.addEventListener('click', () => { currentEditId = null; els.editDialog.close(); });
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentLanguage = btn.dataset.lang;
+        localStorage.setItem(LANG_KEY, currentLanguage);
+        applyTranslations();
+      });
+    });
+
+    window.callClient = callClient;
+    window.setCancelled = setCancelled;
+    window.openCommentDialog = openCommentDialog;
+    window.openEditDialog = openEditDialog;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault(); deferredPrompt = e; els.installBtn.hidden = false;
+    });
+    els.installBtn.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt = null; els.installBtn.hidden = true;
+    });
+
+    populateStaticOptions();
+    applyTranslations();
+    validateForm();
+    render();
   </script>
 </body>
 </html>
