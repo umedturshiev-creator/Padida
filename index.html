@@ -301,10 +301,27 @@
       </div>
     </div>
     <div class="hero-strip">
-      <div class="hero-stat">
+      <button class="hero-stat" id="statAllBtn">
         <span data-i18n="statTotalLabel">Всего заявок</span>
         <b id="statTotal">0</b>
-      </div>
+      </button>
+      <button class="hero-stat" id="statActiveBtn">
+        <span data-i18n="statUpcomingLabel">Активные</span>
+        <b id="statUpcoming">0</b>
+      </button>
+      <button class="hero-stat" id="statTodayBtn">
+        <span>Сегодня</span>
+        <b id="statToday">0</b>
+      </button>
+      <button class="hero-stat" id="statSoonBtn">
+        <span>Скоро</span>
+        <b id="statSoon">0</b>
+      </button>
+      <button class="hero-stat" id="statCancelledBtn">
+        <span data-i18n="statCancelledLabel">Отменённые</span>
+        <b id="statCancelled">0</b>
+      </button>
+    </div>
       <div class="hero-stat">
         <span data-i18n="statUpcomingLabel">Активные</span>
         <b id="statUpcoming">0</b>
@@ -381,20 +398,16 @@
         <h2 data-i18n="listTitle">Список заявок</h2>
 
         <div class="toolbar">
-          <input id="searchInput" data-placeholder="searchPlaceholder" placeholder="Поиск по имени, телефону, месту или типу мероприятия" />
-          <select id="sortMode"></select>
+          <input id="searchInput" placeholder="Поиск..." />
         </div>
 
-        <div class="filters">
-          <select id="timeFilter"></select>
-          <button class="btn btn-light" id="resetFiltersBtn" style="margin-top:0;" data-i18n="resetFiltersBtn">Сбросить фильтры</button>
-        </div>
+        
 
         <h3 style="margin:0 0 10px;font-size:18px;" data-i18n="activeListTitle">Активные заявки</h3>
         <div class="list" id="bookingList"></div>
 
         <div style="margin-top:14px;">
-          <button class="btn btn-light" id="toggleCancelledBtn" style="margin-top:0;" data-i18n="showCancelledBtn">Показать только отменённые</button>
+          
         </div>
 
         <div id="cancelledSection" data-open="false" style="margin-top:18px; display:none;">
@@ -471,7 +484,7 @@
     let deferredPrompt = null;
     let currentCommentId = null;
     let currentEditId = null;
-    let showOnlyCancelled = false;
+    let activeFilter = 'all';
     let currentLanguage = localStorage.getItem(LANG_KEY) || 'ru';
 
     const translations = {
@@ -640,8 +653,16 @@
     }
 
     function resetForm() {
-      els.clientName.value = ''; els.phone.value = ''; els.eventType.value = 'typeWedding'; els.eventDate.value = ''; els.eventTime.value = ''; els.location.value = ''; els.city.value = ''; els.fee.value = ''; els.comment.value = '';
-    }
+  els.clientName.value='';
+  els.phone.value='';
+  els.eventType.value='typeWedding';
+  els.eventDate.value='';
+  els.eventTime.value='';
+  els.location.value='';
+  els.city.value='Душанбе';
+  els.fee.value='';
+  els.comment.value='';
+}
 
     function validateForm() {
       const ok = els.clientName.value.trim() && normalizePhone(els.phone.value).length === 9 && els.eventDate.value && els.eventTime.value && els.location.value.trim();
@@ -756,10 +777,24 @@
     }
 
     function renderStats(data) {
-      els.statTotal.textContent = data.length;
-      els.statUpcoming.textContent = data.filter(item => item.status === 'active').length;
-      els.statCancelled.textContent = data.filter(item => item.status === 'cancelled').length;
-    }
+  const today = new Date().toISOString().slice(0,10);
+  const now = new Date();
+  const soonLimit = new Date(Date.now()+3*86400000);
+
+  const active = data.filter(i=>i.status==='active');
+  const cancelled = data.filter(i=>i.status==='cancelled');
+  const todayCount = active.filter(i=>i.eventDate===today).length;
+  const soonCount = active.filter(i=>{
+    const d = getEventDateTime(i);
+    return d>now && d<=soonLimit;
+  }).length;
+
+  els.statTotal.textContent=data.length;
+  els.statUpcoming.textContent=active.length;
+  document.getElementById('statToday').textContent=todayCount;
+  document.getElementById('statSoon').textContent=soonCount;
+  els.statCancelled.textContent=cancelled.length;
+}
 
     function buildCard(item) {
       return `
@@ -797,16 +832,21 @@
     }
 
     function renderList(items) {
-      const activeItems = items.filter(item => item.status !== 'cancelled');
-      const cancelledItems = items.filter(item => item.status === 'cancelled');
-      const cancelledSection = document.getElementById('cancelledSection');
+  let list = items;
+  const today = new Date().toISOString().slice(0,10);
+  const now = new Date();
+  const soonLimit = new Date(Date.now()+3*86400000);
 
-      if (showOnlyCancelled) {
-        els.bookingList.style.display = 'none';
-        cancelledSection.style.display = 'block';
-        document.querySelector('[data-i18n="activeListTitle"]').style.display = 'none';
-        els.toggleCancelledBtn.textContent = t('showActiveBtn');
-      } else {
+  if(activeFilter==='active') list = list.filter(i=>i.status==='active');
+  if(activeFilter==='today') list = list.filter(i=>i.eventDate===today && i.status==='active');
+  if(activeFilter==='soon') list = list.filter(i=>{
+    const d=getEventDateTime(i);
+    return d>now && d<=soonLimit && i.status==='active';
+  });
+  if(activeFilter==='cancelled') list = list.filter(i=>i.status==='cancelled');
+
+  els.bookingList.innerHTML = list.length ? list.map(buildCard).join('') : `<div class="panel empty">Нет заявок</div>`;
+} else {
         els.bookingList.style.display = 'flex';
         cancelledSection.style.display = 'block';
         document.querySelector('[data-i18n="activeListTitle"]').style.display = 'block';
@@ -838,7 +878,11 @@
     els.exportBtn.addEventListener('click', exportJson);
     els.clearDoneBtn.addEventListener('click', clearCancelled);
     els.resetFiltersBtn.addEventListener('click', () => { els.searchInput.value = ''; els.sortMode.value = 'nearest'; els.timeFilter.value = 'all'; render(); });
-    els.toggleCancelledBtn.addEventListener('click', () => { showOnlyCancelled = !showOnlyCancelled; render(); });
+    document.getElementById('statAllBtn').onclick=()=>{activeFilter='all';render();};
+    document.getElementById('statActiveBtn').onclick=()=>{activeFilter='active';render();};
+    document.getElementById('statTodayBtn').onclick=()=>{activeFilter='today';render();};
+    document.getElementById('statSoonBtn').onclick=()=>{activeFilter='soon';render();};
+    document.getElementById('statCancelledBtn').onclick=()=>{activeFilter='cancelled';render();}; render(); });
     els.commentSaveBtn.addEventListener('click', saveComment);
     els.commentCloseBtn.addEventListener('click', () => { currentCommentId = null; els.commentDialog.close(); });
     els.editSaveBtn.addEventListener('click', saveEditedBooking);
