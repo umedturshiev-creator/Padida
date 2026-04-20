@@ -34,7 +34,7 @@
         <div class="logo-badge"><img src="icon-192.png" alt="Theatre Padida" /></div>
         <div class="brand">
           <h1>Theatre Padida</h1>
-          <p>Заявки на выступления, синхронизация с Google Sheets и уведомления в Telegram</p>
+          <p>Заявки на выступления, синхронизация с Google Sheets и уведомления в Telegram<br><small>v1.0.0</small></p>
         </div>
       </div>
       <div class="hero-actions">
@@ -114,11 +114,11 @@
   </dialog>
 
   <script>
-    const STORAGE_KEY='theatre_padida_bookings_v3',QUEUE_KEY='theatre_padida_sync_queue_v1',SETTINGS_KEY='theatre_padida_settings_v1';
+    const STORAGE_KEY='theatre_padida_bookings_v3',QUEUE_KEY='theatre_padida_sync_queue_v1',SETTINGS_KEY='theatre_padida_settings_v1',DEFAULT_SCRIPT_URL='https://script.google.com/macros/s/AKfycbxyCzwF4XRVVjKjeKCOXNFTT9H7OqP5eduFhkhwNlZ-nl6nyy0wK0thdlCTUkI6a9yj/exec';
     let deferredPrompt=null,currentCommentId=null,isCancelledOnlyView=false,editingId=null;
     const els={clientName:clientName,phone:phone,eventType:eventType,eventDate:eventDate,eventTime:eventTime,location:location,city:city,fee:fee,comment:comment,saveBtn:saveBtn,cancelEditBtn:cancelEditBtn,demoBtn:demoBtn,bookingList:bookingList,cancelledList:cancelledList,cancelledSection:cancelledSection,searchInput:searchInput,sortMode:sortMode,timeFilter:timeFilter,resetFiltersBtn:resetFiltersBtn,toggleCancelledBtn:toggleCancelledBtn,installBtn:installBtn,exportBtn:exportBtn,formTitle:formTitle,listTitle:listTitle,statTotal:statTotal,statActive:statActive,statUrgent:statUrgent,statCancelled:statCancelled,syncStatus:syncStatus,commentDialog:commentDialog,commentDialogText:commentDialogText,commentSaveBtn:commentSaveBtn,commentCloseBtn:commentCloseBtn,scriptUrl:scriptUrl,toggleSettingsBtn:toggleSettingsBtn,saveSettingsBtn:saveSettingsBtn,settingsBox:settingsBox};
     const readJson=(k,f)=>{try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(f))}catch{return f}},writeJson=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
-    const getSettings=()=>readJson(SETTINGS_KEY,{scriptUrl:''}),setSettings=v=>writeJson(SETTINGS_KEY,v),readBookings=()=>readJson(STORAGE_KEY,[]),writeBookings=d=>writeJson(STORAGE_KEY,d),readQueue=()=>readJson(QUEUE_KEY,[]),writeQueue=d=>writeJson(QUEUE_KEY,d);
+    const getSettings=()=>{const s=readJson(SETTINGS_KEY,{scriptUrl:DEFAULT_SCRIPT_URL});return {...s,scriptUrl:(s.scriptUrl||DEFAULT_SCRIPT_URL)}};const setSettings=v=>writeJson(SETTINGS_KEY,{...v,scriptUrl:(v.scriptUrl||DEFAULT_SCRIPT_URL)}),readBookings=()=>readJson(STORAGE_KEY,[]),writeBookings=d=>writeJson(STORAGE_KEY,d),readQueue=()=>readJson(QUEUE_KEY,[]),writeQueue=d=>writeJson(QUEUE_KEY,d);
     const generateId=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7),normalizePhone=v=>String(v||'').replace(/\D/g,'').slice(0,9);
     const formatDate=d=>!d?'—':new Intl.DateTimeFormat('ru-RU').format(new Date(d+'T00:00:00')),getEventDateTime=i=>new Date(`${i.eventDate}T${i.eventTime||'00:00'}`),isUrgent=i=>i.status!=='cancelled'&&((getEventDateTime(i)-new Date())/(1000*60*60*24)<=3);
     function getCardClass(i){if(i.status==='cancelled')return'cancelled';const x=(getEventDateTime(i)-new Date())/(1000*60*60*24);if(x<=1)return'today';if(x<=3)return'soon';return'future'}
