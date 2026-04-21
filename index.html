@@ -29,7 +29,7 @@
         <div class="logo-badge"><img src="icon-192.png" alt="Theatre Padida" /></div>
         <div class="brand">
           <h1>Theatre Padida</h1>
-          <p>Заявки на выступления, синхронизация с Google Sheets и уведомления в Telegram<br><small>v1.1.0</small></p>
+          <p>Заявки на выступления, синхронизация с Google Sheets и уведомления в Telegram<br><small>v1.4.0</small></p>
         </div>
       </div>
       
@@ -278,18 +278,40 @@
       }
     }
 
-    async function sendAction(actionType, booking) {
-      const res = await fetch(SCRIPT_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          source: 'Theatre Padida PWA',
-          actions: [{ type: actionType, booking }]
-        })
-      });
-      if (!res.ok) throw new Error('Ошибка отправки в скрипт');
-      return res.json();
-    }
+async function sendAction(actionType, booking) {
+  const payload = JSON.stringify({
+    source: 'Theatre Padida PWA',
+    actions: [{ type: actionType, booking }]
+  });
+
+  const res = await fetch(SCRIPT_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'text/plain;charset=utf-8'
+    },
+    body: payload
+  });
+
+  const text = await res.text();
+  console.log('POST raw response:', text);
+
+  let data;
+  try {
+    data = JSON.parse(text);
+  } catch {
+    throw new Error('Скрипт вернул не JSON: ' + text);
+  }
+
+  if (!res.ok) {
+    throw new Error('HTTP ошибка: ' + res.status);
+  }
+
+  if (data.ok === false) {
+    throw new Error(data.error || 'Apps Script вернул ошибку');
+  }
+
+  return data;
+}
 
     async function saveBooking() {
       const old = bookings.find(x => x.id === editingId);
