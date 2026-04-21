@@ -809,7 +809,20 @@ function showToast(text, type = 'success') {
       ].filter(Boolean).join('\n');
       return `https://wa.me/992${phone}?text=${encodeURIComponent(text)}`;
     }
+    
+function getWhatsAppText(app) {
+  return `Здравствуйте!
+Напоминаем о выступлении:
 
+🎭 Тип: ${app.eventType || '-'}
+📅 Дата: ${app.eventDate || '-'}
+⏰ Время: ${app.eventTime || '-'}
+📍 Место: ${app.venue || '-'}
+🏙 Город: ${app.city || '-'}
+
+Спасибо!`;
+}
+    
     function renderApplications() {
       const items = getFilteredApplications();
       currentFilterChip.textContent = `Фильтр: ${FILTER_LABELS[state.currentFilter]}`;
