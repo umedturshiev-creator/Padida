@@ -628,18 +628,39 @@
       return new Intl.DateTimeFormat('ru-RU', { day: '2-digit', month: 'long', year: 'numeric' }).format(date);
     }
 
-    function getDaysUntil(eventDate) {
-      if (!eventDate) return null;
-      const today = new Date();
-      today.setHours(0,0,0,0);
-      const target = new Date(`${eventDate}T00:00:00`);
-      if (Number.isNaN(target.getTime())) return null;
-      return Math.ceil((target - today) / 86400000);
+function getDaysUntil(eventDate, eventTime) {
+  if (!eventDate) return null;
+
+  try {
+    let dateTime;
+
+    // если время есть
+    if (eventTime) {
+      // если время пришло как 1899-12-30...
+      if (eventTime.includes('T')) {
+        const time = new Date(eventTime);
+        const hours = time.getUTCHours().toString().padStart(2, '0');
+        const minutes = time.getUTCMinutes().toString().padStart(2, '0');
+        dateTime = new Date(`${eventDate}T${hours}:${minutes}:00`);
+      } else {
+        dateTime = new Date(`${eventDate}T${eventTime}`);
+      }
+    } else {
+      dateTime = new Date(`${eventDate}T00:00:00`);
     }
+
+    if (isNaN(dateTime.getTime())) return null;
+
+    const now = new Date();
+    return Math.ceil((dateTime - now) / 86400000);
+  } catch {
+    return null;
+  }
+}
 
     function getCardClass(app) {
       if (app.status !== 'active') return '';
-      const days = getDaysUntil(app.eventDate);
+      const days = getDaysUntil(app.eventDate, app.eventTime);
       if (days === null) return '';
       if (days <= 2 && days >= 0) return 'due-soon';
       if (days > 2 && days <= 5) return 'mid-range';
@@ -647,7 +668,7 @@
     }
 
     function getDeadlineText(app) {
-      const days = getDaysUntil(app.eventDate);
+      const days = getDaysUntil(app.eventDate, app.eventTime);
       if (days === null) return 'Дата не указана';
       if (days < 0) return 'Дата уже прошла';
       if (days === 0) return 'Выступление сегодня';
