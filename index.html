@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Театр Падида — программа приема заявок</title>
   <meta name="theme-color" content="#5b2be0" />
+  <meta name="description" content="Программа приема заявок на выступления Театр Падида" />
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="icon" href="./logo.png" />
+  <link rel="apple-touch-icon" href="./logo.png" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
     :root {
       --bg: #0f1020;
@@ -18,6 +23,7 @@
       --danger: #ef4444;
       --success: #10b981;
       --warning: #f59e0b;
+      --info: #3b82f6;
       --shadow: 0 18px 50px rgba(0,0,0,0.35);
       --radius-xl: 24px;
       --radius-lg: 18px;
@@ -25,6 +31,7 @@
       --transition: 180ms ease;
     }
     * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
       font-family: Inter, Arial, sans-serif;
@@ -35,8 +42,8 @@
       color: var(--text);
       min-height: 100vh;
     }
-    .container { width: min(1200px, calc(100% - 28px)); margin: 0 auto; padding: 24px 0 56px; }
-    .hero, .panel, .form-card, .list-card, .login-card, .modal-card {
+    .container { width: min(1260px, calc(100% - 28px)); margin: 0 auto; padding: 24px 0 56px; }
+    .hero, .form-card, .list-card, .login-card, .modal-card, .utility-card {
       border: 1px solid var(--border);
       background: rgba(255,255,255,0.08);
       border-radius: var(--radius-xl);
@@ -44,105 +51,92 @@
       backdrop-filter: blur(14px);
     }
     .hero {
-      display: grid; gap: 18px; margin-bottom: 20px; padding: 22px;
+      display: grid;
+      gap: 16px;
+      margin-bottom: 18px;
+      padding: 22px;
       background: linear-gradient(135deg, rgba(124,58,237,0.25), rgba(20,184,166,0.18));
     }
+    .hero-top {
+      display:flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap:16px;
+      flex-wrap: wrap;
+    }
     .brand { display:flex; gap:18px; align-items:center; flex-wrap:wrap; }
-.logo {
-  width: 78px;
-  height: 78px;
-  border-radius: 22px;
-  background: linear-gradient(135deg, #7c3aed, #14b8a6);
-  display: grid;
-  place-items: center;
-  box-shadow: 0 14px 30px rgba(92, 48, 200, 0.35);
-  flex-shrink: 0;
-  overflow: hidden;
-  padding: 8px;
-}
-.logo-img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
-}
-
-.logo-fallback {
-  width: 100%;
-  height: 100%;
-  display: grid;
-  place-items: center;
-}
-
-.logo-fallback svg {
-  width: 54px;
-  height: 54px;
-}
-    
-    .logo svg { width: 54px; height:54px; }
-    h1 { margin:0; font-size: clamp(28px, 4vw, 42px); line-height: 1.05; }
-    .subtitle { margin:8px 0 0; color: var(--muted); font-size:15px; line-height:1.5; max-width: 760px; }
+    .brand-copy { display:grid; gap:6px; }
+    .logo {
+      width: 78px;
+      height: 78px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #7c3aed, #14b8a6);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 14px 30px rgba(92, 48, 200, 0.35);
+      flex-shrink: 0;
+      overflow: hidden;
+      padding: 8px;
+    }
+    .logo-img { width:100%; height:100%; object-fit:contain; display:block; }
+    .logo-fallback { width:100%; height:100%; display:grid; place-items:center; }
+    .logo-fallback svg { width:54px; height:54px; }
+    h1 { margin:0; font-size: clamp(28px, 4vw, 42px); line-height:1.05; }
+    .subtitle { margin:0; color: var(--muted); font-size:15px; line-height:1.5; max-width: 760px; }
+    .hero-actions { display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
     .version-badge, .chip {
       display:inline-flex; align-items:center; gap:8px; width:fit-content;
       padding:10px 14px; border-radius:999px; border:1px solid rgba(255,255,255,0.1);
       background: rgba(255,255,255,0.08); font-size:13px; font-weight:600;
     }
-    .layout { display:grid; grid-template-columns: 380px 1fr; gap:18px; align-items:start; }
-    .form-card, .list-card { padding: 20px; }
+    .layout { display:grid; grid-template-columns: 390px 1fr; gap:18px; align-items:start; }
+    .form-card, .list-card, .utility-card { padding:20px; }
+    .stack { display:grid; gap:18px; }
     .section-title { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom: 14px; }
     .section-title h2, .section-title h3 { margin:0; font-size: 22px; }
     .section-note { margin:4px 0 0; color: var(--muted); font-size:14px; }
     button {
       border:none; border-radius:14px; padding:13px 16px; font-weight:700; font-size:15px;
-      cursor:pointer; transition: transform var(--transition), opacity var(--transition), box-shadow var(--transition);
+      cursor:pointer; transition: transform var(--transition), opacity var(--transition), box-shadow var(--transition), background var(--transition);
     }
     button:hover:not(:disabled) { transform: translateY(-1px); }
     button:disabled { opacity: 0.55; cursor:not-allowed; }
     .primary-btn { color:#fff; background: linear-gradient(135deg, var(--accent-1), #5b8cff); box-shadow: 0 12px 28px rgba(92,76,255,0.34); }
     .ghost-btn { color:#fff; background: rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.12); }
     .danger-btn { color:#fff; background: linear-gradient(135deg, #ef4444, #f97316); }
+    .install-btn { color:#fff; background: linear-gradient(135deg, #14b8a6, #0ea5e9); }
     .toggle-btn { width:100%; display:flex; align-items:center; justify-content:space-between; background: rgba(255,255,255,0.06); color:#fff; border:1px solid var(--border); }
     .collapsible { display:none; margin-top: 14px; }
     .collapsible.open { display:block; }
     .form-grid { display:grid; gap:14px; }
     .two-col { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
     .field label { display:block; margin-bottom:8px; font-size:14px; font-weight:600; }
-    input, select, textarea {
+    .search-input, input, select, textarea {
       width:100%; background: rgba(255,255,255,0.08); color:var(--text); border:1px solid rgba(255,255,255,0.12);
       border-radius:14px; padding:14px 14px; font-size:15px; outline:none;
       transition: border-color var(--transition), background var(--transition), box-shadow var(--transition);
     }
-    select option { color: #111827; }
+    select option { color:#111827; }
     input:focus, select:focus, textarea:focus {
-      border-color: rgba(124,58,237,0.9); background: rgba(255,255,255,0.12);
-      box-shadow: 0 0 0 4px rgba(124,58,237,0.16);
+      border-color: rgba(124,58,237,0.9); background: rgba(255,255,255,0.12); box-shadow: 0 0 0 4px rgba(124,58,237,0.16);
     }
     textarea { min-height: 100px; resize: vertical; }
     .invalid { border-color: rgba(239,68,68,0.95) !important; background: rgba(239,68,68,0.14) !important; }
     .actions { display:flex; gap:12px; flex-wrap:wrap; margin-top: 8px; }
     .search-wrap { display:grid; gap:12px; margin: 14px 0 16px; }
-    .toolbar-top { display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; }
     .mini-filters { display:grid; grid-template-columns: repeat(4, 1fr); gap:10px; }
-    .filter-btn {
-      background: var(--card-soft); color:#fff; border:1px solid var(--border); border-radius: 14px; padding:12px;
-      text-align:left;
-    }
+    .filter-btn { background: var(--card-soft); color:#fff; border:1px solid var(--border); border-radius: 14px; padding:12px; text-align:left; }
     .filter-btn.active { background: rgba(255,255,255,0.16); border-color: rgba(255,255,255,0.22); }
     .filter-btn .small { display:block; color: var(--muted); font-size:12px; margin-bottom:6px; }
     .filter-btn .value { display:block; font-size:20px; font-weight:800; }
     .application-list { display:grid; gap:14px; min-height:180px; }
-    .application-card {
-      border-radius:20px; padding:18px; border:1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.06); display:grid; gap:12px;
-    }
+    .application-card { border-radius:20px; padding:18px; border:1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.06); display:grid; gap:12px; }
     .application-card.due-soon { background: rgba(245, 158, 11, 0.18); border-color: rgba(245, 158, 11, 0.5); }
     .application-card.mid-range { background: rgba(16, 185, 129, 0.18); border-color: rgba(16, 185, 129, 0.42); }
     .app-top { display:flex; justify-content:space-between; gap:10px; align-items:flex-start; flex-wrap:wrap; }
     .app-title { margin:0; font-size:18px; font-weight:800; }
     .app-subtitle { color:#d5dcf7; font-size:13px; margin-top:6px; line-height:1.5; }
-    .status-pill {
-      border-radius:999px; padding:8px 12px; font-size:12px; font-weight:700; text-transform:uppercase;
-      background: rgba(255,255,255,0.13); border:1px solid rgba(255,255,255,0.14);
-    }
+    .status-pill { border-radius:999px; padding:8px 12px; font-size:12px; font-weight:700; text-transform:uppercase; background: rgba(255,255,255,0.13); border:1px solid rgba(255,255,255,0.14); }
     .app-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px 16px; }
     .app-item { color:#e8edff; font-size:14px; line-height:1.45; }
     .app-item span { display:block; color:var(--muted); font-size:12px; margin-bottom:2px; }
@@ -151,47 +145,51 @@
     .edit-btn { background: rgba(59,130,246,0.18); color: #d7e7ff; border: 1px solid rgba(59,130,246,0.28); }
     .cancel-btn { background: rgba(239,68,68,0.16); color: #ffd0d0; border: 1px solid rgba(239,68,68,0.28); }
     .restore-btn { background: rgba(16,185,129,0.16); color: #d0fff0; border: 1px solid rgba(16,185,129,0.28); }
-    .empty-state {
-      display:grid; place-items:center; text-align:center; min-height:220px; border:1px dashed rgba(255,255,255,0.14);
-      border-radius:18px; color:var(--muted); padding:24px;
-    }
+    .wa-btn { background: rgba(34,197,94,0.18); color:#d7ffe6; border:1px solid rgba(34,197,94,0.34); }
+    .pdf-btn { background: rgba(249,115,22,0.18); color:#ffe3d0; border:1px solid rgba(249,115,22,0.34); }
+    .empty-state { display:grid; place-items:center; text-align:center; min-height:220px; border:1px dashed rgba(255,255,255,0.14); border-radius:18px; color:var(--muted); padding:24px; }
     .loading-text, .success-text, .error-text { margin-top:12px; font-size:14px; display:none; }
     .loading-text { color: #c8d2ff; } .success-text { color:#90f7d7; } .error-text { color:#ffb1b1; }
-    .spinner {
-      width:16px;height:16px;border:2px solid rgba(255,255,255,0.24);border-top-color:#fff;border-radius:50%;
-      display:inline-block;vertical-align:middle;margin-right:8px;animation: spin .7s linear infinite;
-    }
+    .spinner { width:16px;height:16px;border:2px solid rgba(255,255,255,0.24);border-top-color:#fff;border-radius:50%;display:inline-block;vertical-align:middle;margin-right:8px;animation: spin .7s linear infinite; }
     @keyframes spin { to { transform:rotate(360deg);} }
-    .toast-wrap {
-      position: fixed; right:20px; bottom:20px; display:grid; gap:10px; z-index:2000;
-    }
-    .toast {
-      min-width: 260px; max-width: 420px; padding:14px 16px; border-radius:16px; color:#fff;
-      box-shadow: var(--shadow); border:1px solid rgba(255,255,255,0.14); backdrop-filter: blur(10px);
-      animation: slideIn .2s ease;
-    }
-    .toast.success { background: rgba(16,185,129,0.95); }
-    .toast.error { background: rgba(239,68,68,0.95); }
-    .toast.info { background: rgba(91,43,224,0.95); }
+    .toast-wrap { position: fixed; right:20px; bottom:20px; display:grid; gap:10px; z-index:2000; }
+    .toast { min-width: 260px; max-width: 420px; padding:14px 16px; border-radius:16px; color:#fff; box-shadow: var(--shadow); border:1px solid rgba(255,255,255,0.14); backdrop-filter: blur(10px); animation: slideIn .2s ease; }
+    .toast.success { background: rgba(16,185,129,0.95); } .toast.error { background: rgba(239,68,68,0.95); } .toast.info { background: rgba(91,43,224,0.95); }
     @keyframes slideIn { from { opacity:0; transform: translateY(8px);} to { opacity:1; transform:none;} }
-    .overlay {
-      position: fixed; inset: 0; background: rgba(6,8,20,0.72); display:flex; align-items:center; justify-content:center; padding:20px; z-index:3000;
-    }
+    .overlay { position: fixed; inset: 0; background: rgba(6,8,20,0.72); display:flex; align-items:center; justify-content:center; padding:20px; z-index:3000; }
     .overlay.hidden { display:none; }
     .login-card, .modal-card { width:min(460px,100%); padding:22px; }
     .modal-actions, .login-actions { display:flex; gap:10px; justify-content:flex-end; margin-top:16px; }
     .footer { color: rgba(255,255,255,0.56); text-align:center; padding-top:18px; font-size:13px; }
-    .warning-note {
-      margin-top: 12px; color: #f5d38b; font-size: 13px; line-height: 1.45;
-      border: 1px dashed rgba(245, 158, 11, 0.35); border-radius: 14px; padding: 12px;
-      background: rgba(245, 158, 11, 0.08);
-    }
-    @media (max-width: 980px) { .layout { grid-template-columns:1fr; } }
-    @media (max-width: 640px) {
-      .container { width:min(100% - 18px, 1200px); padding-top:18px; }
-      .hero, .form-card, .list-card, .login-card, .modal-card { padding:18px; }
-      .two-col, .app-grid, .mini-filters { grid-template-columns:1fr; }
-      .app-top { flex-direction:column; }
+    .warning-note { margin-top: 12px; color: #f5d38b; font-size: 13px; line-height: 1.45; border: 1px dashed rgba(245, 158, 11, 0.35); border-radius: 14px; padding: 12px; background: rgba(245, 158, 11, 0.08); }
+    .calendar-grid { display:grid; gap:12px; }
+    .calendar-day { border:1px solid rgba(255,255,255,0.1); border-radius:18px; padding:14px; background: rgba(255,255,255,0.05); }
+    .calendar-day-header { display:flex; justify-content:space-between; gap:10px; align-items:center; margin-bottom:10px; }
+    .calendar-day-title { font-weight:800; font-size:16px; }
+    .calendar-count { color:var(--muted); font-size:12px; }
+    .calendar-events { display:grid; gap:10px; }
+    .calendar-event { border-radius:14px; padding:12px; background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.08); }
+    .stats-months { display:grid; gap:12px; }
+    .stats-month-card { border-radius:18px; padding:16px; background: rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); }
+    .stats-month-top { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; flex-wrap:wrap; margin-bottom:12px; }
+    .stats-metrics { display:grid; grid-template-columns: repeat(4, 1fr); gap:10px; }
+    .metric { background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.09); border-radius:14px; padding:12px; }
+    .metric span { display:block; color:var(--muted); font-size:12px; margin-bottom:4px; }
+    .metric strong { font-size:18px; }
+    .progress { height:10px; border-radius:999px; background: rgba(255,255,255,0.08); overflow:hidden; margin-top:10px; }
+    .progress > div { height:100%; background: linear-gradient(90deg, var(--accent-1), var(--accent-2)); }
+    .pdf-export-area { background:#fff; color:#111827; padding:24px; font-family: Arial, sans-serif; }
+    .pdf-export-area h1, .pdf-export-area h2 { margin:0 0 10px; }
+    .pdf-export-area table { width:100%; border-collapse:collapse; margin-top:14px; }
+    .pdf-export-area th, .pdf-export-area td { border:1px solid #d1d5db; padding:8px; font-size:12px; vertical-align:top; text-align:left; }
+    .pdf-export-area th { background:#f3f4f6; }
+    @media (max-width: 1080px) { .layout { grid-template-columns:1fr; } }
+    @media (max-width: 760px) {
+      .container { width:min(100% - 18px, 1260px); padding-top:18px; }
+      .hero, .form-card, .list-card, .login-card, .modal-card, .utility-card { padding:18px; }
+      .two-col, .app-grid, .mini-filters, .stats-metrics { grid-template-columns:1fr; }
+      .app-top, .hero-top { flex-direction:column; }
+      .hero-actions { justify-content:flex-start; }
       .toast-wrap { left:12px; right:12px; bottom:12px; }
       .toast { min-width: 0; max-width: unset; }
     }
@@ -211,7 +209,7 @@
         <input id="loginPassword" type="password" placeholder="Введите пароль" />
       </div>
       <div class="warning-note">
-        Это базовая защита доступа для текущей архитектуры!
+        Это базовая защита доступа для текущей архитектуры на GitHub Pages + Apps Script.
       </div>
       <div class="login-actions">
         <button class="primary-btn" id="loginButton" type="button">Войти</button>
@@ -238,104 +236,141 @@
 
   <main class="container">
     <section class="hero">
-      <div class="brand">
-<div class="logo" aria-hidden="true">
-  <img
-    src="./logo.png"
-    alt="Логотип Театр Падида"
-    class="logo-img"
-    onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';"
-  />
+      <div class="hero-top">
+        <div class="brand">
+          <div class="logo" aria-hidden="true">
+            <img src="./logo.png" alt="Логотип Театр Падида" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';" />
+            <div class="logo-fallback" style="display:none;">
+              <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 49L23 15L32 33L41 15L50 49" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="32" cy="14" r="5" fill="white"/>
+              </svg>
+            </div>
+          </div>
+          <div class="brand-copy">
+            <h1>Театр Падида</h1>
+            <p class="subtitle">Программа приема заявок на выступления. Календарь, статистика по месяцам, WhatsApp-уведомление клиенту, PDF-экспорт и установка на телефон.</p>
+          </div>
+        </div>
 
-  <div class="logo-fallback" style="display:none;">
-    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M14 49L23 15L32 33L41 15L50 49" stroke="white" stroke-width="5"/>
-      <circle cx="32" cy="14" r="5" fill="white"/>
-    </svg>
-  </div>
-</div>
-          <h1>Театр Падида</h1>
-          <p class="subtitle">Программа приема заявок на выступления. Поиск, редактирование, статусы, Telegram-уведомления, напоминания и автообновление завершенных выступлений.</p>
+        <div class="hero-actions">
+          <button class="ghost-btn" id="installButton" type="button" style="display:none;">Установить приложение</button>
+          <button class="pdf-btn" id="exportPdfButton" type="button">Экспорт в PDF</button>
+          <button class="danger-btn" id="logoutButton" type="button">Выйти</button>
         </div>
       </div>
-      <div class="version-badge">Версия приложения: v1.0.4</div>
+      <div class="version-badge">Версия приложения: v1.0.5</div>
     </section>
 
     <section class="layout">
-      <aside class="form-card">
-        <button class="toggle-btn" id="toggleFormBtn" type="button">
-          <span id="toggleFormLabel">➕ Новая заявка</span>
-          <span id="toggleFormArrow">▼</span>
-        </button>
+      <div class="stack">
+        <aside class="form-card">
+          <button class="toggle-btn" id="toggleFormBtn" type="button">
+            <span id="toggleFormLabel">➕ Новая заявка</span>
+            <span id="toggleFormArrow">▼</span>
+          </button>
 
-        <div class="collapsible" id="formCollapse">
-          <div class="section-title" style="margin-top:14px">
-            <div>
-              <h3 id="formTitle">Новая заявка</h3>
-              <p class="section-note">Заполните обязательные поля для сохранения.</p>
+          <div class="collapsible" id="formCollapse">
+            <div class="section-title" style="margin-top:14px">
+              <div>
+                <h3 id="formTitle">Новая заявка</h3>
+                <p class="section-note">Заполните обязательные поля для сохранения.</p>
+              </div>
             </div>
+
+            <form id="applicationForm" novalidate>
+              <div class="form-grid">
+                <div class="field">
+                  <label for="customerName">Имя заказчика *</label>
+                  <input id="customerName" name="customerName" type="text" placeholder="Укажите имя заказчика" required />
+                </div>
+
+                <div class="field">
+                  <label for="customerPhone">Телефон заказчика *</label>
+                  <input id="customerPhone" name="customerPhone" type="tel" inputmode="numeric" maxlength="9" placeholder="Укажите 9 цифр номера заказчика" required />
+                </div>
+
+                <div class="field">
+                  <label for="eventType">Тип мероприятия *</label>
+                  <select id="eventType" name="eventType" required>
+                    <option>Свадьба</option>
+                    <option>Корпоратив</option>
+                    <option>Частный прием</option>
+                    <option>Другое</option>
+                  </select>
+                </div>
+
+                <div class="two-col">
+                  <div class="field">
+                    <label for="eventDate">Дата выступления *</label>
+                    <input id="eventDate" name="eventDate" type="date" required />
+                  </div>
+                  <div class="field">
+                    <label for="eventTime">Время выступления *</label>
+                    <input id="eventTime" name="eventTime" type="time" step="1800" required value="18:00" />
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label for="venue">Место проведения *</label>
+                  <input id="venue" name="venue" type="text" placeholder="Укажите место например: Якасарой" required />
+                </div>
+
+                <div class="field">
+                  <label for="city">Выбрать город *</label>
+                  <select id="city" name="city" required></select>
+                </div>
+
+                <div class="field">
+                  <label for="comments">Комментарии</label>
+                  <textarea id="comments" name="comments" placeholder="Можете здесь указать дополнительные данные"></textarea>
+                </div>
+              </div>
+
+              <div class="actions">
+                <button class="primary-btn" id="saveButton" type="submit" disabled>Сохранить</button>
+                <button class="ghost-btn" id="resetButton" type="button">Очистить</button>
+              </div>
+
+              <div class="loading-text" id="loadingText"><span class="spinner"></span>Идет сохранение данных...</div>
+              <div class="success-text" id="successText">Заявка успешно сохранена.</div>
+              <div class="error-text" id="errorText">Не удалось выполнить действие.</div>
+            </form>
           </div>
+        </aside>
 
-          <form id="applicationForm" novalidate>
-            <div class="form-grid">
-              <div class="field">
-                <label for="customerName">Имя заказчика *</label>
-                <input id="customerName" name="customerName" type="text" placeholder="Укажите имя заказчика" required />
-              </div>
-
-              <div class="field">
-                <label for="customerPhone">Телефон заказчика *</label>
-                <input id="customerPhone" name="customerPhone" type="tel" inputmode="numeric" maxlength="9" placeholder="Укажите 9 цифр номера заказчика" required />
-              </div>
-
-              <div class="field">
-                <label for="eventType">Тип мероприятия *</label>
-                <select id="eventType" name="eventType" required>
-                  <option>Свадьба</option>
-                  <option>Корпоратив</option>
-                  <option>Частный прием</option>
-                  <option>Другое</option>
-                </select>
-              </div>
-
-              <div class="two-col">
-                <div class="field">
-                  <label for="eventDate">Дата выступления *</label>
-                  <input id="eventDate" name="eventDate" type="date" required />
-                </div>
-                <div class="field">
-                  <label for="eventTime">Время выступления *</label>
-                  <input id="eventTime" name="eventTime" type="time" step="1800" required value="18:00" />
-                </div>
-              </div>
-
-              <div class="field">
-                <label for="venue">Место проведения *</label>
-                <input id="venue" name="venue" type="text" placeholder="Укажите место например: Якасарой" required />
-              </div>
-
-              <div class="field">
-                <label for="city">Выбрать город *</label>
-                <select id="city" name="city" required></select>
-              </div>
-
-              <div class="field">
-                <label for="comments">Комментарии</label>
-                <textarea id="comments" name="comments" placeholder="Можете здесь указать дополнительные данные"></textarea>
+        <section class="utility-card">
+          <button class="toggle-btn" id="toggleCalendarBtn" type="button">
+            <span>📅 Календарь выступлений</span>
+            <span id="toggleCalendarArrow">▼</span>
+          </button>
+          <div class="collapsible" id="calendarCollapse">
+            <div class="section-title" style="margin-top:14px">
+              <div>
+                <h3>Календарь выступлений</h3>
+                <p class="section-note">Ближайшие и запланированные выступления по датам.</p>
               </div>
             </div>
+            <div id="calendarView" class="calendar-grid"></div>
+          </div>
+        </section>
 
-            <div class="actions">
-              <button class="primary-btn" id="saveButton" type="submit" disabled>Сохранить</button>
-              <button class="ghost-btn" id="resetButton" type="button">Очистить</button>
+        <section class="utility-card">
+          <button class="toggle-btn" id="toggleStatsBtn" type="button">
+            <span>📊 Статистика по месяцам</span>
+            <span id="toggleStatsArrow">▼</span>
+          </button>
+          <div class="collapsible" id="statsCollapse">
+            <div class="section-title" style="margin-top:14px">
+              <div>
+                <h3>Статистика по месяцам</h3>
+                <p class="section-note">Количество заказов и ориентировочная загрузка по месяцам.</p>
+              </div>
             </div>
-
-            <div class="loading-text" id="loadingText"><span class="spinner"></span>Идет сохранение данных...</div>
-            <div class="success-text" id="successText">Заявка успешно сохранена.</div>
-            <div class="error-text" id="errorText">Не удалось выполнить действие.</div>
-          </form>
-        </div>
-      </aside>
+            <div id="statsView" class="stats-months"></div>
+          </div>
+        </section>
+      </div>
 
       <section class="list-card">
         <div class="section-title">
@@ -378,12 +413,12 @@
       </section>
     </section>
 
-    <div class="footer">Театр Падида · Программа приема заявок · v1.0.4</div>
+    <div class="footer">Театр Падида · Программа приема заявок · v1.0.5</div>
   </main>
 
   <script>
-    const APP_VERSION = 'v1.0.4';
-    const API_URL = 'https://script.google.com/macros/s/AKfycbxnEUlDQ8NlJRdOVPdjT3N0q1_eDANJYNCSmBigu35vFDrnRJMx6BHEMYNIo44jbEYv1A/exec';
+    const APP_VERSION = 'v1.0.5';
+    const API_URL = 'PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEBAPP_URL_HERE';
 
     const CITIES = [
       'Душанбе','Худжанд','Бохтар','Куляб','Турсунзаде','Истаравшан','Пенджикент','Исфара',
@@ -394,7 +429,6 @@
 
     const STATUS_LABELS = { active: 'Активная', cancelled: 'Отмененная', completed: 'Выполненная' };
     const FILTER_LABELS = { all: 'Все', active: 'Активные', cancelled: 'Отмененные', completed: 'Выполненные' };
-
     const requiredFieldIds = ['customerName', 'customerPhone', 'eventType', 'eventDate', 'eventTime', 'venue', 'city'];
 
     const form = document.getElementById('applicationForm');
@@ -411,19 +445,31 @@
     const loginOverlay = document.getElementById('loginOverlay');
     const loginPassword = document.getElementById('loginPassword');
     const loginButton = document.getElementById('loginButton');
+    const logoutButton = document.getElementById('logoutButton');
+    const installButton = document.getElementById('installButton');
+    const exportPdfButton = document.getElementById('exportPdfButton');
     const toggleFormBtn = document.getElementById('toggleFormBtn');
     const formCollapse = document.getElementById('formCollapse');
     const toggleFormArrow = document.getElementById('toggleFormArrow');
     const toggleFiltersBtn = document.getElementById('toggleFiltersBtn');
     const filtersCollapse = document.getElementById('filtersCollapse');
     const toggleFiltersArrow = document.getElementById('toggleFiltersArrow');
+    const toggleCalendarBtn = document.getElementById('toggleCalendarBtn');
+    const calendarCollapse = document.getElementById('calendarCollapse');
+    const toggleCalendarArrow = document.getElementById('toggleCalendarArrow');
+    const toggleStatsBtn = document.getElementById('toggleStatsBtn');
+    const statsCollapse = document.getElementById('statsCollapse');
+    const toggleStatsArrow = document.getElementById('toggleStatsArrow');
+    const calendarView = document.getElementById('calendarView');
+    const statsView = document.getElementById('statsView');
 
     const state = {
       applications: [],
       currentFilter: 'all',
       editingId: null,
       isBusy: false,
-      password: sessionStorage.getItem('padida_password') || ''
+      password: sessionStorage.getItem('padida_password') || '',
+      deferredInstallPrompt: null
     };
 
     function populateCities() {
@@ -454,6 +500,13 @@
       }).format(date);
     }
 
+    function formatDateOnly(dateString) {
+      if (!dateString) return '—';
+      const date = new Date(`${dateString}T00:00:00`);
+      if (Number.isNaN(date.getTime())) return dateString;
+      return new Intl.DateTimeFormat('ru-RU', { day: '2-digit', month: 'long', year: 'numeric' }).format(date);
+    }
+
     function getDaysUntil(eventDate, eventTime) {
       if (!eventDate) return null;
       const dateTime = new Date(`${eventDate}T${eventTime || '00:00'}:00`);
@@ -478,6 +531,10 @@
       if (days === 1) return 'Завтра';
       if (days === 2) return 'Через 2 дня';
       return `Через ${days} дн.`;
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
     }
 
     function showToast(text, type = 'success') {
@@ -595,17 +652,15 @@
     }
 
     async function apiRequest(action, payload = {}) {
-      if (!API_URL || API_URL.includes('PASTE_YOUR')) {
-        throw new Error('Не указан API_URL');
-      }
-      if (!state.password) {
-        throw new Error('Требуется повторный вход');
-      }
+      if (!API_URL || API_URL.includes('PASTE_YOUR')) throw new Error('Не указан API_URL');
+      if (!state.password) throw new Error('Требуется повторный вход');
+
       const response = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify({ action, payload, password: state.password })
       });
+
       const data = await response.json();
       if (!data.success) {
         if ((data.message || '').toLowerCase().includes('unauthorized')) {
@@ -626,6 +681,8 @@
         sortApplications();
         renderStats();
         renderApplications();
+        renderCalendar();
+        renderMonthlyStats();
       } catch (error) {
         applicationList.innerHTML = `<div class="empty-state">Не удалось загрузить заявки.<br>${escapeHtml(error.message || String(error))}</div>`;
       }
@@ -656,63 +713,159 @@
         const matchesFilter = state.currentFilter === 'all' ? true : app.status === state.currentFilter;
         if (!matchesFilter) return false;
         if (!query) return true;
-        const haystack = [
-          app.customerName,
-          app.customerPhone,
-          normalizePhone(app.customerPhone),
-          app.city,
-          app.venue
-        ].join(' ').toLowerCase();
+        const haystack = [app.customerName, app.customerPhone, normalizePhone(app.customerPhone), app.city, app.venue].join(' ').toLowerCase();
         const normalizedQuery = normalizePhone(query);
         return haystack.includes(query) || (normalizedQuery && haystack.includes(normalizedQuery));
       });
+    }
+
+    function getWhatsAppLink(app) {
+      const phone = normalizePhone(app.customerPhone);
+      if (phone.length !== 9) return '';
+      const text = [
+        `Здравствуйте, ${app.customerName || 'уважаемый клиент'}!`,
+        'Направляем данные по вашей заявке:',
+        `Тип мероприятия: ${app.eventType || '—'}`,
+        `Дата и время: ${formatDateTime(app.eventDate, app.eventTime)}`,
+        `Город: ${app.city || '—'}`,
+        `Место: ${app.venue || '—'}`,
+        app.comments ? `Комментарий: ${app.comments}` : ''
+      ].filter(Boolean).join('\n');
+      return `https://wa.me/992${phone}?text=${encodeURIComponent(text)}`;
     }
 
     function renderApplications() {
       const items = getFilteredApplications();
       currentFilterChip.textContent = `Фильтр: ${FILTER_LABELS[state.currentFilter]}`;
       listDescription.textContent = items.length ? `Найдено заявок: ${items.length}` : 'По выбранному фильтру пока нет заявок.';
+
       if (!items.length) {
         applicationList.innerHTML = '<div class="empty-state">Заявки не найдены. Попробуйте изменить фильтр или строку поиска.</div>';
         return;
       }
 
-      applicationList.innerHTML = items.map(app => `
-        <article class="application-card ${getCardClass(app)}">
-          <div class="app-top">
-            <div>
-              <h4 class="app-title">${escapeHtml(app.customerName || 'Без имени')}</h4>
-              <div class="app-subtitle">${escapeHtml(app.eventType || '—')} · ${escapeHtml(app.city || '—')} · ${escapeHtml(app.venue || '—')}</div>
+      applicationList.innerHTML = items.map(app => {
+        const waLink = getWhatsAppLink(app);
+        return `
+          <article class="application-card ${getCardClass(app)}">
+            <div class="app-top">
+              <div>
+                <h4 class="app-title">${escapeHtml(app.customerName || 'Без имени')}</h4>
+                <div class="app-subtitle">${escapeHtml(app.eventType || '—')} · ${escapeHtml(app.city || '—')} · ${escapeHtml(app.venue || '—')}</div>
+              </div>
+              <div class="status-pill">${STATUS_LABELS[app.status] || app.status || '—'} · ${getDeadlineText(app)}</div>
             </div>
-            <div class="status-pill">${STATUS_LABELS[app.status] || app.status || '—'} · ${getDeadlineText(app)}</div>
+            <div class="app-grid">
+              <div class="app-item"><span>Телефон</span>${escapeHtml(app.customerPhone || '—')}</div>
+              <div class="app-item"><span>Дата и время</span>${formatDateTime(app.eventDate, app.eventTime)}</div>
+              <div class="app-item"><span>Город</span>${escapeHtml(app.city || '—')}</div>
+              <div class="app-item"><span>Место проведения</span>${escapeHtml(app.venue || '—')}</div>
+              <div class="app-item"><span>Комментарий</span>${escapeHtml(app.comments || '—')}</div>
+              <div class="app-item"><span>ID заявки</span>${escapeHtml(app.id || '—')}</div>
+            </div>
+            <div class="app-actions">
+              <button class="small-btn edit-btn" type="button" onclick="handleEdit('${app.id}')">Редактировать</button>
+              ${app.status !== 'cancelled'
+                ? `<button class="small-btn cancel-btn" type="button" onclick="changeStatus('${app.id}', 'cancelled')">Отменить</button>`
+                : `<button class="small-btn restore-btn" type="button" onclick="changeStatus('${app.id}', 'active')">Восстановить</button>`
+              }
+              ${app.status !== 'completed'
+                ? `<button class="small-btn ghost-btn" type="button" onclick="changeStatus('${app.id}', 'completed')">Отметить выполненной</button>`
+                : `<button class="small-btn restore-btn" type="button" onclick="changeStatus('${app.id}', 'active')">Вернуть в активные</button>`
+              }
+              ${waLink
+                ? `<a class="small-btn wa-btn" href="${waLink}" target="_blank" rel="noopener noreferrer">WhatsApp клиенту</a>`
+                : `<button class="small-btn wa-btn" type="button" onclick="showToast('У клиента нет корректного 9-значного номера.', 'error')">WhatsApp клиенту</button>`
+              }
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function renderCalendar() {
+      const upcoming = [...state.applications]
+        .filter(app => app.eventDate)
+        .sort((a, b) => new Date(`${a.eventDate}T${a.eventTime || '00:00'}:00`) - new Date(`${b.eventDate}T${b.eventTime || '00:00'}:00`));
+
+      if (!upcoming.length) {
+        calendarView.innerHTML = '<div class="empty-state">Пока нет выступлений для отображения в календаре.</div>';
+        return;
+      }
+
+      const grouped = upcoming.reduce((acc, app) => {
+        const key = app.eventDate;
+        if (!acc[key]) acc[key] = [];
+        acc[key].push(app);
+        return acc;
+      }, {});
+
+      calendarView.innerHTML = Object.entries(grouped).map(([date, apps]) => `
+        <div class="calendar-day">
+          <div class="calendar-day-header">
+            <div class="calendar-day-title">${formatDateOnly(date)}</div>
+            <div class="calendar-count">Событий: ${apps.length}</div>
           </div>
-          <div class="app-grid">
-            <div class="app-item"><span>Телефон</span>${escapeHtml(app.customerPhone || '—')}</div>
-            <div class="app-item"><span>Дата и время</span>${formatDateTime(app.eventDate, app.eventTime)}</div>
-            <div class="app-item"><span>Город</span>${escapeHtml(app.city || '—')}</div>
-            <div class="app-item"><span>Место проведения</span>${escapeHtml(app.venue || '—')}</div>
-            <div class="app-item"><span>Комментарий</span>${escapeHtml(app.comments || '—')}</div>
-            <div class="app-item"><span>ID заявки</span>${escapeHtml(app.id || '—')}</div>
+          <div class="calendar-events">
+            ${apps.map(app => `
+              <div class="calendar-event">
+                <strong>${escapeHtml(app.customerName || 'Без имени')}</strong><br>
+                ${escapeHtml(app.eventTime || '—')} · ${escapeHtml(app.eventType || '—')}<br>
+                ${escapeHtml(app.city || '—')} · ${escapeHtml(app.venue || '—')}<br>
+                <span style="color:#b9bfd6;font-size:12px;">${STATUS_LABELS[app.status] || app.status || '—'}</span>
+              </div>
+            `).join('')}
           </div>
-          <div class="app-actions">
-            <button class="small-btn edit-btn" type="button" onclick="handleEdit('${app.id}')">Редактировать</button>
-            ${app.status !== 'cancelled'
-              ? `<button class="small-btn cancel-btn" type="button" onclick="changeStatus('${app.id}', 'cancelled')">Отменить</button>`
-              : `<button class="small-btn restore-btn" type="button" onclick="changeStatus('${app.id}', 'active')">Восстановить</button>`
-            }
-            ${app.status !== 'completed'
-              ? `<button class="small-btn ghost-btn" type="button" onclick="changeStatus('${app.id}', 'completed')">Отметить выполненной</button>`
-              : `<button class="small-btn restore-btn" type="button" onclick="changeStatus('${app.id}', 'active')">Вернуть в активные</button>`
-            }
-          </div>
-        </article>
+        </div>
       `).join('');
     }
 
-    function escapeHtml(value) {
-      return String(value ?? '')
-        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    function renderMonthlyStats() {
+      const withDates = state.applications.filter(app => app.eventDate);
+      if (!withDates.length) {
+        statsView.innerHTML = '<div class="empty-state">Недостаточно данных для статистики по месяцам.</div>';
+        return;
+      }
+
+      const grouped = withDates.reduce((acc, app) => {
+        const monthKey = String(app.eventDate).slice(0, 7);
+        if (!acc[monthKey]) acc[monthKey] = [];
+        acc[monthKey].push(app);
+        return acc;
+      }, {});
+
+      const monthNames = new Intl.DateTimeFormat('ru-RU', { month: 'long', year: 'numeric' });
+
+      statsView.innerHTML = Object.entries(grouped)
+        .sort((a, b) => b[0].localeCompare(a[0]))
+        .map(([monthKey, apps]) => {
+          const active = apps.filter(a => a.status === 'active').length;
+          const completed = apps.filter(a => a.status === 'completed').length;
+          const cancelled = apps.filter(a => a.status === 'cancelled').length;
+          const total = apps.length;
+          const uniqueDays = new Set(apps.map(a => a.eventDate)).size;
+          const monthDate = new Date(`${monthKey}-01T00:00:00`);
+          const daysInMonth = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0).getDate();
+          const loadPercent = Math.min(100, Math.round((uniqueDays / daysInMonth) * 100));
+          return `
+            <div class="stats-month-card">
+              <div class="stats-month-top">
+                <div>
+                  <strong style="font-size:18px;">${monthNames.format(monthDate)}</strong>
+                  <div class="section-note">Уникальных занятых дней: ${uniqueDays} из ${daysInMonth}</div>
+                </div>
+                <div class="chip">Загрузка: ${loadPercent}%</div>
+              </div>
+              <div class="stats-metrics">
+                <div class="metric"><span>Всего заказов</span><strong>${total}</strong></div>
+                <div class="metric"><span>Активные</span><strong>${active}</strong></div>
+                <div class="metric"><span>Выполненные</span><strong>${completed}</strong></div>
+                <div class="metric"><span>Отмененные</span><strong>${cancelled}</strong></div>
+              </div>
+              <div class="progress"><div style="width:${loadPercent}%"></div></div>
+            </div>
+          `;
+        }).join('');
     }
 
     async function changeStatus(id, status) {
@@ -777,10 +930,113 @@
 
     function setFilter(filter) {
       state.currentFilter = filter;
-      document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.filter === filter);
-      });
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.filter === filter));
       renderApplications();
+    }
+
+    function exportToPdf() {
+      const items = getFilteredApplications();
+      if (!items.length) {
+        showToast('Нет данных для экспорта.', 'error');
+        return;
+      }
+
+      const dateLabel = new Intl.DateTimeFormat('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric', hour:'2-digit', minute:'2-digit' }).format(new Date());
+      const wrapper = document.createElement('div');
+      wrapper.className = 'pdf-export-area';
+      wrapper.innerHTML = `
+        <h1>Театр Падида</h1>
+        <h2>Экспорт заявок</h2>
+        <div>Дата экспорта: ${dateLabel}</div>
+        <div>Фильтр: ${FILTER_LABELS[state.currentFilter]}</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Имя</th>
+              <th>Телефон</th>
+              <th>Тип</th>
+              <th>Дата и время</th>
+              <th>Город</th>
+              <th>Место</th>
+              <th>Статус</th>
+              <th>Комментарий</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${items.map(app => `
+              <tr>
+                <td>${escapeHtml(app.customerName || '—')}</td>
+                <td>${escapeHtml(app.customerPhone || '—')}</td>
+                <td>${escapeHtml(app.eventType || '—')}</td>
+                <td>${escapeHtml(formatDateTime(app.eventDate, app.eventTime))}</td>
+                <td>${escapeHtml(app.city || '—')}</td>
+                <td>${escapeHtml(app.venue || '—')}</td>
+                <td>${escapeHtml(STATUS_LABELS[app.status] || app.status || '—')}</td>
+                <td>${escapeHtml(app.comments || '—')}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+
+      const opt = {
+        margin: 10,
+        filename: `padida-${new Date().toISOString().slice(0,10)}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+      };
+
+      html2pdf().from(wrapper).set(opt).save();
+    }
+
+    function logout() {
+      sessionStorage.removeItem('padida_password');
+      state.password = '';
+      state.applications = [];
+      applicationList.innerHTML = '';
+      calendarView.innerHTML = '';
+      statsView.innerHTML = '';
+      loginOverlay.classList.remove('hidden');
+      showToast('Вы вышли из системы.', 'info');
+    }
+
+    async function installApp() {
+      if (!state.deferredInstallPrompt) return;
+      state.deferredInstallPrompt.prompt();
+      await state.deferredInstallPrompt.userChoice;
+      state.deferredInstallPrompt = null;
+      installButton.style.display = 'none';
+    }
+
+    function registerServiceWorker() {
+      if (!('serviceWorker' in navigator)) return;
+      window.addEventListener('load', async () => {
+        try {
+          const registration = await navigator.serviceWorker.register('./sw.js');
+          if (registration.waiting) {
+            registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+          }
+          registration.addEventListener('updatefound', () => {
+            const newWorker = registration.installing;
+            if (!newWorker) return;
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                showToast('Доступно обновление приложения. Страница обновится автоматически.', 'info');
+                newWorker.postMessage({ type: 'SKIP_WAITING' });
+              }
+            });
+          });
+          let refreshing = false;
+          navigator.serviceWorker.addEventListener('controllerchange', () => {
+            if (refreshing) return;
+            refreshing = true;
+            window.location.reload();
+          });
+        } catch (error) {
+          console.error('SW registration failed', error);
+        }
+      });
     }
 
     function bindEvents() {
@@ -799,6 +1055,9 @@
       searchInput.addEventListener('input', renderApplications);
       form.addEventListener('submit', submitForm);
       resetButton.addEventListener('click', resetForm);
+      exportPdfButton.addEventListener('click', exportToPdf);
+      logoutButton.addEventListener('click', logout);
+      installButton.addEventListener('click', installApp);
 
       loginButton.addEventListener('click', async () => {
         const password = loginPassword.value.trim();
@@ -825,9 +1084,21 @@
 
       toggleFormBtn.addEventListener('click', () => toggleCollapse(formCollapse, toggleFormArrow));
       toggleFiltersBtn.addEventListener('click', () => toggleCollapse(filtersCollapse, toggleFiltersArrow));
+      toggleCalendarBtn.addEventListener('click', () => toggleCollapse(calendarCollapse, toggleCalendarArrow));
+      toggleStatsBtn.addEventListener('click', () => toggleCollapse(statsCollapse, toggleStatsArrow));
 
-      document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', () => setFilter(btn.dataset.filter));
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.addEventListener('click', () => setFilter(btn.dataset.filter)));
+
+      window.addEventListener('beforeinstallprompt', event => {
+        event.preventDefault();
+        state.deferredInstallPrompt = event;
+        installButton.style.display = 'inline-flex';
+      });
+
+      window.addEventListener('appinstalled', () => {
+        installButton.style.display = 'none';
+        state.deferredInstallPrompt = null;
+        showToast('Приложение установлено.', 'success');
       });
     }
 
@@ -837,6 +1108,9 @@
       bindEvents();
       toggleCollapse(formCollapse, toggleFormArrow, false);
       toggleCollapse(filtersCollapse, toggleFiltersArrow, false);
+      toggleCollapse(calendarCollapse, toggleCalendarArrow, false);
+      toggleCollapse(statsCollapse, toggleStatsArrow, false);
+      registerServiceWorker();
       if (state.password) {
         loginOverlay.classList.add('hidden');
         loadApplications();
