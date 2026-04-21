@@ -251,6 +251,9 @@
         Это базовая защита доступа для текущей архитектуры!
       </div>
       <div class="login-actions">
+        <div class="loading-text" id="loginLoadingText">
+  <span class="spinner"></span>Проверка пароля...
+</div>
         <button class="primary-btn" id="loginButton" type="button">Войти</button>
       </div>
     </div>
@@ -495,6 +498,7 @@
     const loginOverlay = document.getElementById('loginOverlay');
     const loginPassword = document.getElementById('loginPassword');
     const loginButton = document.getElementById('loginButton');
+    const loginLoadingText = document.getElementById('loginLoadingText');
     const logoutButton = document.getElementById('logoutButton');
     const installButton = document.getElementById('installButton');
     const exportPdfButton = document.getElementById('exportPdfButton');
@@ -522,6 +526,12 @@
       password: sessionStorage.getItem('padida_password') || '',
       deferredInstallPrompt: null
     };
+
+    function setLoginBusy(isBusy) {
+  loginButton.disabled = isBusy;
+  loginPassword.disabled = isBusy;
+  loginLoadingText.style.display = isBusy ? 'block' : 'none';
+}
 
     function populateCities() {
       const citySelect = document.getElementById('city');
@@ -829,21 +839,24 @@ function showToast(text, type = 'success') {
               <div class="app-item"><span>Комментарий</span>${escapeHtml(app.comments || '—')}</div>
               <div class="app-item"><span>ID заявки</span>${escapeHtml(app.id || '—')}</div>
             </div>
-            <div class="app-actions">
-              <button class="small-btn edit-btn" type="button" onclick="handleEdit('${app.id}')">Редактировать</button>
-              ${app.status !== 'cancelled'
-                ? `<button class="small-btn cancel-btn" type="button" onclick="changeStatus('${app.id}', 'cancelled')">Отменить</button>`
-                : `<button class="small-btn restore-btn" type="button" onclick="changeStatus('${app.id}', 'active')">Восстановить</button>`
-              }
-              ${app.status !== 'completed'
-                ? `<button class="small-btn ghost-btn" type="button" onclick="changeStatus('${app.id}', 'completed')">Отметить выполненной</button>`
-                : `<button class="small-btn restore-btn" type="button" onclick="changeStatus('${app.id}', 'active')">Вернуть в активные</button>`
-              }
-              ${waLink
-                ? `<a class="small-btn wa-btn" href="${waLink}" target="_blank" rel="noopener noreferrer">WhatsApp клиенту</a>`
-                : `<button class="small-btn wa-btn" type="button" onclick="showToast('У клиента нет корректного 9-значного номера.', 'error')">WhatsApp клиенту</button>`
-              }
-            </div>
+<div class="app-actions">
+  <a
+    class="small-btn ghost-btn"
+    href="tel:992${normalizePhone(app.customerPhone || '')}"
+    style="text-decoration:none;display:inline-flex;align-items:center;"
+  >
+    📞 Позвонить
+  </a>
+
+  <button class="small-btn edit-btn" type="button" onclick="handleEdit('${app.id}')">
+    Редактировать
+  </button>
+
+  ${app.status !== 'cancelled'
+    ? `<button class="small-btn cancel-btn" type="button" onclick="changeStatus('${app.id}', 'cancelled')">Отменить</button>`
+    : `<button class="small-btn restore-btn" type="button" onclick="changeStatus('${app.id}', 'active')">Восстановить</button>`
+  }
+</div>
           </article>
         `;
       }).join('');
@@ -1047,15 +1060,18 @@ function showToast(text, type = 'success') {
     }
 
 
-    function logout() {
-      sessionStorage.removeItem('padida_password');
-      state.password = '';
-      state.applications = [];
-      applicationList.innerHTML = '';
-      statsView.innerHTML = '';
-      loginOverlay.classList.remove('hidden');
-      showToast('Вы вышли из системы.', 'info');
-    }
+async function logout() {
+  const confirmed = await showConfirm('Подтвердите выход', 'Выйти из системы?');
+  if (!confirmed) return;
+
+  sessionStorage.removeItem('padida_password');
+  state.password = '';
+  state.applications = [];
+  applicationList.innerHTML = '<div class="empty-state">Для продолжения войдите в систему.</div>';
+  loginOverlay.classList.remove('hidden');
+  loginPassword.value = '';
+  showToast('Вы вышли из системы.', 'info');
+}
 
     async function installApp() {
       if (!state.deferredInstallPrompt) return;
@@ -1118,24 +1134,29 @@ function showToast(text, type = 'success') {
       logoutButton.addEventListener('click', logout);
       installButton.addEventListener('click', installApp);
 
-      loginButton.addEventListener('click', async () => {
-        const password = loginPassword.value.trim();
-        if (!password) {
-          showToast('Введите пароль.', 'error');
-          return;
-        }
-        state.password = password;
-        try {
-          await apiRequest('list');
-          sessionStorage.setItem('padida_password', password);
-          loginOverlay.classList.add('hidden');
-          loginPassword.value = '';
-          showToast('Вход выполнен.', 'success');
-          await loadApplications();
-        } catch (error) {
-          showToast('Неверный пароль или недоступен backend.', 'error');
-        }
-      });
+loginButton.addEventListener('click', async () => {
+  const password = loginPassword.value.trim();
+  if (!password) {
+    showToast('Введите пароль.', 'error');
+    return;
+  }
+
+  state.password = password;
+  setLoginBusy(true);
+
+  try {
+    await apiRequest('list');
+    sessionStorage.setItem('padida_password', password);
+    loginOverlay.classList.add('hidden');
+    loginPassword.value = '';
+    showToast('Вход выполнен.', 'success');
+    await loadApplications();
+  } catch (error) {
+    showToast('Неверный пароль или недоступен backend.', 'error');
+  } finally {
+    setLoginBusy(false);
+  }
+});
 
       loginPassword.addEventListener('keydown', e => {
         if (e.key === 'Enter') loginButton.click();
