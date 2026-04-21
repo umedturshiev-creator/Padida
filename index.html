@@ -14,7 +14,7 @@
     .stats-bar{margin-top:10px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.stat-chip{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:8px 10px;min-width:0}.stat-chip span{display:block;font-size:10px;opacity:.88;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.stat-chip b{display:block;margin-top:4px;font-size:16px;line-height:1.1}
     .container{max-width:1120px;margin:0 auto;padding:12px}.layout{display:grid;grid-template-columns:360px 1fr;gap:12px;align-items:start}.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px;backdrop-filter:blur(10px)}.panel h2{margin:0 0 10px;font-size:19px}.hint{margin:-2px 0 10px;font-size:12px;color:var(--muted);line-height:1.45}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.full{grid-column:1/-1}label{display:block;margin-bottom:6px;font-size:12px;font-weight:700}
     input,select,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--text);outline:none}input:focus,select:focus,textarea:focus{border-color:#a78bfa;box-shadow:0 0 0 4px rgba(167,139,250,.14)}textarea{min-height:84px;resize:vertical}.btn{width:100%;padding:11px 14px;font-size:14px;margin-top:8px;border:none;border-radius:14px;font-weight:700;cursor:pointer;transition:.15s ease}.btn:active{transform:scale(.98)}.btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff}.btn-light{background:#f8fafc;color:var(--text)}.btn-danger{background:var(--danger);color:#fff}.btn-secondary{background:#f3e8ff;color:var(--primary)}
-    .toolbar{display:grid;grid-template-columns:1fr 160px;gap:10px;margin-bottom:10px}.filters{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}.section-title{margin:2px 0 10px;font-size:17px}.subtle-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}.list{display:flex;flex-direction:column;gap:10px}
+    .toolbar{display:grid;grid-template-columns:220px;gap:10px;margin-bottom:10px;justify-content:start}.filters{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}.section-title{margin:2px 0 10px;font-size:17px}.subtle-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}.list{display:flex;flex-direction:column;gap:10px}
     .booking{position:relative;overflow:hidden;border-left:5px solid #c4b5fd}.booking::after{content:"";position:absolute;right:-34px;bottom:-34px;width:100px;height:100px;background:radial-gradient(circle, rgba(236,72,153,.08), transparent 70%);pointer-events:none}.booking.today{background:var(--today);border-left-color:var(--danger)}.booking.soon{background:var(--soon);border-left-color:var(--warning)}.booking.future{background:var(--future);border-left-color:var(--success)}.booking.cancelled{background:var(--cancel);border-left-color:#6b7280}
     .booking-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;margin-bottom:9px}.booking-title{font-size:18px;font-weight:800;margin-bottom:3px}.booking-sub{font-size:12px;color:var(--muted)}.badge{background:rgba(255,255,255,.86);border-radius:999px;padding:7px 11px;font-size:11px;font-weight:800;white-space:nowrap}.booking-meta{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 10px;font-size:13px;line-height:1.45}.booking-meta div{background:rgba(255,255,255,.7);border-radius:12px;padding:9px 10px}.comment-box{margin-top:10px;background:rgba(255,255,255,.76);border-radius:14px;padding:11px;font-size:13px;line-height:1.45}.comment-title{font-weight:800;margin-bottom:5px}.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}.empty{text-align:center;color:var(--muted);padding:24px 12px;font-size:14px}
     .loading{padding:14px;border-radius:14px;background:#faf5ff;color:#6b21a8;font-size:13px} .hidden{display:none!important}
@@ -29,7 +29,7 @@
         <div class="logo-badge"><img src="icon-192.png" alt="Theatre Padida" /></div>
         <div class="brand">
           <h1>Theatre Padida</h1>
-          <p>Заявки на выступления, синхронизация с Google Sheets и уведомления в Telegram<br><small>v1.1.0</small></p>
+          <p>Заявки на выступления, синхронизация с Google Sheets и уведомления в Telegram<br><small>v1.2.0</small></p>
         </div>
       </div>
       <div class="status-pill" id="syncStatus">Загрузка...</div>
@@ -39,6 +39,11 @@
       <div class="stat-chip"><span>Активные</span><b id="statActive">0</b></div>
       <div class="stat-chip"><span>Сегодня/скоро</span><b id="statUrgent">0</b></div>
       <div class="stat-chip"><span>Отменённые</span><b id="statCancelled">0</b></div>
+    </div>
+    <div class="container" style="padding-top:10px;padding-bottom:0">
+      <div class="panel" style="padding:10px 12px">
+        <input id="searchInput" placeholder="Поиск по имени, телефону, месту или типу мероприятия" />
+      </div>
     </div>
   </header>
 
@@ -56,8 +61,25 @@
           <div><label for="eventDate">Дата выступления</label><input id="eventDate" type="date" /></div>
           <div><label for="eventTime">Время выступления</label><input id="eventTime" type="time" /></div>
           <div class="full"><label for="location">Место проведения</label><input id="location" placeholder="Например: Ресторан Яккачинар" /></div>
-          <div><label for="city">Город</label><input id="city" placeholder="Душанбе" /></div>
-          <div><label for="fee">Сумма</label><input id="fee" placeholder="3000" inputmode="numeric" /></div>
+          <div class="full"><label for="city">Город</label><select id="city">
+            <option value="">Выберите город</option>
+            <option>Душанбе</option>
+            <option>Худжанд</option>
+            <option>Бохтар</option>
+            <option>Куляб</option>
+            <option>Турсунзаде</option>
+            <option>Истаравшан</option>
+            <option>Исфара</option>
+            <option>Пенджикент</option>
+            <option>Канибадам</option>
+            <option>Вахдат</option>
+            <option>Бустон</option>
+            <option>Левакант</option>
+            <option>Нурек</option>
+            <option>Хорог</option>
+            <option>Гиссар</option>
+            <option>Рогун</option>
+          </select></div>
           <div class="full"><label for="comment">Комментарий</label><textarea id="comment" placeholder="Например: 2 номера, прибыть к 17:00"></textarea></div>
         </div>
         <button class="btn btn-primary" id="saveBtn">Сохранить заявку</button>
@@ -65,9 +87,8 @@
       </section>
 
       <section class="panel">
-        <h2 id="listTitle">Активные заявки</h2>
+        
         <div class="toolbar">
-          <input id="searchInput" placeholder="Поиск по имени, телефону, месту или типу мероприятия" />
           <select id="sortMode"><option value="nearest">Сначала ближайшие</option><option value="latest">Сначала дальние</option></select>
         </div>
         <div class="filters">
@@ -92,7 +113,7 @@
     let editingId = null;
 
     const els = {
-      clientName, phone, eventType, eventDate, eventTime, location, city, fee, comment,
+      clientName, phone, eventType, eventDate, eventTime, location, city, comment,
       saveBtn, cancelEditBtn, bookingList, cancelledList, cancelledSection, searchInput,
       sortMode, timeFilter, toggleCancelledBtn, formTitle, listTitle, statTotal, statActive,
       statUrgent, statCancelled, syncStatus, refreshBtn, loadingBox
@@ -128,7 +149,6 @@
       els.eventTime.value = '';
       els.location.value = '';
       els.city.value = '';
-      els.fee.value = '';
       els.comment.value = '';
       editingId = null;
       els.formTitle.textContent = 'Новая заявка';
@@ -145,7 +165,6 @@
       els.eventTime.value = item.eventTime || '';
       els.location.value = item.location || '';
       els.city.value = item.city || '';
-      els.fee.value = item.fee || '';
       els.comment.value = item.comment || '';
       editingId = item.id;
       els.formTitle.textContent = 'Редактирование заявки';
@@ -220,7 +239,6 @@
           <div>⏰ <b>Время:</b><br>${i.eventTime || '—'}</div>
           <div>📍 <b>Место:</b><br>${i.location || '—'}</div>
           <div>📞 <b>Телефон:</b><br>+992 ${i.phone || '—'}</div>
-          <div>💰 <b>Сумма:</b><br>${i.fee || '—'}</div>
           <div>🗂 <b>Статус:</b><br>${i.status === 'cancelled' ? 'Отменён' : 'Активный'}</div>
         </div>
         <div class="comment-box"><div class="comment-title">Комментарий</div>${i.comment || 'Комментарий пока не добавлен'}</div>
@@ -240,14 +258,12 @@
       const cancelled = data.filter(x => x.status === 'cancelled');
 
       if (isCancelledOnlyView) {
-        els.listTitle.textContent = 'Отменённые заявки';
         els.toggleCancelledBtn.textContent = 'Показать активные';
         els.cancelledSection.classList.add('hidden');
         els.bookingList.innerHTML = cancelled.length ? cancelled.map(buildCard).join('') : '<div class="panel empty">Отменённых заявок нет.</div>';
         return;
       }
 
-      els.listTitle.textContent = 'Активные заявки';
       els.toggleCancelledBtn.textContent = 'Показать только отменённые';
       els.bookingList.innerHTML = active.length ? active.map(buildCard).join('') : '<div class="panel empty">Активных заявок пока нет.</div>';
       els.cancelledSection.classList.remove('hidden');
@@ -298,7 +314,7 @@
         eventTime: els.eventTime.value,
         location: els.location.value.trim(),
         city: els.city.value.trim(),
-        fee: els.fee.value.trim(),
+        fee: '',
         comment: els.comment.value.trim(),
         status: old?.status || 'active',
         createdAt: old?.createdAt || new Date().toISOString(),
