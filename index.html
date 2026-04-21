@@ -458,7 +458,7 @@
           <p class="subtitle">Программа приема заявок на выступления. Быстрый поиск, живые статусы, редактирование, отмена и хранение всех данных в Google Sheets.</p>
         </div>
       </div>
-      <div class="version-badge">Версия приложения: v1.0.0</div>
+      <div class="version-badge">Версия приложения: v1.0.2</div>
     </section>
 
     <section class="stats" id="statsCards">
@@ -563,14 +563,14 @@
       </section>
     </section>
 
-    <div class="footer">Театр Падида · Программа приема заявок · v1.0.1</div>
+    <div class="footer">Театр Падида · Программа приема заявок · v1.0.2</div>
   </main>
 
   <script>
-    const APP_VERSION = 'v1.0.1';
+    const APP_VERSION = 'v1.0.2';
 
     // ВАЖНО: вставьте сюда URL развернутого Google Apps Script web app
-    const API_URL = 'https://script.google.com/macros/s/AKfycbxp1XODMuJ8rI6haGaZTJ8RZDDOkamjFobCUbBomIe6AnzHwwn6O8m9UeGzvYwiDGgzsg/exec';
+    const API_URL = 'PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEBAPP_URL_HERE';
 
     const CITIES = [
       'Душанбе','Худжанд','Бохтар','Куляб','Турсунзаде','Истаравшан','Пенджикент','Исфара',
@@ -628,35 +628,62 @@
       return new Intl.DateTimeFormat('ru-RU', { day: '2-digit', month: 'long', year: 'numeric' }).format(date);
     }
 
-function getDaysUntil(eventDate, eventTime) {
-  if (!eventDate) return null;
+    function parseEventDateTime(eventDate, eventTime) {
+      if (!eventDate) return null;
 
-  try {
-    let dateTime;
+      try {
+        let dateTime;
+        if (eventTime) {
+          if (String(eventTime).includes('T')) {
+            const time = new Date(eventTime);
+            const hours = String(time.getUTCHours()).padStart(2, '0');
+            const minutes = String(time.getUTCMinutes()).padStart(2, '0');
+            dateTime = new Date(`${eventDate}T${hours}:${minutes}:00`);
+          } else {
+            dateTime = new Date(`${eventDate}T${eventTime}`);
+          }
+        } else {
+          dateTime = new Date(`${eventDate}T00:00:00`);
+        }
 
-    // если время есть
-    if (eventTime) {
-      // если время пришло как 1899-12-30...
-      if (eventTime.includes('T')) {
-        const time = new Date(eventTime);
-        const hours = time.getUTCHours().toString().padStart(2, '0');
-        const minutes = time.getUTCMinutes().toString().padStart(2, '0');
-        dateTime = new Date(`${eventDate}T${hours}:${minutes}:00`);
-      } else {
-        dateTime = new Date(`${eventDate}T${eventTime}`);
+        if (Number.isNaN(dateTime.getTime())) return null;
+        return dateTime;
+      } catch (error) {
+        return null;
       }
-    } else {
-      dateTime = new Date(`${eventDate}T00:00:00`);
     }
 
-    if (isNaN(dateTime.getTime())) return null;
+    function formatEventTime(eventTime) {
+      if (!eventTime) return '';
+      if (String(eventTime).includes('T')) {
+        const time = new Date(eventTime);
+        const hours = String(time.getUTCHours()).padStart(2, '0');
+        const minutes = String(time.getUTCMinutes()).padStart(2, '0');
+        return `${hours}:${minutes}`;
+      }
+      return String(eventTime).slice(0, 5);
+    }
 
-    const now = new Date();
-    return Math.ceil((dateTime - now) / 86400000);
-  } catch {
-    return null;
-  }
-}
+    function formatEventDateTime(eventDate, eventTime) {
+      const dateTime = parseEventDateTime(eventDate, eventTime);
+      if (!dateTime) return '—';
+
+      return new Intl.DateTimeFormat('ru-RU', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      }).format(dateTime);
+    }
+
+    function getDaysUntil(eventDate, eventTime) {
+      const target = parseEventDateTime(eventDate, eventTime);
+      if (!target) return null;
+
+      const now = new Date();
+      return Math.ceil((target - now) / 86400000);
+    }
 
     function getCardClass(app) {
       if (app.status !== 'active') return '';
@@ -832,7 +859,7 @@ function getDaysUntil(eventDate, eventTime) {
           </div>
           <div class="app-grid">
             <div class="app-item"><span>Телефон</span>${escapeHtml(app.customerPhone || '—')}</div>
-            <div class="app-item"><span>Дата выступления</span>${formatDate(app.eventDate)}${app.eventTime ? `, ${escapeHtml(app.eventTime)}` : ''}</div>
+            <div class="app-item"><span>Дата выступления</span>${formatEventDateTime(app.eventDate, app.eventTime)}</div>
             <div class="app-item"><span>Город</span>${escapeHtml(app.city || '—')}</div>
             <div class="app-item"><span>Место проведения</span>${escapeHtml(app.venue || '—')}</div>
             <div class="app-item"><span>Комментарий</span>${escapeHtml(app.comments || '—')}</div>
