@@ -922,10 +922,10 @@
         resetForm();
         successText.style.display = 'block';
         await loadApplications();
-      } catch (error) {
-        errorText.textContent = 'Не удалось сохранить заявку. Проверьте подключение к Google Sheets.';
-        errorText.style.display = 'block';
-        console.error(error);
+        } catch (error) {
+       errorText.textContent = 'Ошибка: ' + (error.message || error);
+       errorText.style.display = 'block';
+       console.error(error);
       } finally {
         loadingText.style.display = 'none';
         setBusy(false);
