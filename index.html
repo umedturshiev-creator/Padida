@@ -29,10 +29,10 @@
         <div class="logo-badge"><img src="icon-192.png" alt="Theatre Padida" /></div>
         <div class="brand">
           <h1>Theatre Padida</h1>
-          <p>Заявки на выступления, синхронизация с Google Sheets и уведомления в Telegram<br><small>v1.2.0</small></p>
+          <p>Заявки на выступления, синхронизация с Google Sheets и уведомления в Telegram<br><small>v1.3.0</small></p>
         </div>
       </div>
-      <div class="status-pill" id="syncStatus">Загрузка...</div>
+      
     </div>
     <div class="stats-bar">
       <div class="stat-chip"><span>Всего</span><b id="statTotal">0</b></div>
@@ -41,7 +41,7 @@
       <div class="stat-chip"><span>Отменённые</span><b id="statCancelled">0</b></div>
     </div>
     <div class="container" style="padding-top:10px;padding-bottom:0">
-      <div class="panel" style="padding:10px 12px">
+      <div class="panel" style="padding:10px 12px;background:#f3ecff;border-color:#d9c9ff">
         <input id="searchInput" placeholder="Поиск по имени, телефону, месту или типу мероприятия" />
       </div>
     </div>
@@ -87,16 +87,7 @@
       </section>
 
       <section class="panel">
-        
-        <div class="toolbar">
-          <select id="sortMode"><option value="nearest">Сначала ближайшие</option><option value="latest">Сначала дальние</option></select>
-        </div>
-        <div class="filters">
-          <select id="timeFilter"><option value="all">Все даты</option><option value="today">Только сегодня</option><option value="week">Ближайшие 7 дней</option></select>
-          <button class="btn btn-light" id="refreshBtn" style="margin-top:0">Обновить</button>
-          <button class="btn btn-light" id="toggleCancelledBtn" style="margin-top:0">Показать только отменённые</button>
-        </div>
-        <div id="loadingBox" class="loading">Загрузка данных со скрипта...</div>
+        <div id="loadingBox" class="loading hidden">Загрузка данных со скрипта...</div>
         <div class="list" id="bookingList"></div>
         <div id="cancelledSection" class="hidden" style="margin-top:18px">
           <h3 class="section-title">Отменённые заявки</h3>
@@ -107,7 +98,7 @@
   </main>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz0c_Vu30xoT2M73fniUfkOdYfvRvuTnjEuqp6EsLvQDXHe7Rq98XTLNRmgL_3HQE9D/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz71mZ6WaNWWbnmD_SiIKJy2YfalgC-HIA2vgGmy-v7-u2K8PKWL_Q_4u2GmD5dIVPy/exec';
     let bookings = [];
     let isCancelledOnlyView = false;
     let editingId = null;
@@ -115,8 +106,7 @@
     const els = {
       clientName, phone, eventType, eventDate, eventTime, location, city, comment,
       saveBtn, cancelEditBtn, bookingList, cancelledList, cancelledSection, searchInput,
-      sortMode, timeFilter, toggleCancelledBtn, formTitle, listTitle, statTotal, statActive,
-      statUrgent, statCancelled, syncStatus, refreshBtn, loadingBox
+      formTitle, statTotal, statActive, statUrgent, statCancelled, loadingBox
     };
 
     const normalizePhone = v => String(v || '').replace(/\D/g,'').slice(0,9);
@@ -125,7 +115,7 @@
     const isUrgent = i => i.status !== 'cancelled' && ((getEventDateTime(i)-new Date())/(1000*60*60*24) <= 3);
 
     function setStatus(text) {
-      els.syncStatus.textContent = text;
+      console.log(text);
     }
 
     function validateForm() {
@@ -199,7 +189,7 @@
 
     function applyFilters(data) {
       const q = els.searchInput.value.trim().toLowerCase();
-      const time = els.timeFilter.value;
+      const time = 'all';
       const todayStr = new Date().toISOString().slice(0,10);
       const weekLimit = new Date(Date.now() + 7*86400000);
       let result = [...data];
@@ -217,7 +207,7 @@
         });
       }
 
-      result.sort((a,b) => els.sortMode.value === 'latest' ? getEventDateTime(b) - getEventDateTime(a) : getEventDateTime(a) - getEventDateTime(b));
+      result.sort((a,b) => getEventDateTime(a) - getEventDateTime(b));
       return result;
     }
 
@@ -257,34 +247,32 @@
       const active = data.filter(x => x.status !== 'cancelled');
       const cancelled = data.filter(x => x.status === 'cancelled');
 
-      if (isCancelledOnlyView) {
-        els.toggleCancelledBtn.textContent = 'Показать активные';
+      if (false) {
         els.cancelledSection.classList.add('hidden');
         els.bookingList.innerHTML = cancelled.length ? cancelled.map(buildCard).join('') : '<div class="panel empty">Отменённых заявок нет.</div>';
         return;
       }
 
-      els.toggleCancelledBtn.textContent = 'Показать только отменённые';
       els.bookingList.innerHTML = active.length ? active.map(buildCard).join('') : '<div class="panel empty">Активных заявок пока нет.</div>';
       els.cancelledSection.classList.remove('hidden');
       els.cancelledList.innerHTML = cancelled.length ? cancelled.map(buildCard).join('') : '<div class="panel empty">Отменённых заявок нет.</div>';
     }
 
     async function fetchBookings() {
-      els.loadingBox.classList.remove('hidden');
+      els.loadingBox.classList.add('hidden');
       setStatus('Загрузка...');
       try {
         const res = await fetch(SCRIPT_URL + '?mode=list', { method: 'GET' });
-        if (!res.ok) throw new Error('Не удалось получить данные');
         const data = await res.json();
+        if (!res.ok || data.ok === false) throw new Error(data.error || 'Не удалось получить данные');
         bookings = Array.isArray(data.bookings) ? data.bookings : [];
-        els.loadingBox.classList.add('hidden');
         setStatus('Подключено');
         render();
       } catch (e) {
         console.error(e);
         bookings = [];
         els.loadingBox.textContent = 'Не удалось загрузить данные со скрипта.';
+        els.loadingBox.classList.remove('hidden');
         setStatus('Ошибка');
         render();
       }
@@ -382,10 +370,6 @@
     els.saveBtn.addEventListener('click', saveBooking);
     els.cancelEditBtn.addEventListener('click', resetForm);
     els.searchInput.addEventListener('input', render);
-    els.sortMode.addEventListener('change', render);
-    els.timeFilter.addEventListener('change', render);
-    els.refreshBtn.addEventListener('click', fetchBookings);
-    els.toggleCancelledBtn.addEventListener('click', () => { isCancelledOnlyView = !isCancelledOnlyView; render(); });
 
     validateForm();
     fetchBookings();
