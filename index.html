@@ -9,13 +9,12 @@
     :root {
       --bg: #0f1020;
       --card: rgba(255,255,255,0.10);
-      --card-strong: rgba(255,255,255,0.14);
+      --card-soft: rgba(255,255,255,0.07);
       --border: rgba(255,255,255,0.12);
       --text: #f6f7fb;
       --muted: #b9bfd6;
       --accent-1: #7c3aed;
       --accent-2: #14b8a6;
-      --accent-3: #f59e0b;
       --danger: #ef4444;
       --success: #10b981;
       --warning: #f59e0b;
@@ -25,9 +24,7 @@
       --radius-md: 14px;
       --transition: 180ms ease;
     }
-
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
     body {
       margin: 0;
       font-family: Inter, Arial, sans-serif;
@@ -38,437 +35,182 @@
       color: var(--text);
       min-height: 100vh;
     }
-
-    .container {
-      width: min(1200px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: 28px 0 56px;
-    }
-
-    .hero {
-      display: grid;
-      gap: 18px;
-      margin-bottom: 24px;
-      background: linear-gradient(135deg, rgba(124,58,237,0.25), rgba(20,184,166,0.18));
+    .container { width: min(1200px, calc(100% - 28px)); margin: 0 auto; padding: 24px 0 56px; }
+    .hero, .panel, .form-card, .list-card, .login-card, .modal-card {
       border: 1px solid var(--border);
+      background: rgba(255,255,255,0.08);
       border-radius: var(--radius-xl);
-      padding: 24px;
       box-shadow: var(--shadow);
-      backdrop-filter: blur(18px);
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      flex-wrap: wrap;
-    }
-
-    .logo {
-      width: 78px;
-      height: 78px;
-      border-radius: 22px;
-      background: linear-gradient(135deg, #7c3aed, #14b8a6);
-      display: grid;
-      place-items: center;
-      box-shadow: 0 14px 30px rgba(92, 48, 200, 0.35);
-      flex-shrink: 0;
-    }
-
-    .logo svg { width: 54px; height: 54px; }
-
-    h1 { margin: 0; font-size: clamp(28px, 4vw, 42px); line-height: 1.05; }
-
-    .subtitle {
-      margin: 8px 0 0;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.5;
-      max-width: 760px;
-    }
-
-    .version-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      width: fit-content;
-      padding: 10px 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.1);
-      background: rgba(255,255,255,0.08);
-      color: #fff;
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-bottom: 18px;
-    }
-
-    .stat-card {
-      border: 1px solid var(--border);
-      background: var(--card);
-      border-radius: var(--radius-lg);
-      padding: 18px;
-      cursor: pointer;
-      transition: transform var(--transition), border-color var(--transition), background var(--transition), box-shadow var(--transition);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.18);
-    }
-
-    .stat-card:hover, .stat-card.active {
-      transform: translateY(-2px);
-      border-color: rgba(255,255,255,0.24);
-      background: rgba(255,255,255,0.14);
-      box-shadow: 0 16px 34px rgba(0,0,0,0.22);
-    }
-
-    .stat-label { color: var(--muted); font-size: 14px; margin-bottom: 12px; }
-    .stat-value { font-size: 34px; font-weight: 800; letter-spacing: -0.04em; }
-
-    .layout {
-      display: grid;
-      grid-template-columns: 400px 1fr;
-      gap: 18px;
-      align-items: start;
-    }
-
-    .form-card, .list-card {
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.08);
       backdrop-filter: blur(14px);
-      border-radius: var(--radius-xl);
-      box-shadow: var(--shadow);
-      padding: 22px;
     }
-
-    .accordion-toggle {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      background: linear-gradient(135deg, rgba(124,58,237,0.18), rgba(20,184,166,0.14));
-      border: 1px solid rgba(255,255,255,0.12);
-      color: #fff;
-      border-radius: 18px;
-      padding: 16px 18px;
-      font-size: 18px;
-      font-weight: 800;
-      cursor: pointer;
+    .hero {
+      display: grid; gap: 18px; margin-bottom: 20px; padding: 22px;
+      background: linear-gradient(135deg, rgba(124,58,237,0.25), rgba(20,184,166,0.18));
     }
-
-    .accordion-toggle .hint {
-      display: block;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 500;
-      margin-top: 4px;
-    }
-
-    .accordion-toggle .arrow {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      background: rgba(255,255,255,0.12);
-      transition: transform var(--transition);
+    .brand { display:flex; gap:18px; align-items:center; flex-wrap:wrap; }
+    .logo {
+      width:78px;height:78px;border-radius:22px;display:grid;place-items:center;
+      background: linear-gradient(135deg, #7c3aed, #14b8a6);
+      box-shadow: 0 14px 30px rgba(92,48,200,0.35);
       flex-shrink: 0;
     }
-
-    .accordion-toggle.open .arrow { transform: rotate(180deg); }
-
-    .collapsible-content {
-      overflow: hidden;
-      max-height: 0;
-      opacity: 0;
-      transition: max-height 260ms ease, opacity 180ms ease, margin-top 180ms ease;
-      margin-top: 0;
+    .logo svg { width: 54px; height:54px; }
+    h1 { margin:0; font-size: clamp(28px, 4vw, 42px); line-height: 1.05; }
+    .subtitle { margin:8px 0 0; color: var(--muted); font-size:15px; line-height:1.5; max-width: 760px; }
+    .version-badge, .chip {
+      display:inline-flex; align-items:center; gap:8px; width:fit-content;
+      padding:10px 14px; border-radius:999px; border:1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.08); font-size:13px; font-weight:600;
     }
-
-    .collapsible-content.open {
-      max-height: 1400px;
-      opacity: 1;
-      margin-top: 16px;
+    .layout { display:grid; grid-template-columns: 380px 1fr; gap:18px; align-items:start; }
+    .form-card, .list-card { padding: 20px; }
+    .section-title { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom: 14px; }
+    .section-title h2, .section-title h3 { margin:0; font-size: 22px; }
+    .section-note { margin:4px 0 0; color: var(--muted); font-size:14px; }
+    button {
+      border:none; border-radius:14px; padding:13px 16px; font-weight:700; font-size:15px;
+      cursor:pointer; transition: transform var(--transition), opacity var(--transition), box-shadow var(--transition);
     }
-
-    .section-title { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
-    .section-title h2, .section-title h3 { margin: 0; font-size: 22px; }
-    .section-note { color: var(--muted); font-size: 14px; margin: 0; }
-
-    .search-input, select, input, textarea {
-      width: 100%;
-      background: rgba(255,255,255,0.08);
-      color: var(--text);
-      border: 1px solid rgba(255,255,255,0.12);
-      outline: none;
-      border-radius: 14px;
-      padding: 14px 14px;
-      font-size: 15px;
+    button:hover:not(:disabled) { transform: translateY(-1px); }
+    button:disabled { opacity: 0.55; cursor:not-allowed; }
+    .primary-btn { color:#fff; background: linear-gradient(135deg, var(--accent-1), #5b8cff); box-shadow: 0 12px 28px rgba(92,76,255,0.34); }
+    .ghost-btn { color:#fff; background: rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.12); }
+    .danger-btn { color:#fff; background: linear-gradient(135deg, #ef4444, #f97316); }
+    .toggle-btn { width:100%; display:flex; align-items:center; justify-content:space-between; background: rgba(255,255,255,0.06); color:#fff; border:1px solid var(--border); }
+    .collapsible { display:none; margin-top: 14px; }
+    .collapsible.open { display:block; }
+    .form-grid { display:grid; gap:14px; }
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .field label { display:block; margin-bottom:8px; font-size:14px; font-weight:600; }
+    input, select, textarea {
+      width:100%; background: rgba(255,255,255,0.08); color:var(--text); border:1px solid rgba(255,255,255,0.12);
+      border-radius:14px; padding:14px 14px; font-size:15px; outline:none;
       transition: border-color var(--transition), background var(--transition), box-shadow var(--transition);
     }
-
     select option { color: #111827; }
-
-    .search-input:focus, select:focus, input:focus, textarea:focus {
-      border-color: rgba(124,58,237,0.9);
-      background: rgba(255,255,255,0.12);
+    input:focus, select:focus, textarea:focus {
+      border-color: rgba(124,58,237,0.9); background: rgba(255,255,255,0.12);
       box-shadow: 0 0 0 4px rgba(124,58,237,0.16);
     }
-
-    .invalid {
-      border-color: rgba(239,68,68,0.95) !important;
-      background: rgba(239,68,68,0.14) !important;
+    textarea { min-height: 100px; resize: vertical; }
+    .invalid { border-color: rgba(239,68,68,0.95) !important; background: rgba(239,68,68,0.14) !important; }
+    .actions { display:flex; gap:12px; flex-wrap:wrap; margin-top: 8px; }
+    .search-wrap { display:grid; gap:12px; margin: 14px 0 16px; }
+    .toolbar-top { display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; }
+    .mini-filters { display:grid; grid-template-columns: repeat(4, 1fr); gap:10px; }
+    .filter-btn {
+      background: var(--card-soft); color:#fff; border:1px solid var(--border); border-radius: 14px; padding:12px;
+      text-align:left;
     }
-
-    .form-grid { display: grid; gap: 14px; }
-    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-
-    .field label {
-      display: block;
-      margin-bottom: 8px;
-      color: #ecf0ff;
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    textarea { min-height: 110px; resize: vertical; }
-
-    .actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 8px;
-    }
-
-    button {
-      border: none;
-      border-radius: 14px;
-      padding: 14px 18px;
-      font-weight: 700;
-      font-size: 15px;
-      cursor: pointer;
-      transition: transform var(--transition), opacity var(--transition), box-shadow var(--transition);
-    }
-
-    button:hover:not(:disabled) { transform: translateY(-1px); }
-    button:disabled { opacity: 0.55; cursor: not-allowed; }
-
-    .primary-btn {
-      flex: 1;
-      color: white;
-      background: linear-gradient(135deg, var(--accent-1), #5b8cff);
-      box-shadow: 0 12px 28px rgba(92, 76, 255, 0.34);
-    }
-
-    .ghost-btn {
-      background: rgba(255,255,255,0.1);
-      color: white;
-      border: 1px solid rgba(255,255,255,0.12);
-    }
-
-    .loading-text, .success-text, .error-text {
-      margin-top: 12px;
-      font-size: 14px;
-      display: none;
-    }
-
-    .loading-text { color: #c8d2ff; }
-    .success-text { color: #90f7d7; }
-    .error-text { color: #ffb1b1; }
-
-    .spinner {
-      width: 16px;
-      height: 16px;
-      border: 2px solid rgba(255,255,255,0.24);
-      border-top-color: white;
-      border-radius: 50%;
-      display: inline-block;
-      vertical-align: middle;
-      margin-right: 8px;
-      animation: spin 0.7s linear infinite;
-    }
-
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    .search-wrapper { margin: 12px 0 16px; }
-
-    .list-toolbar {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      align-items: center;
-      margin-bottom: 8px;
-      flex-wrap: wrap;
-    }
-
-    .filter-chip {
-      display: inline-flex;
-      align-items: center;
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-size: 13px;
-      color: #fff;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.12);
-    }
-
-    .application-list { display: grid; gap: 14px; min-height: 180px; }
+    .filter-btn.active { background: rgba(255,255,255,0.16); border-color: rgba(255,255,255,0.22); }
+    .filter-btn .small { display:block; color: var(--muted); font-size:12px; margin-bottom:6px; }
+    .filter-btn .value { display:block; font-size:20px; font-weight:800; }
+    .application-list { display:grid; gap:14px; min-height:180px; }
     .application-card {
-      border-radius: 20px;
-      padding: 18px;
-      border: 1px solid rgba(255,255,255,0.1);
-      background: rgba(255,255,255,0.06);
-      display: grid;
-      gap: 12px;
+      border-radius:20px; padding:18px; border:1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.06); display:grid; gap:12px;
     }
-
     .application-card.due-soon { background: rgba(245, 158, 11, 0.18); border-color: rgba(245, 158, 11, 0.5); }
     .application-card.mid-range { background: rgba(16, 185, 129, 0.18); border-color: rgba(16, 185, 129, 0.42); }
-
-    .app-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      align-items: flex-start;
-      flex-wrap: wrap;
-    }
-
-    .app-title { margin: 0; font-size: 18px; font-weight: 800; }
-    .app-subtitle { color: #d5dcf7; font-size: 13px; margin-top: 6px; line-height: 1.5; }
-
+    .app-top { display:flex; justify-content:space-between; gap:10px; align-items:flex-start; flex-wrap:wrap; }
+    .app-title { margin:0; font-size:18px; font-weight:800; }
+    .app-subtitle { color:#d5dcf7; font-size:13px; margin-top:6px; line-height:1.5; }
     .status-pill {
-      border-radius: 999px;
-      padding: 8px 12px;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
-      background: rgba(255,255,255,0.13);
-      border: 1px solid rgba(255,255,255,0.14);
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
+      border-radius:999px; padding:8px 12px; font-size:12px; font-weight:700; text-transform:uppercase;
+      background: rgba(255,255,255,0.13); border:1px solid rgba(255,255,255,0.14);
     }
-
-    .app-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0,1fr));
-      gap: 10px 16px;
-    }
-
-    .app-item { color: #e8edff; font-size: 14px; line-height: 1.45; word-break: break-word; }
-    .app-item span { display: block; color: var(--muted); font-size: 12px; margin-bottom: 2px; }
-
-    .app-actions { display: flex; flex-wrap: wrap; gap: 10px; }
-    .small-btn { padding: 11px 14px; font-size: 14px; border-radius: 12px; }
+    .app-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px 16px; }
+    .app-item { color:#e8edff; font-size:14px; line-height:1.45; }
+    .app-item span { display:block; color:var(--muted); font-size:12px; margin-bottom:2px; }
+    .app-actions { display:flex; flex-wrap:wrap; gap:10px; }
+    .small-btn { padding:11px 14px; font-size:14px; border-radius:12px; }
     .edit-btn { background: rgba(59,130,246,0.18); color: #d7e7ff; border: 1px solid rgba(59,130,246,0.28); }
     .cancel-btn { background: rgba(239,68,68,0.16); color: #ffd0d0; border: 1px solid rgba(239,68,68,0.28); }
     .restore-btn { background: rgba(16,185,129,0.16); color: #d0fff0; border: 1px solid rgba(16,185,129,0.28); }
-
     .empty-state {
-      display: grid;
-      place-items: center;
-      text-align: center;
-      min-height: 220px;
-      border: 1px dashed rgba(255,255,255,0.14);
-      border-radius: 18px;
-      color: var(--muted);
-      padding: 24px;
+      display:grid; place-items:center; text-align:center; min-height:220px; border:1px dashed rgba(255,255,255,0.14);
+      border-radius:18px; color:var(--muted); padding:24px;
     }
-
-    .footer {
-      color: rgba(255,255,255,0.56);
-      text-align: center;
-      padding-top: 18px;
-      font-size: 13px;
+    .loading-text, .success-text, .error-text { margin-top:12px; font-size:14px; display:none; }
+    .loading-text { color: #c8d2ff; } .success-text { color:#90f7d7; } .error-text { color:#ffb1b1; }
+    .spinner {
+      width:16px;height:16px;border:2px solid rgba(255,255,255,0.24);border-top-color:#fff;border-radius:50%;
+      display:inline-block;vertical-align:middle;margin-right:8px;animation: spin .7s linear infinite;
     }
-
+    @keyframes spin { to { transform:rotate(360deg);} }
     .toast-wrap {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      z-index: 50;
-      display: grid;
-      gap: 10px;
+      position: fixed; right:20px; bottom:20px; display:grid; gap:10px; z-index:2000;
     }
-
     .toast {
-      min-width: 260px;
-      max-width: 380px;
-      padding: 14px 16px;
-      border-radius: 16px;
-      color: #fff;
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(255,255,255,0.12);
-      backdrop-filter: blur(10px);
-      animation: slideIn 180ms ease;
+      min-width: 260px; max-width: 420px; padding:14px 16px; border-radius:16px; color:#fff;
+      box-shadow: var(--shadow); border:1px solid rgba(255,255,255,0.14); backdrop-filter: blur(10px);
+      animation: slideIn .2s ease;
     }
-
-    .toast.success { background: linear-gradient(135deg, rgba(16,185,129,0.92), rgba(20,184,166,0.88)); }
-    .toast.error { background: linear-gradient(135deg, rgba(239,68,68,0.92), rgba(217,70,239,0.88)); }
-    .toast.info { background: linear-gradient(135deg, rgba(124,58,237,0.92), rgba(59,130,246,0.88)); }
-
-    @keyframes slideIn {
-      from { transform: translateY(14px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+    .toast.success { background: rgba(16,185,129,0.95); }
+    .toast.error { background: rgba(239,68,68,0.95); }
+    .toast.info { background: rgba(91,43,224,0.95); }
+    @keyframes slideIn { from { opacity:0; transform: translateY(8px);} to { opacity:1; transform:none;} }
+    .overlay {
+      position: fixed; inset: 0; background: rgba(6,8,20,0.72); display:flex; align-items:center; justify-content:center; padding:20px; z-index:3000;
     }
-
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(5,8,20,0.55);
-      backdrop-filter: blur(6px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 60;
-      padding: 20px;
+    .overlay.hidden { display:none; }
+    .login-card, .modal-card { width:min(460px,100%); padding:22px; }
+    .modal-actions, .login-actions { display:flex; gap:10px; justify-content:flex-end; margin-top:16px; }
+    .footer { color: rgba(255,255,255,0.56); text-align:center; padding-top:18px; font-size:13px; }
+    .warning-note {
+      margin-top: 12px; color: #f5d38b; font-size: 13px; line-height: 1.45;
+      border: 1px dashed rgba(245, 158, 11, 0.35); border-radius: 14px; padding: 12px;
+      background: rgba(245, 158, 11, 0.08);
     }
-
-    .modal-backdrop.open { display: flex; }
-
-    .modal-card {
-      width: min(460px, 100%);
-      background: linear-gradient(180deg, rgba(22,24,44,0.98), rgba(14,16,32,0.98));
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 24px;
-      box-shadow: var(--shadow);
-      padding: 22px;
-    }
-
-    .modal-card h3 { margin: 0 0 10px; font-size: 22px; }
-    .modal-card p { margin: 0; color: var(--muted); line-height: 1.55; }
-    .modal-actions { display: flex; gap: 12px; margin-top: 18px; justify-content: flex-end; flex-wrap: wrap; }
-
-    .phone-note {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 6px;
-    }
-
-    @media (max-width: 980px) {
-      .layout { grid-template-columns: 1fr; }
-      .stats { grid-template-columns: repeat(2, 1fr); }
-    }
-
+    @media (max-width: 980px) { .layout { grid-template-columns:1fr; } }
     @media (max-width: 640px) {
-      .container { width: min(100% - 20px, 1200px); padding-top: 20px; }
-      .hero, .form-card, .list-card { padding: 18px; }
-      .two-col, .app-grid { grid-template-columns: 1fr; }
-      .stats { grid-template-columns: 1fr; }
-      .brand { align-items: flex-start; }
-      .app-top { flex-direction: column; }
-      .toast-wrap { left: 12px; right: 12px; bottom: 12px; }
-      .toast { min-width: auto; max-width: none; width: 100%; }
+      .container { width:min(100% - 18px, 1200px); padding-top:18px; }
+      .hero, .form-card, .list-card, .login-card, .modal-card { padding:18px; }
+      .two-col, .app-grid, .mini-filters { grid-template-columns:1fr; }
+      .app-top { flex-direction:column; }
+      .toast-wrap { left:12px; right:12px; bottom:12px; }
+      .toast { min-width: 0; max-width: unset; }
     }
   </style>
 </head>
 <body>
+  <div class="overlay" id="loginOverlay">
+    <div class="login-card">
+      <div class="section-title">
+        <div>
+          <h3>Вход в систему</h3>
+          <p class="section-note">Введите пароль для доступа к заявкам.</p>
+        </div>
+      </div>
+      <div class="field">
+        <label for="loginPassword">Пароль</label>
+        <input id="loginPassword" type="password" placeholder="Введите пароль" />
+      </div>
+      <div class="warning-note">
+        Это базовая защита доступа для текущей архитектуры на GitHub Pages + Apps Script. Для настоящей защищенной авторизации нужна отдельная серверная схема.
+      </div>
+      <div class="login-actions">
+        <button class="primary-btn" id="loginButton" type="button">Войти</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay hidden" id="confirmOverlay">
+    <div class="modal-card">
+      <div class="section-title">
+        <div>
+          <h3 id="confirmTitle">Подтверждение</h3>
+          <p class="section-note" id="confirmText">Вы уверены?</p>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="ghost-btn" id="confirmCancelBtn" type="button">Отмена</button>
+        <button class="primary-btn" id="confirmOkBtn" type="button">Подтвердить</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-wrap" id="toastWrap"></div>
+
   <main class="container">
     <section class="hero">
       <div class="brand">
@@ -480,46 +222,24 @@
         </div>
         <div>
           <h1>Театр Падида</h1>
-          <p class="subtitle">Программа приема заявок на выступления. Быстрый поиск, живые статусы, редактирование, отмена, уведомления и хранение всех данных в Google Sheets.</p>
+          <p class="subtitle">Программа приема заявок на выступления. Поиск, редактирование, статусы, Telegram-уведомления, напоминания и автообновление завершенных выступлений.</p>
         </div>
       </div>
-      <div class="version-badge">Версия приложения: v1.1.0</div>
-    </section>
-
-    <section class="stats" id="statsCards">
-      <article class="stat-card active" data-filter="all">
-        <div class="stat-label">Всего заявок</div>
-        <div class="stat-value" id="countAll">0</div>
-      </article>
-      <article class="stat-card" data-filter="active">
-        <div class="stat-label">Активные заявки</div>
-        <div class="stat-value" id="countActive">0</div>
-      </article>
-      <article class="stat-card" data-filter="cancelled">
-        <div class="stat-label">Отмененные заявки</div>
-        <div class="stat-value" id="countCancelled">0</div>
-      </article>
-      <article class="stat-card" data-filter="completed">
-        <div class="stat-label">Выполненные заявки</div>
-        <div class="stat-value" id="countCompleted">0</div>
-      </article>
+      <div class="version-badge">Версия приложения: v1.0.4</div>
     </section>
 
     <section class="layout">
       <aside class="form-card">
-        <button class="accordion-toggle" id="accordionToggle" type="button" aria-expanded="false">
-          <span>
-            Новая заявка
-            <span class="hint">Нажмите, чтобы открыть или скрыть форму</span>
-          </span>
-          <span class="arrow">⌄</span>
+        <button class="toggle-btn" id="toggleFormBtn" type="button">
+          <span id="toggleFormLabel">➕ Новая заявка</span>
+          <span id="toggleFormArrow">▼</span>
         </button>
 
-        <div class="collapsible-content" id="formWrapper">
-          <div class="section-title">
+        <div class="collapsible" id="formCollapse">
+          <div class="section-title" style="margin-top:14px">
             <div>
               <h3 id="formTitle">Новая заявка</h3>
-              <p class="section-note">Поля с обязательным заполнением будут подсвечены, если их пропустить.</p>
+              <p class="section-note">Заполните обязательные поля для сохранения.</p>
             </div>
           </div>
 
@@ -532,17 +252,16 @@
 
               <div class="field">
                 <label for="customerPhone">Телефон заказчика *</label>
-                <input id="customerPhone" name="customerPhone" type="tel" inputmode="numeric" maxlength="9" placeholder="Укажите номер телефона заказчика" required />
-                <div class="phone-note">Только цифры, ровно 9 символов.</div>
+                <input id="customerPhone" name="customerPhone" type="tel" inputmode="numeric" maxlength="9" placeholder="Укажите 9 цифр номера заказчика" required />
               </div>
 
               <div class="field">
                 <label for="eventType">Тип мероприятия *</label>
                 <select id="eventType" name="eventType" required>
-                  <option value="Свадьба">Свадьба</option>
-                  <option value="Корпоратив">Корпоратив</option>
-                  <option value="Частный прием">Частный прием</option>
-                  <option value="Другое">Другое</option>
+                  <option>Свадьба</option>
+                  <option>Корпоратив</option>
+                  <option>Частный прием</option>
+                  <option>Другое</option>
                 </select>
               </div>
 
@@ -553,7 +272,7 @@
                 </div>
                 <div class="field">
                   <label for="eventTime">Время выступления *</label>
-                  <input id="eventTime" name="eventTime" type="time" step="1800" value="18:00" required />
+                  <input id="eventTime" name="eventTime" type="time" step="1800" required value="18:00" />
                 </div>
               </div>
 
@@ -586,41 +305,52 @@
       </aside>
 
       <section class="list-card">
-        <div class="list-toolbar">
+        <div class="section-title">
           <div>
             <h3 style="margin:0">Список заявок</h3>
             <p class="section-note" id="listDescription">Показаны все заявки.</p>
           </div>
-          <div class="filter-chip" id="currentFilterChip">Фильтр: Все</div>
+          <div class="chip" id="currentFilterChip">Фильтр: Все</div>
         </div>
 
-        <div class="search-wrapper">
+        <div class="search-wrap">
           <input class="search-input" id="searchInput" type="text" placeholder="Поиск: имя, телефон, город, место проведения" />
+          <button class="toggle-btn" id="toggleFiltersBtn" type="button">
+            <span>📊 Статусы и фильтры</span>
+            <span id="toggleFiltersArrow">▼</span>
+          </button>
+          <div class="collapsible" id="filtersCollapse">
+            <div class="mini-filters">
+              <button class="filter-btn active" data-filter="all" type="button">
+                <span class="small">Всего заявок</span>
+                <span class="value" id="countAll">0</span>
+              </button>
+              <button class="filter-btn" data-filter="active" type="button">
+                <span class="small">Активные</span>
+                <span class="value" id="countActive">0</span>
+              </button>
+              <button class="filter-btn" data-filter="cancelled" type="button">
+                <span class="small">Отмененные</span>
+                <span class="value" id="countCancelled">0</span>
+              </button>
+              <button class="filter-btn" data-filter="completed" type="button">
+                <span class="small">Выполненные</span>
+                <span class="value" id="countCompleted">0</span>
+              </button>
+            </div>
+          </div>
         </div>
 
         <div class="application-list" id="applicationList"></div>
       </section>
     </section>
 
-    <div class="footer">Театр Падида · Программа приема заявок · v1.1.0</div>
+    <div class="footer">Театр Падида · Программа приема заявок · v1.0.4</div>
   </main>
 
-  <div class="toast-wrap" id="toastWrap"></div>
-
-  <div class="modal-backdrop" id="confirmModal">
-    <div class="modal-card">
-      <h3 id="confirmTitle">Подтверждение</h3>
-      <p id="confirmText">Вы уверены, что хотите выполнить это действие?</p>
-      <div class="modal-actions">
-        <button class="ghost-btn" id="confirmCancelBtn" type="button">Отмена</button>
-        <button class="primary-btn" id="confirmOkBtn" type="button" style="flex:0 0 auto;">Подтвердить</button>
-      </div>
-    </div>
-  </div>
-
   <script>
-    const APP_VERSION = 'v1.1.0';
-    const API_URL = 'https://script.google.com/macros/s/AKfycbyUVHBd0xbtKNq_VVe-UDpXlC8g8nNb2lk5sFntD-QjXn0DHYeam1JScMqb76LE72q1FQ/exec';
+    const APP_VERSION = 'v1.0.4';
+    const API_URL = 'PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEBAPP_URL_HERE';
 
     const CITIES = [
       'Душанбе','Худжанд','Бохтар','Куляб','Турсунзаде','Истаравшан','Пенджикент','Исфара',
@@ -629,26 +359,11 @@
       'Айни','Шахринав','Рудаки','Варзоб','Рашт','Таджикабад','Мургаб','Хорог'
     ];
 
-    const STATUS_LABELS = {
-      active: 'Активная',
-      cancelled: 'Отмененная',
-      completed: 'Выполненная'
-    };
-
-    const FILTER_LABELS = {
-      all: 'Все',
-      active: 'Активные',
-      cancelled: 'Отмененные',
-      completed: 'Выполненные'
-    };
-
-    const STATUS_ACTION_TEXT = {
-      cancelled: 'Вы уверены, что хотите отменить эту заявку?',
-      completed: 'Вы уверены, что хотите отметить эту заявку выполненной?',
-      active: 'Вы уверены, что хотите восстановить эту заявку?'
-    };
+    const STATUS_LABELS = { active: 'Активная', cancelled: 'Отмененная', completed: 'Выполненная' };
+    const FILTER_LABELS = { all: 'Все', active: 'Активные', cancelled: 'Отмененные', completed: 'Выполненные' };
 
     const requiredFieldIds = ['customerName', 'customerPhone', 'eventType', 'eventDate', 'eventTime', 'venue', 'city'];
+
     const form = document.getElementById('applicationForm');
     const saveButton = document.getElementById('saveButton');
     const resetButton = document.getElementById('resetButton');
@@ -660,21 +375,22 @@
     const errorText = document.getElementById('errorText');
     const currentFilterChip = document.getElementById('currentFilterChip');
     const listDescription = document.getElementById('listDescription');
-    const accordionToggle = document.getElementById('accordionToggle');
-    const formWrapper = document.getElementById('formWrapper');
-    const toastWrap = document.getElementById('toastWrap');
-
-    const confirmModal = document.getElementById('confirmModal');
-    const confirmTitle = document.getElementById('confirmTitle');
-    const confirmText = document.getElementById('confirmText');
-    const confirmCancelBtn = document.getElementById('confirmCancelBtn');
-    const confirmOkBtn = document.getElementById('confirmOkBtn');
+    const loginOverlay = document.getElementById('loginOverlay');
+    const loginPassword = document.getElementById('loginPassword');
+    const loginButton = document.getElementById('loginButton');
+    const toggleFormBtn = document.getElementById('toggleFormBtn');
+    const formCollapse = document.getElementById('formCollapse');
+    const toggleFormArrow = document.getElementById('toggleFormArrow');
+    const toggleFiltersBtn = document.getElementById('toggleFiltersBtn');
+    const filtersCollapse = document.getElementById('filtersCollapse');
+    const toggleFiltersArrow = document.getElementById('toggleFiltersArrow');
 
     const state = {
       applications: [],
       currentFilter: 'all',
       editingId: null,
-      isBusy: false
+      isBusy: false,
+      password: sessionStorage.getItem('padida_password') || ''
     };
 
     function populateCities() {
@@ -682,67 +398,34 @@
       citySelect.innerHTML = CITIES.map(city => `<option value="${city}" ${city === 'Душанбе' ? 'selected' : ''}>${city}</option>`).join('');
     }
 
-    function toggleForm(forceOpen = null) {
-      const shouldOpen = forceOpen !== null ? forceOpen : !formWrapper.classList.contains('open');
-      formWrapper.classList.toggle('open', shouldOpen);
-      accordionToggle.classList.toggle('open', shouldOpen);
-      accordionToggle.setAttribute('aria-expanded', String(shouldOpen));
+    function toggleCollapse(el, arrowEl, force) {
+      const shouldOpen = typeof force === 'boolean' ? force : !el.classList.contains('open');
+      el.classList.toggle('open', shouldOpen);
+      arrowEl.textContent = shouldOpen ? '▲' : '▼';
     }
 
     function normalizePhone(phone) {
       return String(phone || '').replace(/\D/g, '');
     }
 
-    function sanitizePhoneInput() {
-      const phoneField = document.getElementById('customerPhone');
-      phoneField.value = normalizePhone(phoneField.value).slice(0, 9);
-    }
-
-    function formatPhoneDisplay(phone) {
-      const value = normalizePhone(phone);
-      return value || '—';
-    }
-
-    function parseEventDateTime(eventDate, eventTime) {
-      if (!eventDate) return null;
-      const datePart = String(eventDate).slice(0, 10);
-
-      if (!eventTime) {
-        const onlyDate = new Date(`${datePart}T00:00:00`);
-        return Number.isNaN(onlyDate.getTime()) ? null : onlyDate;
-      }
-
-      let timeValue = String(eventTime).trim();
-
-      if (timeValue.includes('T')) {
-        const parsedTime = new Date(timeValue);
-        if (!Number.isNaN(parsedTime.getTime())) {
-          timeValue = `${String(parsedTime.getUTCHours()).padStart(2,'0')}:${String(parsedTime.getUTCMinutes()).padStart(2,'0')}`;
-        }
-      }
-
-      timeValue = timeValue.slice(0,5);
-      const dateTime = new Date(`${datePart}T${timeValue}:00`);
-      return Number.isNaN(dateTime.getTime()) ? null : dateTime;
-    }
-
-    function formatDateTime(eventDate, eventTime) {
-      const dateTime = parseEventDateTime(eventDate, eventTime);
-      if (!dateTime) return '—';
+    function formatDateTime(dateString, timeString) {
+      if (!dateString) return '—';
+      const date = new Date(`${dateString}T${timeString || '00:00'}:00`);
+      if (Number.isNaN(date.getTime())) return dateString + (timeString ? `, ${timeString}` : '');
       return new Intl.DateTimeFormat('ru-RU', {
         day: '2-digit',
         month: 'long',
         year: 'numeric',
         hour: '2-digit',
         minute: '2-digit'
-      }).format(dateTime);
+      }).format(date);
     }
 
     function getDaysUntil(eventDate, eventTime) {
-      const target = parseEventDateTime(eventDate, eventTime);
-      if (!target) return null;
-      const now = new Date();
-      return Math.ceil((target - now) / 86400000);
+      if (!eventDate) return null;
+      const dateTime = new Date(`${eventDate}T${eventTime || '00:00'}:00`);
+      if (Number.isNaN(dateTime.getTime())) return null;
+      return Math.ceil((dateTime - new Date()) / 86400000);
     }
 
     function getCardClass(app) {
@@ -757,62 +440,69 @@
     function getDeadlineText(app) {
       const days = getDaysUntil(app.eventDate, app.eventTime);
       if (days === null) return 'Дата не указана';
-      if (days < 0) return 'Время уже прошло';
+      if (days < 0) return 'Время выступления прошло';
       if (days === 0) return 'Сегодня';
       if (days === 1) return 'Завтра';
       if (days === 2) return 'Через 2 дня';
-      return `Через ${days} дня`;
+      return `Через ${days} дн.`;
     }
 
-    function showToast(message, type = 'success') {
+    function showToast(text, type = 'success') {
+      const wrap = document.getElementById('toastWrap');
       const toast = document.createElement('div');
       toast.className = `toast ${type}`;
-      toast.textContent = message;
-      toastWrap.appendChild(toast);
+      toast.textContent = text;
+      wrap.appendChild(toast);
       setTimeout(() => {
         toast.style.opacity = '0';
-        toast.style.transform = 'translateY(10px)';
-        setTimeout(() => toast.remove(), 180);
+        toast.style.transform = 'translateY(8px)';
+        setTimeout(() => toast.remove(), 250);
       }, 2800);
     }
 
-    function askConfirmation(message, title = 'Подтверждение') {
+    function showConfirm(title, text) {
       return new Promise(resolve => {
-        confirmTitle.textContent = title;
-        confirmText.textContent = message;
-        confirmModal.classList.add('open');
+        const overlay = document.getElementById('confirmOverlay');
+        document.getElementById('confirmTitle').textContent = title;
+        document.getElementById('confirmText').textContent = text;
+        overlay.classList.remove('hidden');
 
-        const cleanup = (value) => {
-          confirmModal.classList.remove('open');
-          confirmOkBtn.onclick = null;
-          confirmCancelBtn.onclick = null;
-          confirmModal.onclick = null;
-          resolve(value);
-        };
+        const okBtn = document.getElementById('confirmOkBtn');
+        const cancelBtn = document.getElementById('confirmCancelBtn');
 
-        confirmOkBtn.onclick = () => cleanup(true);
-        confirmCancelBtn.onclick = () => cleanup(false);
-        confirmModal.onclick = (event) => {
-          if (event.target === confirmModal) cleanup(false);
-        };
+        function cleanup(result) {
+          overlay.classList.add('hidden');
+          okBtn.removeEventListener('click', onOk);
+          cancelBtn.removeEventListener('click', onCancel);
+          resolve(result);
+        }
+        function onOk() { cleanup(true); }
+        function onCancel() { cleanup(false); }
+
+        okBtn.addEventListener('click', onOk);
+        cancelBtn.addEventListener('click', onCancel);
       });
     }
 
-    function validatePhoneField(field) {
-      sanitizePhoneInput();
-      const value = normalizePhone(field.value);
-      const valid = value.length === 9;
-      field.classList.toggle('invalid', !valid);
-      return valid;
+    function hideMessages() {
+      loadingText.style.display = 'none';
+      successText.style.display = 'none';
+      errorText.style.display = 'none';
+    }
+
+    function setBusy(isBusy) {
+      state.isBusy = isBusy;
+      saveButton.disabled = isBusy || !validateForm(false);
+      Array.from(form.elements).forEach(el => el.disabled = isBusy && el.type !== 'button');
+      resetButton.disabled = isBusy;
     }
 
     function validateField(field) {
-      if (field.id === 'customerPhone') {
-        return validatePhoneField(field);
-      }
-
       const isRequired = requiredFieldIds.includes(field.id);
-      const hasValue = String(field.value || '').trim() !== '';
+      let hasValue = String(field.value || '').trim() !== '';
+      if (field.id === 'customerPhone') {
+        hasValue = normalizePhone(field.value).length === 9;
+      }
       const valid = !isRequired || hasValue;
       field.classList.toggle('invalid', !valid);
       return valid;
@@ -826,7 +516,6 @@
         if (!valid) allValid = false;
         if (!showErrors && valid) field.classList.remove('invalid');
       });
-
       saveButton.disabled = !allValid || state.isBusy;
       return allValid;
     }
@@ -835,9 +524,9 @@
       return {
         customerName: document.getElementById('customerName').value.trim(),
         customerPhone: normalizePhone(document.getElementById('customerPhone').value),
-        eventType: document.getElementById('eventType').value.trim(),
+        eventType: document.getElementById('eventType').value.trim() || 'Свадьба',
         eventDate: document.getElementById('eventDate').value,
-        eventTime: document.getElementById('eventTime').value,
+        eventTime: document.getElementById('eventTime').value || '18:00',
         venue: document.getElementById('venue').value.trim(),
         city: document.getElementById('city').value.trim(),
         comments: document.getElementById('comments').value.trim()
@@ -848,14 +537,14 @@
       document.getElementById('customerName').value = app.customerName || '';
       document.getElementById('customerPhone').value = normalizePhone(app.customerPhone || '');
       document.getElementById('eventType').value = app.eventType || 'Свадьба';
-      document.getElementById('eventDate').value = String(app.eventDate || '').slice(0,10);
-      document.getElementById('eventTime').value = String(app.eventTime || '18:00').slice(0,5);
+      document.getElementById('eventDate').value = app.eventDate || '';
+      document.getElementById('eventTime').value = app.eventTime || '18:00';
       document.getElementById('venue').value = app.venue || '';
       document.getElementById('city').value = app.city || 'Душанбе';
       document.getElementById('comments').value = app.comments || '';
       state.editingId = app.id;
       formTitle.textContent = 'Редактирование заявки';
-      toggleForm(true);
+      toggleCollapse(formCollapse, toggleFormArrow, true);
       validateForm();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -872,35 +561,26 @@
       validateForm();
     }
 
-    function hideMessages() {
-      loadingText.style.display = 'none';
-      successText.style.display = 'none';
-      errorText.style.display = 'none';
-    }
-
-    function setBusy(isBusy) {
-      state.isBusy = isBusy;
-      Array.from(form.elements).forEach(el => {
-        if (el.id !== 'resetButton') el.disabled = isBusy;
-      });
-      resetButton.disabled = isBusy;
-      validateForm(false);
-    }
-
     async function apiRequest(action, payload = {}) {
       if (!API_URL || API_URL.includes('PASTE_YOUR')) {
-        throw new Error('Не указан URL Google Apps Script');
+        throw new Error('Не указан API_URL');
       }
-
+      if (!state.password) {
+        throw new Error('Требуется повторный вход');
+      }
       const response = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ action, payload })
+        body: JSON.stringify({ action, payload, password: state.password })
       });
-
       const data = await response.json();
       if (!data.success) {
-        throw new Error(data.message || 'Ошибка API');
+        if ((data.message || '').toLowerCase().includes('unauthorized')) {
+          sessionStorage.removeItem('padida_password');
+          state.password = '';
+          loginOverlay.classList.remove('hidden');
+        }
+        throw new Error(data.message || 'Unknown API error');
       }
       return data;
     }
@@ -914,16 +594,15 @@
         renderStats();
         renderApplications();
       } catch (error) {
-        applicationList.innerHTML = `<div class="empty-state">Не удалось загрузить заявки.<br>${escapeHtml(error.message || 'Проверьте URL веб-приложения.')}</div>`;
-        console.error(error);
+        applicationList.innerHTML = `<div class="empty-state">Не удалось загрузить заявки.<br>${escapeHtml(error.message || String(error))}</div>`;
       }
     }
 
     function sortApplications() {
       state.applications.sort((a, b) => {
-        const aDate = parseEventDateTime(a.eventDate || '2100-01-01', a.eventTime || '00:00');
-        const bDate = parseEventDateTime(b.eventDate || '2100-01-01', b.eventTime || '00:00');
-        return (aDate?.getTime() || 0) - (bDate?.getTime() || 0);
+        const aDate = new Date(`${a.eventDate || '2100-01-01'}T${a.eventTime || '00:00'}:00`).getTime();
+        const bDate = new Date(`${b.eventDate || '2100-01-01'}T${b.eventTime || '00:00'}:00`).getTime();
+        return aDate - bDate;
       });
     }
 
@@ -932,7 +611,6 @@
       const active = state.applications.filter(a => a.status === 'active').length;
       const cancelled = state.applications.filter(a => a.status === 'cancelled').length;
       const completed = state.applications.filter(a => a.status === 'completed').length;
-
       document.getElementById('countAll').textContent = all;
       document.getElementById('countActive').textContent = active;
       document.getElementById('countCancelled').textContent = cancelled;
@@ -945,7 +623,6 @@
         const matchesFilter = state.currentFilter === 'all' ? true : app.status === state.currentFilter;
         if (!matchesFilter) return false;
         if (!query) return true;
-
         const haystack = [
           app.customerName,
           app.customerPhone,
@@ -953,7 +630,6 @@
           app.city,
           app.venue
         ].join(' ').toLowerCase();
-
         const normalizedQuery = normalizePhone(query);
         return haystack.includes(query) || (normalizedQuery && haystack.includes(normalizedQuery));
       });
@@ -963,7 +639,6 @@
       const items = getFilteredApplications();
       currentFilterChip.textContent = `Фильтр: ${FILTER_LABELS[state.currentFilter]}`;
       listDescription.textContent = items.length ? `Найдено заявок: ${items.length}` : 'По выбранному фильтру пока нет заявок.';
-
       if (!items.length) {
         applicationList.innerHTML = '<div class="empty-state">Заявки не найдены. Попробуйте изменить фильтр или строку поиска.</div>';
         return;
@@ -978,24 +653,24 @@
             </div>
             <div class="status-pill">${STATUS_LABELS[app.status] || app.status || '—'} · ${getDeadlineText(app)}</div>
           </div>
-
           <div class="app-grid">
-            <div class="app-item"><span>Телефон</span>${escapeHtml(formatPhoneDisplay(app.customerPhone))}</div>
-            <div class="app-item"><span>Дата и время</span>${escapeHtml(formatDateTime(app.eventDate, app.eventTime))}</div>
+            <div class="app-item"><span>Телефон</span>${escapeHtml(app.customerPhone || '—')}</div>
+            <div class="app-item"><span>Дата и время</span>${formatDateTime(app.eventDate, app.eventTime)}</div>
             <div class="app-item"><span>Город</span>${escapeHtml(app.city || '—')}</div>
             <div class="app-item"><span>Место проведения</span>${escapeHtml(app.venue || '—')}</div>
             <div class="app-item"><span>Комментарий</span>${escapeHtml(app.comments || '—')}</div>
             <div class="app-item"><span>ID заявки</span>${escapeHtml(app.id || '—')}</div>
           </div>
-
           <div class="app-actions">
             <button class="small-btn edit-btn" type="button" onclick="handleEdit('${app.id}')">Редактировать</button>
             ${app.status !== 'cancelled'
               ? `<button class="small-btn cancel-btn" type="button" onclick="changeStatus('${app.id}', 'cancelled')">Отменить</button>`
-              : `<button class="small-btn restore-btn" type="button" onclick="changeStatus('${app.id}', 'active')">Восстановить</button>`}
+              : `<button class="small-btn restore-btn" type="button" onclick="changeStatus('${app.id}', 'active')">Восстановить</button>`
+            }
             ${app.status !== 'completed'
               ? `<button class="small-btn ghost-btn" type="button" onclick="changeStatus('${app.id}', 'completed')">Отметить выполненной</button>`
-              : `<button class="small-btn restore-btn" type="button" onclick="changeStatus('${app.id}', 'active')">Вернуть в активные</button>`}
+              : `<button class="small-btn restore-btn" type="button" onclick="changeStatus('${app.id}', 'active')">Вернуть в активные</button>`
+            }
           </div>
         </article>
       `).join('');
@@ -1003,11 +678,34 @@
 
     function escapeHtml(value) {
       return String(value ?? '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    async function changeStatus(id, status) {
+      const app = state.applications.find(item => item.id === id);
+      if (!app) return;
+      const texts = {
+        cancelled: ['Подтвердите отмену', `Отменить заявку ${app.customerName}?`],
+        completed: ['Подтвердите завершение', `Отметить заявку ${app.customerName} как выполненную?`],
+        active: ['Подтвердите восстановление', `Вернуть заявку ${app.customerName} в активные?`]
+      };
+      const confirmed = await showConfirm(texts[status][0], texts[status][1]);
+      if (!confirmed) return;
+
+      hideMessages();
+      try {
+        await apiRequest('updateStatus', { id, status });
+        showToast(
+          status === 'cancelled' ? 'Заявка перенесена в отмененные.' :
+          status === 'completed' ? 'Заявка отмечена выполненной.' :
+          'Заявка восстановлена.',
+          'success'
+        );
+        await loadApplications();
+      } catch (error) {
+        showToast(error.message || 'Не удалось обновить статус заявки.', 'error');
+      }
     }
 
     function handleEdit(id) {
@@ -1016,59 +714,28 @@
       fillForm(app);
     }
 
-    async function changeStatus(id, status) {
-      const ok = await askConfirmation(STATUS_ACTION_TEXT[status] || 'Вы уверены, что хотите изменить статус?');
-      if (!ok) return;
-
-      hideMessages();
-      try {
-        await apiRequest('updateStatus', { id, status });
-        await loadApplications();
-
-        const messages = {
-          cancelled: 'Заявка успешно отменена.',
-          completed: 'Заявка отмечена выполненной.',
-          active: 'Заявка восстановлена.'
-        };
-
-        showToast(messages[status] || 'Статус обновлен.', 'success');
-      } catch (error) {
-        showToast(error.message || 'Не удалось обновить статус заявки.', 'error');
-        console.error(error);
-      }
-    }
-
     async function submitForm(event) {
       event.preventDefault();
       hideMessages();
-
-      if (!validateForm(true)) {
-        showToast('Проверьте обязательные поля формы.', 'error');
-        return;
-      }
-
+      if (!validateForm(true)) return;
       const payload = getFormData();
       setBusy(true);
       loadingText.style.display = 'block';
-
       try {
         if (state.editingId) {
           await apiRequest('update', { id: state.editingId, ...payload });
-          await loadApplications();
           showToast('Заявка успешно обновлена.', 'success');
         } else {
           await apiRequest('create', payload);
-          await loadApplications();
           showToast('Заявка успешно сохранена.', 'success');
         }
-
         resetForm();
-        toggleForm(false);
+        toggleCollapse(formCollapse, toggleFormArrow, false);
+        await loadApplications();
       } catch (error) {
         errorText.textContent = 'Ошибка: ' + (error.message || error);
         errorText.style.display = 'block';
         showToast(error.message || 'Не удалось сохранить заявку.', 'error');
-        console.error(error);
       } finally {
         loadingText.style.display = 'none';
         setBusy(false);
@@ -1077,42 +744,75 @@
 
     function setFilter(filter) {
       state.currentFilter = filter;
-      document.querySelectorAll('.stat-card').forEach(card => {
-        card.classList.toggle('active', card.dataset.filter === filter);
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.filter === filter);
       });
       renderApplications();
     }
 
-    document.getElementById('statsCards').addEventListener('click', (event) => {
-      const card = event.target.closest('.stat-card');
-      if (!card) return;
-      setFilter(card.dataset.filter);
-    });
+    function bindEvents() {
+      requiredFieldIds.forEach(id => {
+        const field = document.getElementById(id);
+        field.addEventListener('input', () => validateForm(false));
+        field.addEventListener('change', () => validateForm(false));
+        field.addEventListener('blur', () => validateField(field));
+      });
 
-    requiredFieldIds.forEach(id => {
-      const field = document.getElementById(id);
-      field.addEventListener('input', () => validateForm(false));
-      field.addEventListener('change', () => validateForm(false));
-      field.addEventListener('blur', () => validateField(field));
-    });
+      document.getElementById('customerPhone').addEventListener('input', e => {
+        e.target.value = normalizePhone(e.target.value).slice(0, 9);
+        validateForm(false);
+      });
 
-    document.getElementById('customerPhone').addEventListener('input', () => {
-      sanitizePhoneInput();
-      validateForm(false);
-    });
+      searchInput.addEventListener('input', renderApplications);
+      form.addEventListener('submit', submitForm);
+      resetButton.addEventListener('click', resetForm);
 
-    searchInput.addEventListener('input', renderApplications);
-    form.addEventListener('submit', submitForm);
-    resetButton.addEventListener('click', resetForm);
-    accordionToggle.addEventListener('click', () => toggleForm());
+      loginButton.addEventListener('click', async () => {
+        const password = loginPassword.value.trim();
+        if (!password) {
+          showToast('Введите пароль.', 'error');
+          return;
+        }
+        state.password = password;
+        try {
+          await apiRequest('list');
+          sessionStorage.setItem('padida_password', password);
+          loginOverlay.classList.add('hidden');
+          loginPassword.value = '';
+          showToast('Вход выполнен.', 'success');
+          await loadApplications();
+        } catch (error) {
+          showToast('Неверный пароль или недоступен backend.', 'error');
+        }
+      });
 
-    populateCities();
-    resetForm();
-    validateForm(false);
-    loadApplications();
+      loginPassword.addEventListener('keydown', e => {
+        if (e.key === 'Enter') loginButton.click();
+      });
+
+      toggleFormBtn.addEventListener('click', () => toggleCollapse(formCollapse, toggleFormArrow));
+      toggleFiltersBtn.addEventListener('click', () => toggleCollapse(filtersCollapse, toggleFiltersArrow));
+
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => setFilter(btn.dataset.filter));
+      });
+    }
+
+    function init() {
+      populateCities();
+      resetForm();
+      bindEvents();
+      toggleCollapse(formCollapse, toggleFormArrow, false);
+      toggleCollapse(filtersCollapse, toggleFiltersArrow, false);
+      if (state.password) {
+        loginOverlay.classList.add('hidden');
+        loadApplications();
+      }
+    }
 
     window.handleEdit = handleEdit;
     window.changeStatus = changeStatus;
+    init();
   </script>
 </body>
 </html>
