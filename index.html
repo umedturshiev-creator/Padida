@@ -840,22 +840,37 @@ function showToast(text, type = 'success') {
               <div class="app-item"><span>ID заявки</span>${escapeHtml(app.id || '—')}</div>
             </div>
 <div class="app-actions">
+
+  <!-- 📞 Звонок -->
   <a
     class="small-btn ghost-btn"
     href="tel:992${normalizePhone(app.customerPhone || '')}"
     style="text-decoration:none;display:inline-flex;align-items:center;"
   >
-    📞 Позвонить
+    📞
   </a>
 
+  <!-- 📲 WhatsApp -->
+  <a
+    class="small-btn ghost-btn"
+    href="https://wa.me/992${normalizePhone(app.customerPhone || '')}?text=${encodeURIComponent(getWhatsAppText(app))}"
+    target="_blank"
+    style="text-decoration:none;display:inline-flex;align-items:center;"
+  >
+    💬
+  </a>
+
+  <!-- ✏️ Редактировать -->
   <button class="small-btn edit-btn" type="button" onclick="handleEdit('${app.id}')">
-    Редактировать
+    ✏️
   </button>
 
+  <!-- ❌ Отмена / восстановление -->
   ${app.status !== 'cancelled'
-    ? `<button class="small-btn cancel-btn" type="button" onclick="changeStatus('${app.id}', 'cancelled')">Отменить</button>`
-    : `<button class="small-btn restore-btn" type="button" onclick="changeStatus('${app.id}', 'active')">Восстановить</button>`
+    ? `<button class="small-btn cancel-btn" type="button" onclick="changeStatus('${app.id}', 'cancelled')">❌</button>`
+    : `<button class="small-btn restore-btn" type="button" onclick="changeStatus('${app.id}', 'active')">↩️</button>`
   }
+
 </div>
           </article>
         `;
