@@ -1,11 +1,1118 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<title>Padida v1.0.3</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Театр Падида — программа приема заявок</title>
+  <meta name="theme-color" content="#5b2be0" />
+  <style>
+    :root {
+      --bg: #0f1020;
+      --card: rgba(255,255,255,0.10);
+      --card-strong: rgba(255,255,255,0.14);
+      --border: rgba(255,255,255,0.12);
+      --text: #f6f7fb;
+      --muted: #b9bfd6;
+      --accent-1: #7c3aed;
+      --accent-2: #14b8a6;
+      --accent-3: #f59e0b;
+      --danger: #ef4444;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --shadow: 0 18px 50px rgba(0,0,0,0.35);
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --radius-md: 14px;
+      --transition: 180ms ease;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(124,58,237,0.28), transparent 32%),
+        radial-gradient(circle at top right, rgba(20,184,166,0.22), transparent 30%),
+        linear-gradient(180deg, #14152b 0%, #0f1020 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .container {
+      width: min(1200px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 56px;
+    }
+
+    .hero {
+      display: grid;
+      gap: 18px;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, rgba(124,58,237,0.25), rgba(20,184,166,0.18));
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      width: 78px;
+      height: 78px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #7c3aed, #14b8a6);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 14px 30px rgba(92, 48, 200, 0.35);
+      flex-shrink: 0;
+    }
+
+    .logo svg { width: 54px; height: 54px; }
+
+    h1 { margin: 0; font-size: clamp(28px, 4vw, 42px); line-height: 1.05; }
+
+    .subtitle {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.5;
+      max-width: 760px;
+    }
+
+    .version-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .stat-card {
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      cursor: pointer;
+      transition: transform var(--transition), border-color var(--transition), background var(--transition), box-shadow var(--transition);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+    }
+
+    .stat-card:hover, .stat-card.active {
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,0.24);
+      background: rgba(255,255,255,0.14);
+      box-shadow: 0 16px 34px rgba(0,0,0,0.22);
+    }
+
+    .stat-label { color: var(--muted); font-size: 14px; margin-bottom: 12px; }
+    .stat-value { font-size: 34px; font-weight: 800; letter-spacing: -0.04em; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 400px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .form-card, .list-card {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(14px);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      padding: 22px;
+    }
+
+    .accordion-toggle {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: linear-gradient(135deg, rgba(124,58,237,0.18), rgba(20,184,166,0.14));
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #fff;
+      border-radius: 18px;
+      padding: 16px 18px;
+      font-size: 18px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .accordion-toggle .hint {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 500;
+      margin-top: 4px;
+    }
+
+    .accordion-toggle .arrow {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,0.12);
+      transition: transform var(--transition);
+      flex-shrink: 0;
+    }
+
+    .accordion-toggle.open .arrow { transform: rotate(180deg); }
+
+    .collapsible-content {
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 260ms ease, opacity 180ms ease, margin-top 180ms ease;
+      margin-top: 0;
+    }
+
+    .collapsible-content.open {
+      max-height: 1400px;
+      opacity: 1;
+      margin-top: 16px;
+    }
+
+    .section-title { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+    .section-title h2, .section-title h3 { margin: 0; font-size: 22px; }
+    .section-note { color: var(--muted); font-size: 14px; margin: 0; }
+
+    .search-input, select, input, textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.12);
+      outline: none;
+      border-radius: 14px;
+      padding: 14px 14px;
+      font-size: 15px;
+      transition: border-color var(--transition), background var(--transition), box-shadow var(--transition);
+    }
+
+    select option { color: #111827; }
+
+    .search-input:focus, select:focus, input:focus, textarea:focus {
+      border-color: rgba(124,58,237,0.9);
+      background: rgba(255,255,255,0.12);
+      box-shadow: 0 0 0 4px rgba(124,58,237,0.16);
+    }
+
+    .invalid {
+      border-color: rgba(239,68,68,0.95) !important;
+      background: rgba(239,68,68,0.14) !important;
+    }
+
+    .form-grid { display: grid; gap: 14px; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    .field label {
+      display: block;
+      margin-bottom: 8px;
+      color: #ecf0ff;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    textarea { min-height: 110px; resize: vertical; }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    button {
+      border: none;
+      border-radius: 14px;
+      padding: 14px 18px;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      transition: transform var(--transition), opacity var(--transition), box-shadow var(--transition);
+    }
+
+    button:hover:not(:disabled) { transform: translateY(-1px); }
+    button:disabled { opacity: 0.55; cursor: not-allowed; }
+
+    .primary-btn {
+      flex: 1;
+      color: white;
+      background: linear-gradient(135deg, var(--accent-1), #5b8cff);
+      box-shadow: 0 12px 28px rgba(92, 76, 255, 0.34);
+    }
+
+    .ghost-btn {
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .loading-text, .success-text, .error-text {
+      margin-top: 12px;
+      font-size: 14px;
+      display: none;
+    }
+
+    .loading-text { color: #c8d2ff; }
+    .success-text { color: #90f7d7; }
+    .error-text { color: #ffb1b1; }
+
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.24);
+      border-top-color: white;
+      border-radius: 50%;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 8px;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .search-wrapper { margin: 12px 0 16px; }
+
+    .list-toolbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      color: #fff;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .application-list { display: grid; gap: 14px; min-height: 180px; }
+    .application-card {
+      border-radius: 20px;
+      padding: 18px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.06);
+      display: grid;
+      gap: 12px;
+    }
+
+    .application-card.due-soon { background: rgba(245, 158, 11, 0.18); border-color: rgba(245, 158, 11, 0.5); }
+    .application-card.mid-range { background: rgba(16, 185, 129, 0.18); border-color: rgba(16, 185, 129, 0.42); }
+
+    .app-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .app-title { margin: 0; font-size: 18px; font-weight: 800; }
+    .app-subtitle { color: #d5dcf7; font-size: 13px; margin-top: 6px; line-height: 1.5; }
+
+    .status-pill {
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      background: rgba(255,255,255,0.13);
+      border: 1px solid rgba(255,255,255,0.14);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .app-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 10px 16px;
+    }
+
+    .app-item { color: #e8edff; font-size: 14px; line-height: 1.45; word-break: break-word; }
+    .app-item span { display: block; color: var(--muted); font-size: 12px; margin-bottom: 2px; }
+
+    .app-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    .small-btn { padding: 11px 14px; font-size: 14px; border-radius: 12px; }
+    .edit-btn { background: rgba(59,130,246,0.18); color: #d7e7ff; border: 1px solid rgba(59,130,246,0.28); }
+    .cancel-btn { background: rgba(239,68,68,0.16); color: #ffd0d0; border: 1px solid rgba(239,68,68,0.28); }
+    .restore-btn { background: rgba(16,185,129,0.16); color: #d0fff0; border: 1px solid rgba(16,185,129,0.28); }
+
+    .empty-state {
+      display: grid;
+      place-items: center;
+      text-align: center;
+      min-height: 220px;
+      border: 1px dashed rgba(255,255,255,0.14);
+      border-radius: 18px;
+      color: var(--muted);
+      padding: 24px;
+    }
+
+    .footer {
+      color: rgba(255,255,255,0.56);
+      text-align: center;
+      padding-top: 18px;
+      font-size: 13px;
+    }
+
+    .toast-wrap {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 50;
+      display: grid;
+      gap: 10px;
+    }
+
+    .toast {
+      min-width: 260px;
+      max-width: 380px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      color: #fff;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(10px);
+      animation: slideIn 180ms ease;
+    }
+
+    .toast.success { background: linear-gradient(135deg, rgba(16,185,129,0.92), rgba(20,184,166,0.88)); }
+    .toast.error { background: linear-gradient(135deg, rgba(239,68,68,0.92), rgba(217,70,239,0.88)); }
+    .toast.info { background: linear-gradient(135deg, rgba(124,58,237,0.92), rgba(59,130,246,0.88)); }
+
+    @keyframes slideIn {
+      from { transform: translateY(14px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(5,8,20,0.55);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 60;
+      padding: 20px;
+    }
+
+    .modal-backdrop.open { display: flex; }
+
+    .modal-card {
+      width: min(460px, 100%);
+      background: linear-gradient(180deg, rgba(22,24,44,0.98), rgba(14,16,32,0.98));
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: 22px;
+    }
+
+    .modal-card h3 { margin: 0 0 10px; font-size: 22px; }
+    .modal-card p { margin: 0; color: var(--muted); line-height: 1.55; }
+    .modal-actions { display: flex; gap: 12px; margin-top: 18px; justify-content: flex-end; flex-wrap: wrap; }
+
+    .phone-note {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    @media (max-width: 980px) {
+      .layout { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 640px) {
+      .container { width: min(100% - 20px, 1200px); padding-top: 20px; }
+      .hero, .form-card, .list-card { padding: 18px; }
+      .two-col, .app-grid { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: 1fr; }
+      .brand { align-items: flex-start; }
+      .app-top { flex-direction: column; }
+      .toast-wrap { left: 12px; right: 12px; bottom: 12px; }
+      .toast { min-width: auto; max-width: none; width: 100%; }
+    }
+  </style>
 </head>
 <body>
-<h1>Padida App v1.0.3</h1>
-<p>Используй обновленный код из чата (поиск, Telegram, форма, автоуведомления).</p>
+  <main class="container">
+    <section class="hero">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 49L23 15L32 33L41 15L50 49" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="32" cy="14" r="5" fill="white"/>
+          </svg>
+        </div>
+        <div>
+          <h1>Театр Падида</h1>
+          <p class="subtitle">Программа приема заявок на выступления. Быстрый поиск, живые статусы, редактирование, отмена, уведомления и хранение всех данных в Google Sheets.</p>
+        </div>
+      </div>
+      <div class="version-badge">Версия приложения: v1.1.0</div>
+    </section>
+
+    <section class="stats" id="statsCards">
+      <article class="stat-card active" data-filter="all">
+        <div class="stat-label">Всего заявок</div>
+        <div class="stat-value" id="countAll">0</div>
+      </article>
+      <article class="stat-card" data-filter="active">
+        <div class="stat-label">Активные заявки</div>
+        <div class="stat-value" id="countActive">0</div>
+      </article>
+      <article class="stat-card" data-filter="cancelled">
+        <div class="stat-label">Отмененные заявки</div>
+        <div class="stat-value" id="countCancelled">0</div>
+      </article>
+      <article class="stat-card" data-filter="completed">
+        <div class="stat-label">Выполненные заявки</div>
+        <div class="stat-value" id="countCompleted">0</div>
+      </article>
+    </section>
+
+    <section class="layout">
+      <aside class="form-card">
+        <button class="accordion-toggle" id="accordionToggle" type="button" aria-expanded="false">
+          <span>
+            Новая заявка
+            <span class="hint">Нажмите, чтобы открыть или скрыть форму</span>
+          </span>
+          <span class="arrow">⌄</span>
+        </button>
+
+        <div class="collapsible-content" id="formWrapper">
+          <div class="section-title">
+            <div>
+              <h3 id="formTitle">Новая заявка</h3>
+              <p class="section-note">Поля с обязательным заполнением будут подсвечены, если их пропустить.</p>
+            </div>
+          </div>
+
+          <form id="applicationForm" novalidate>
+            <div class="form-grid">
+              <div class="field">
+                <label for="customerName">Имя заказчика *</label>
+                <input id="customerName" name="customerName" type="text" placeholder="Укажите имя заказчика" required />
+              </div>
+
+              <div class="field">
+                <label for="customerPhone">Телефон заказчика *</label>
+                <input id="customerPhone" name="customerPhone" type="tel" inputmode="numeric" maxlength="9" placeholder="Укажите номер телефона заказчика" required />
+                <div class="phone-note">Только цифры, ровно 9 символов.</div>
+              </div>
+
+              <div class="field">
+                <label for="eventType">Тип мероприятия *</label>
+                <select id="eventType" name="eventType" required>
+                  <option value="Свадьба">Свадьба</option>
+                  <option value="Корпоратив">Корпоратив</option>
+                  <option value="Частный прием">Частный прием</option>
+                  <option value="Другое">Другое</option>
+                </select>
+              </div>
+
+              <div class="two-col">
+                <div class="field">
+                  <label for="eventDate">Дата выступления *</label>
+                  <input id="eventDate" name="eventDate" type="date" required />
+                </div>
+                <div class="field">
+                  <label for="eventTime">Время выступления *</label>
+                  <input id="eventTime" name="eventTime" type="time" step="1800" value="18:00" required />
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="venue">Место проведения *</label>
+                <input id="venue" name="venue" type="text" placeholder="Укажите место например: Якасарой" required />
+              </div>
+
+              <div class="field">
+                <label for="city">Выбрать город *</label>
+                <select id="city" name="city" required></select>
+              </div>
+
+              <div class="field">
+                <label for="comments">Комментарии</label>
+                <textarea id="comments" name="comments" placeholder="Можете здесь указать дополнительные данные"></textarea>
+              </div>
+            </div>
+
+            <div class="actions">
+              <button class="primary-btn" id="saveButton" type="submit" disabled>Сохранить</button>
+              <button class="ghost-btn" id="resetButton" type="button">Очистить</button>
+            </div>
+
+            <div class="loading-text" id="loadingText"><span class="spinner"></span>Идет сохранение данных...</div>
+            <div class="success-text" id="successText">Заявка успешно сохранена.</div>
+            <div class="error-text" id="errorText">Не удалось выполнить действие.</div>
+          </form>
+        </div>
+      </aside>
+
+      <section class="list-card">
+        <div class="list-toolbar">
+          <div>
+            <h3 style="margin:0">Список заявок</h3>
+            <p class="section-note" id="listDescription">Показаны все заявки.</p>
+          </div>
+          <div class="filter-chip" id="currentFilterChip">Фильтр: Все</div>
+        </div>
+
+        <div class="search-wrapper">
+          <input class="search-input" id="searchInput" type="text" placeholder="Поиск: имя, телефон, город, место проведения" />
+        </div>
+
+        <div class="application-list" id="applicationList"></div>
+      </section>
+    </section>
+
+    <div class="footer">Театр Падида · Программа приема заявок · v1.1.0</div>
+  </main>
+
+  <div class="toast-wrap" id="toastWrap"></div>
+
+  <div class="modal-backdrop" id="confirmModal">
+    <div class="modal-card">
+      <h3 id="confirmTitle">Подтверждение</h3>
+      <p id="confirmText">Вы уверены, что хотите выполнить это действие?</p>
+      <div class="modal-actions">
+        <button class="ghost-btn" id="confirmCancelBtn" type="button">Отмена</button>
+        <button class="primary-btn" id="confirmOkBtn" type="button" style="flex:0 0 auto;">Подтвердить</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const APP_VERSION = 'v1.1.0';
+    const API_URL = 'PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEBAPP_URL_HERE';
+
+    const CITIES = [
+      'Душанбе','Худжанд','Бохтар','Куляб','Турсунзаде','Истаравшан','Пенджикент','Исфара',
+      'Канибадам','Вахдат','Гиссар','Нурек','Рогун','Левакант','Бустон','Гулистон',
+      'Фархор','Дангара','Восе','Яван','Кушониён','Хуросон','Шахритус','Кубодиён',
+      'Айни','Шахринав','Рудаки','Варзоб','Рашт','Таджикабад','Мургаб','Хорог'
+    ];
+
+    const STATUS_LABELS = {
+      active: 'Активная',
+      cancelled: 'Отмененная',
+      completed: 'Выполненная'
+    };
+
+    const FILTER_LABELS = {
+      all: 'Все',
+      active: 'Активные',
+      cancelled: 'Отмененные',
+      completed: 'Выполненные'
+    };
+
+    const STATUS_ACTION_TEXT = {
+      cancelled: 'Вы уверены, что хотите отменить эту заявку?',
+      completed: 'Вы уверены, что хотите отметить эту заявку выполненной?',
+      active: 'Вы уверены, что хотите восстановить эту заявку?'
+    };
+
+    const requiredFieldIds = ['customerName', 'customerPhone', 'eventType', 'eventDate', 'eventTime', 'venue', 'city'];
+    const form = document.getElementById('applicationForm');
+    const saveButton = document.getElementById('saveButton');
+    const resetButton = document.getElementById('resetButton');
+    const searchInput = document.getElementById('searchInput');
+    const applicationList = document.getElementById('applicationList');
+    const formTitle = document.getElementById('formTitle');
+    const loadingText = document.getElementById('loadingText');
+    const successText = document.getElementById('successText');
+    const errorText = document.getElementById('errorText');
+    const currentFilterChip = document.getElementById('currentFilterChip');
+    const listDescription = document.getElementById('listDescription');
+    const accordionToggle = document.getElementById('accordionToggle');
+    const formWrapper = document.getElementById('formWrapper');
+    const toastWrap = document.getElementById('toastWrap');
+
+    const confirmModal = document.getElementById('confirmModal');
+    const confirmTitle = document.getElementById('confirmTitle');
+    const confirmText = document.getElementById('confirmText');
+    const confirmCancelBtn = document.getElementById('confirmCancelBtn');
+    const confirmOkBtn = document.getElementById('confirmOkBtn');
+
+    const state = {
+      applications: [],
+      currentFilter: 'all',
+      editingId: null,
+      isBusy: false
+    };
+
+    function populateCities() {
+      const citySelect = document.getElementById('city');
+      citySelect.innerHTML = CITIES.map(city => `<option value="${city}" ${city === 'Душанбе' ? 'selected' : ''}>${city}</option>`).join('');
+    }
+
+    function toggleForm(forceOpen = null) {
+      const shouldOpen = forceOpen !== null ? forceOpen : !formWrapper.classList.contains('open');
+      formWrapper.classList.toggle('open', shouldOpen);
+      accordionToggle.classList.toggle('open', shouldOpen);
+      accordionToggle.setAttribute('aria-expanded', String(shouldOpen));
+    }
+
+    function normalizePhone(phone) {
+      return String(phone || '').replace(/\D/g, '');
+    }
+
+    function sanitizePhoneInput() {
+      const phoneField = document.getElementById('customerPhone');
+      phoneField.value = normalizePhone(phoneField.value).slice(0, 9);
+    }
+
+    function formatPhoneDisplay(phone) {
+      const value = normalizePhone(phone);
+      return value || '—';
+    }
+
+    function parseEventDateTime(eventDate, eventTime) {
+      if (!eventDate) return null;
+      const datePart = String(eventDate).slice(0, 10);
+
+      if (!eventTime) {
+        const onlyDate = new Date(`${datePart}T00:00:00`);
+        return Number.isNaN(onlyDate.getTime()) ? null : onlyDate;
+      }
+
+      let timeValue = String(eventTime).trim();
+
+      if (timeValue.includes('T')) {
+        const parsedTime = new Date(timeValue);
+        if (!Number.isNaN(parsedTime.getTime())) {
+          timeValue = `${String(parsedTime.getUTCHours()).padStart(2,'0')}:${String(parsedTime.getUTCMinutes()).padStart(2,'0')}`;
+        }
+      }
+
+      timeValue = timeValue.slice(0,5);
+      const dateTime = new Date(`${datePart}T${timeValue}:00`);
+      return Number.isNaN(dateTime.getTime()) ? null : dateTime;
+    }
+
+    function formatDateTime(eventDate, eventTime) {
+      const dateTime = parseEventDateTime(eventDate, eventTime);
+      if (!dateTime) return '—';
+      return new Intl.DateTimeFormat('ru-RU', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      }).format(dateTime);
+    }
+
+    function getDaysUntil(eventDate, eventTime) {
+      const target = parseEventDateTime(eventDate, eventTime);
+      if (!target) return null;
+      const now = new Date();
+      return Math.ceil((target - now) / 86400000);
+    }
+
+    function getCardClass(app) {
+      if (app.status !== 'active') return '';
+      const days = getDaysUntil(app.eventDate, app.eventTime);
+      if (days === null) return '';
+      if (days <= 2 && days >= 0) return 'due-soon';
+      if (days > 2 && days <= 5) return 'mid-range';
+      return '';
+    }
+
+    function getDeadlineText(app) {
+      const days = getDaysUntil(app.eventDate, app.eventTime);
+      if (days === null) return 'Дата не указана';
+      if (days < 0) return 'Время уже прошло';
+      if (days === 0) return 'Сегодня';
+      if (days === 1) return 'Завтра';
+      if (days === 2) return 'Через 2 дня';
+      return `Через ${days} дня`;
+    }
+
+    function showToast(message, type = 'success') {
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.textContent = message;
+      toastWrap.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(10px)';
+        setTimeout(() => toast.remove(), 180);
+      }, 2800);
+    }
+
+    function askConfirmation(message, title = 'Подтверждение') {
+      return new Promise(resolve => {
+        confirmTitle.textContent = title;
+        confirmText.textContent = message;
+        confirmModal.classList.add('open');
+
+        const cleanup = (value) => {
+          confirmModal.classList.remove('open');
+          confirmOkBtn.onclick = null;
+          confirmCancelBtn.onclick = null;
+          confirmModal.onclick = null;
+          resolve(value);
+        };
+
+        confirmOkBtn.onclick = () => cleanup(true);
+        confirmCancelBtn.onclick = () => cleanup(false);
+        confirmModal.onclick = (event) => {
+          if (event.target === confirmModal) cleanup(false);
+        };
+      });
+    }
+
+    function validatePhoneField(field) {
+      sanitizePhoneInput();
+      const value = normalizePhone(field.value);
+      const valid = value.length === 9;
+      field.classList.toggle('invalid', !valid);
+      return valid;
+    }
+
+    function validateField(field) {
+      if (field.id === 'customerPhone') {
+        return validatePhoneField(field);
+      }
+
+      const isRequired = requiredFieldIds.includes(field.id);
+      const hasValue = String(field.value || '').trim() !== '';
+      const valid = !isRequired || hasValue;
+      field.classList.toggle('invalid', !valid);
+      return valid;
+    }
+
+    function validateForm(showErrors = false) {
+      let allValid = true;
+      requiredFieldIds.forEach(id => {
+        const field = document.getElementById(id);
+        const valid = validateField(field);
+        if (!valid) allValid = false;
+        if (!showErrors && valid) field.classList.remove('invalid');
+      });
+
+      saveButton.disabled = !allValid || state.isBusy;
+      return allValid;
+    }
+
+    function getFormData() {
+      return {
+        customerName: document.getElementById('customerName').value.trim(),
+        customerPhone: normalizePhone(document.getElementById('customerPhone').value),
+        eventType: document.getElementById('eventType').value.trim(),
+        eventDate: document.getElementById('eventDate').value,
+        eventTime: document.getElementById('eventTime').value,
+        venue: document.getElementById('venue').value.trim(),
+        city: document.getElementById('city').value.trim(),
+        comments: document.getElementById('comments').value.trim()
+      };
+    }
+
+    function fillForm(app) {
+      document.getElementById('customerName').value = app.customerName || '';
+      document.getElementById('customerPhone').value = normalizePhone(app.customerPhone || '');
+      document.getElementById('eventType').value = app.eventType || 'Свадьба';
+      document.getElementById('eventDate').value = String(app.eventDate || '').slice(0,10);
+      document.getElementById('eventTime').value = String(app.eventTime || '18:00').slice(0,5);
+      document.getElementById('venue').value = app.venue || '';
+      document.getElementById('city').value = app.city || 'Душанбе';
+      document.getElementById('comments').value = app.comments || '';
+      state.editingId = app.id;
+      formTitle.textContent = 'Редактирование заявки';
+      toggleForm(true);
+      validateForm();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function resetForm() {
+      form.reset();
+      document.getElementById('city').value = 'Душанбе';
+      document.getElementById('eventType').value = 'Свадьба';
+      document.getElementById('eventTime').value = '18:00';
+      state.editingId = null;
+      formTitle.textContent = 'Новая заявка';
+      requiredFieldIds.forEach(id => document.getElementById(id).classList.remove('invalid'));
+      hideMessages();
+      validateForm();
+    }
+
+    function hideMessages() {
+      loadingText.style.display = 'none';
+      successText.style.display = 'none';
+      errorText.style.display = 'none';
+    }
+
+    function setBusy(isBusy) {
+      state.isBusy = isBusy;
+      Array.from(form.elements).forEach(el => {
+        if (el.id !== 'resetButton') el.disabled = isBusy;
+      });
+      resetButton.disabled = isBusy;
+      validateForm(false);
+    }
+
+    async function apiRequest(action, payload = {}) {
+      if (!API_URL || API_URL.includes('PASTE_YOUR')) {
+        throw new Error('Не указан URL Google Apps Script');
+      }
+
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action, payload })
+      });
+
+      const data = await response.json();
+      if (!data.success) {
+        throw new Error(data.message || 'Ошибка API');
+      }
+      return data;
+    }
+
+    async function loadApplications() {
+      applicationList.innerHTML = '<div class="empty-state">Загрузка заявок...</div>';
+      try {
+        const data = await apiRequest('list');
+        state.applications = Array.isArray(data.items) ? data.items : [];
+        sortApplications();
+        renderStats();
+        renderApplications();
+      } catch (error) {
+        applicationList.innerHTML = `<div class="empty-state">Не удалось загрузить заявки.<br>${escapeHtml(error.message || 'Проверьте URL веб-приложения.')}</div>`;
+        console.error(error);
+      }
+    }
+
+    function sortApplications() {
+      state.applications.sort((a, b) => {
+        const aDate = parseEventDateTime(a.eventDate || '2100-01-01', a.eventTime || '00:00');
+        const bDate = parseEventDateTime(b.eventDate || '2100-01-01', b.eventTime || '00:00');
+        return (aDate?.getTime() || 0) - (bDate?.getTime() || 0);
+      });
+    }
+
+    function renderStats() {
+      const all = state.applications.length;
+      const active = state.applications.filter(a => a.status === 'active').length;
+      const cancelled = state.applications.filter(a => a.status === 'cancelled').length;
+      const completed = state.applications.filter(a => a.status === 'completed').length;
+
+      document.getElementById('countAll').textContent = all;
+      document.getElementById('countActive').textContent = active;
+      document.getElementById('countCancelled').textContent = cancelled;
+      document.getElementById('countCompleted').textContent = completed;
+    }
+
+    function getFilteredApplications() {
+      const query = searchInput.value.trim().toLowerCase();
+      return state.applications.filter(app => {
+        const matchesFilter = state.currentFilter === 'all' ? true : app.status === state.currentFilter;
+        if (!matchesFilter) return false;
+        if (!query) return true;
+
+        const haystack = [
+          app.customerName,
+          app.customerPhone,
+          normalizePhone(app.customerPhone),
+          app.city,
+          app.venue
+        ].join(' ').toLowerCase();
+
+        const normalizedQuery = normalizePhone(query);
+        return haystack.includes(query) || (normalizedQuery && haystack.includes(normalizedQuery));
+      });
+    }
+
+    function renderApplications() {
+      const items = getFilteredApplications();
+      currentFilterChip.textContent = `Фильтр: ${FILTER_LABELS[state.currentFilter]}`;
+      listDescription.textContent = items.length ? `Найдено заявок: ${items.length}` : 'По выбранному фильтру пока нет заявок.';
+
+      if (!items.length) {
+        applicationList.innerHTML = '<div class="empty-state">Заявки не найдены. Попробуйте изменить фильтр или строку поиска.</div>';
+        return;
+      }
+
+      applicationList.innerHTML = items.map(app => `
+        <article class="application-card ${getCardClass(app)}">
+          <div class="app-top">
+            <div>
+              <h4 class="app-title">${escapeHtml(app.customerName || 'Без имени')}</h4>
+              <div class="app-subtitle">${escapeHtml(app.eventType || '—')} · ${escapeHtml(app.city || '—')} · ${escapeHtml(app.venue || '—')}</div>
+            </div>
+            <div class="status-pill">${STATUS_LABELS[app.status] || app.status || '—'} · ${getDeadlineText(app)}</div>
+          </div>
+
+          <div class="app-grid">
+            <div class="app-item"><span>Телефон</span>${escapeHtml(formatPhoneDisplay(app.customerPhone))}</div>
+            <div class="app-item"><span>Дата и время</span>${escapeHtml(formatDateTime(app.eventDate, app.eventTime))}</div>
+            <div class="app-item"><span>Город</span>${escapeHtml(app.city || '—')}</div>
+            <div class="app-item"><span>Место проведения</span>${escapeHtml(app.venue || '—')}</div>
+            <div class="app-item"><span>Комментарий</span>${escapeHtml(app.comments || '—')}</div>
+            <div class="app-item"><span>ID заявки</span>${escapeHtml(app.id || '—')}</div>
+          </div>
+
+          <div class="app-actions">
+            <button class="small-btn edit-btn" type="button" onclick="handleEdit('${app.id}')">Редактировать</button>
+            ${app.status !== 'cancelled'
+              ? `<button class="small-btn cancel-btn" type="button" onclick="changeStatus('${app.id}', 'cancelled')">Отменить</button>`
+              : `<button class="small-btn restore-btn" type="button" onclick="changeStatus('${app.id}', 'active')">Восстановить</button>`}
+            ${app.status !== 'completed'
+              ? `<button class="small-btn ghost-btn" type="button" onclick="changeStatus('${app.id}', 'completed')">Отметить выполненной</button>`
+              : `<button class="small-btn restore-btn" type="button" onclick="changeStatus('${app.id}', 'active')">Вернуть в активные</button>`}
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function handleEdit(id) {
+      const app = state.applications.find(item => item.id === id);
+      if (!app) return;
+      fillForm(app);
+    }
+
+    async function changeStatus(id, status) {
+      const ok = await askConfirmation(STATUS_ACTION_TEXT[status] || 'Вы уверены, что хотите изменить статус?');
+      if (!ok) return;
+
+      hideMessages();
+      try {
+        await apiRequest('updateStatus', { id, status });
+        await loadApplications();
+
+        const messages = {
+          cancelled: 'Заявка успешно отменена.',
+          completed: 'Заявка отмечена выполненной.',
+          active: 'Заявка восстановлена.'
+        };
+
+        showToast(messages[status] || 'Статус обновлен.', 'success');
+      } catch (error) {
+        showToast(error.message || 'Не удалось обновить статус заявки.', 'error');
+        console.error(error);
+      }
+    }
+
+    async function submitForm(event) {
+      event.preventDefault();
+      hideMessages();
+
+      if (!validateForm(true)) {
+        showToast('Проверьте обязательные поля формы.', 'error');
+        return;
+      }
+
+      const payload = getFormData();
+      setBusy(true);
+      loadingText.style.display = 'block';
+
+      try {
+        if (state.editingId) {
+          await apiRequest('update', { id: state.editingId, ...payload });
+          await loadApplications();
+          showToast('Заявка успешно обновлена.', 'success');
+        } else {
+          await apiRequest('create', payload);
+          await loadApplications();
+          showToast('Заявка успешно сохранена.', 'success');
+        }
+
+        resetForm();
+        toggleForm(false);
+      } catch (error) {
+        errorText.textContent = 'Ошибка: ' + (error.message || error);
+        errorText.style.display = 'block';
+        showToast(error.message || 'Не удалось сохранить заявку.', 'error');
+        console.error(error);
+      } finally {
+        loadingText.style.display = 'none';
+        setBusy(false);
+      }
+    }
+
+    function setFilter(filter) {
+      state.currentFilter = filter;
+      document.querySelectorAll('.stat-card').forEach(card => {
+        card.classList.toggle('active', card.dataset.filter === filter);
+      });
+      renderApplications();
+    }
+
+    document.getElementById('statsCards').addEventListener('click', (event) => {
+      const card = event.target.closest('.stat-card');
+      if (!card) return;
+      setFilter(card.dataset.filter);
+    });
+
+    requiredFieldIds.forEach(id => {
+      const field = document.getElementById(id);
+      field.addEventListener('input', () => validateForm(false));
+      field.addEventListener('change', () => validateForm(false));
+      field.addEventListener('blur', () => validateField(field));
+    });
+
+    document.getElementById('customerPhone').addEventListener('input', () => {
+      sanitizePhoneInput();
+      validateForm(false);
+    });
+
+    searchInput.addEventListener('input', renderApplications);
+    form.addEventListener('submit', submitForm);
+    resetButton.addEventListener('click', resetForm);
+    accordionToggle.addEventListener('click', () => toggleForm());
+
+    populateCities();
+    resetForm();
+    validateForm(false);
+    loadApplications();
+
+    window.handleEdit = handleEdit;
+    window.changeStatus = changeStatus;
+  </script>
 </body>
 </html>
