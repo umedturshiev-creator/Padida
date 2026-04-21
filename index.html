@@ -48,12 +48,37 @@
       background: linear-gradient(135deg, rgba(124,58,237,0.25), rgba(20,184,166,0.18));
     }
     .brand { display:flex; gap:18px; align-items:center; flex-wrap:wrap; }
-    .logo {
-      width:78px;height:78px;border-radius:22px;display:grid;place-items:center;
-      background: linear-gradient(135deg, #7c3aed, #14b8a6);
-      box-shadow: 0 14px 30px rgba(92,48,200,0.35);
-      flex-shrink: 0;
-    }
+.logo {
+  width: 78px;
+  height: 78px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, #7c3aed, #14b8a6);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 14px 30px rgba(92, 48, 200, 0.35);
+  flex-shrink: 0;
+  overflow: hidden;
+  padding: 8px;
+}
+.logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.logo-fallback {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.logo-fallback svg {
+  width: 54px;
+  height: 54px;
+}
+    
     .logo svg { width: 54px; height:54px; }
     h1 { margin:0; font-size: clamp(28px, 4vw, 42px); line-height: 1.05; }
     .subtitle { margin:8px 0 0; color: var(--muted); font-size:15px; line-height:1.5; max-width: 760px; }
