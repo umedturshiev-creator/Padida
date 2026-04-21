@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Театр Падида — программа приема заявок</title>
+  <meta name="theme-color" content="#5b2be0" />
+  <style>
+    :root {
+      --bg: #0f1020;
+      --bg-soft: rgba(255,255,255,0.06);
+      --card: rgba(255,255,255,0.1);
+      --border: rgba(255,255,255,0.12);
+      --text: #f6f7fb;
+      --muted: #b9bfd6;
+      --accent-1: #7c3aed;
+      --accent-2: #14b8a6;
+      --accent-3: #f59e0b;
+      --danger: #ef4444;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --shadow: 0 18px 50px rgba(0,0,0,0.35);
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --radius-md: 14px;
+      --transition: 180ms ease;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(124,58,237,0.28), transparent 32%),
+        radial-gradient(circle at top right, rgba(20,184,166,0.22), transparent 30%),
+        linear-gradient(180deg, #14152b 0%, #0f1020 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .container {
+      width: min(1200px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 56px;
+    }
+
+    .hero {
+      display: grid;
+      gap: 18px;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, rgba(124,58,237,0.25), rgba(20,184,166,0.18));
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      width: 78px;
+      height: 78px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #7c3aed, #14b8a6);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 14px 30px rgba(92, 48, 200, 0.35);
+      flex-shrink: 0;
+    }
+
+    .logo svg { width: 54px; height: 54px; }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.05;
+    }
+
+    .subtitle {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.5;
+      max-width: 760px;
+    }
+
+    .version-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.08);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .stat-card {
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      cursor: pointer;
+      transition: transform var(--transition), border-color var(--transition), background var(--transition), box-shadow var(--transition);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+    }
+
+    .stat-card:hover,
+    .stat-card.active {
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,0.24);
+      background: rgba(255,255,255,0.14);
+      box-shadow: 0 16px 34px rgba(0,0,0,0.22);
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .stat-value {
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .search-panel,
+    .form-card,
+    .list-card {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(14px);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+    }
+
+    .search-panel {
+      padding: 20px;
+      margin-bottom: 18px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .section-title h2,
+    .section-title h3 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .section-note {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 0;
+    }
+
+    .search-input,
+    select,
+    input,
+    textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.12);
+      outline: none;
+      border-radius: 14px;
+      padding: 14px 14px;
+      font-size: 15px;
+      transition: border-color var(--transition), background var(--transition), box-shadow var(--transition);
+    }
+
+    select option {
+      color: #111827;
+    }
+
+    .search-input:focus,
+    select:focus,
+    input:focus,
+    textarea:focus {
+      border-color: rgba(124,58,237,0.9);
+      background: rgba(255,255,255,0.12);
+      box-shadow: 0 0 0 4px rgba(124,58,237,0.16);
+    }
+
+    .invalid {
+      border-color: rgba(239,68,68,0.95) !important;
+      background: rgba(239,68,68,0.14) !important;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .form-card,
+    .list-card {
+      padding: 22px;
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 8px;
+      color: #ecf0ff;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    button {
+      border: none;
+      border-radius: 14px;
+      padding: 14px 18px;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      transition: transform var(--transition), opacity var(--transition), box-shadow var(--transition);
+    }
+
+    button:hover:not(:disabled) { transform: translateY(-1px); }
+    button:disabled { opacity: 0.55; cursor: not-allowed; }
+
+    .primary-btn {
+      flex: 1;
+      color: white;
+      background: linear-gradient(135deg, var(--accent-1), #5b8cff);
+      box-shadow: 0 12px 28px rgba(92, 76, 255, 0.34);
+    }
+
+    .ghost-btn {
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .loading-text,
+    .success-text,
+    .error-text {
+      margin-top: 12px;
+      font-size: 14px;
+      display: none;
+    }
+
+    .loading-text { color: #c8d2ff; }
+    .success-text { color: #90f7d7; }
+    .error-text { color: #ffb1b1; }
+
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.24);
+      border-top-color: white;
+      border-radius: 50%;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 8px;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .list-toolbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .filter-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      color: #fff;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .application-list {
+      display: grid;
+      gap: 14px;
+      min-height: 180px;
+    }
+
+    .application-card {
+      border-radius: 20px;
+      padding: 18px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.06);
+      display: grid;
+      gap: 12px;
+    }
+
+    .application-card.due-soon { background: rgba(245, 158, 11, 0.18); border-color: rgba(245, 158, 11, 0.5); }
+    .application-card.mid-range { background: rgba(16, 185, 129, 0.18); border-color: rgba(16, 185, 129, 0.42); }
+
+    .app-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .app-title {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .app-subtitle {
+      color: #d5dcf7;
+      font-size: 13px;
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    .status-pill {
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      background: rgba(255,255,255,0.13);
+      border: 1px solid rgba(255,255,255,0.14);
+    }
+
+    .app-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 10px 16px;
+    }
+
+    .app-item {
+      color: #e8edff;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .app-item span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 2px;
+    }
+
+    .app-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .small-btn {
+      padding: 11px 14px;
+      font-size: 14px;
+      border-radius: 12px;
+    }
+
+    .edit-btn { background: rgba(59,130,246,0.18); color: #d7e7ff; border: 1px solid rgba(59,130,246,0.28); }
+    .cancel-btn { background: rgba(239,68,68,0.16); color: #ffd0d0; border: 1px solid rgba(239,68,68,0.28); }
+    .restore-btn { background: rgba(16,185,129,0.16); color: #d0fff0; border: 1px solid rgba(16,185,129,0.28); }
+
+    .empty-state {
+      display: grid;
+      place-items: center;
+      text-align: center;
+      min-height: 220px;
+      border: 1px dashed rgba(255,255,255,0.14);
+      border-radius: 18px;
+      color: var(--muted);
+      padding: 24px;
+    }
+
+    .footer {
+      color: rgba(255,255,255,0.56);
+      text-align: center;
+      padding-top: 18px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 980px) {
+      .layout { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 640px) {
+      .container { width: min(100% - 20px, 1200px); padding-top: 20px; }
+      .hero, .search-panel, .form-card, .list-card { padding: 18px; }
+      .two-col, .app-grid { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: 1fr; }
+      .brand { align-items: flex-start; }
+      .app-top { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <section class="hero">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 49L23 15L32 33L41 15L50 49" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="32" cy="14" r="5" fill="white"/>
+          </svg>
+        </div>
+        <div>
+          <h1>Театр Падида</h1>
+          <p class="subtitle">Программа приема заявок на выступления. Быстрый поиск, живые статусы, редактирование, отмена и хранение всех данных в Google Sheets.</p>
+        </div>
+      </div>
+      <div class="version-badge">Версия приложения: v1.0.0</div>
+    </section>
+
+    <section class="stats" id="statsCards">
+      <article class="stat-card active" data-filter="all">
+        <div class="stat-label">Всего заявок</div>
+        <div class="stat-value" id="countAll">0</div>
+      </article>
+      <article class="stat-card" data-filter="active">
+        <div class="stat-label">Активные заявки</div>
+        <div class="stat-value" id="countActive">0</div>
+      </article>
+      <article class="stat-card" data-filter="cancelled">
+        <div class="stat-label">Отмененные заявки</div>
+        <div class="stat-value" id="countCancelled">0</div>
+      </article>
+      <article class="stat-card" data-filter="completed">
+        <div class="stat-label">Выполненные заявки</div>
+        <div class="stat-value" id="countCompleted">0</div>
+      </article>
+    </section>
+
+    <section class="search-panel">
+      <div class="section-title">
+        <div>
+          <h2>Поиск заявки</h2>
+          <p class="section-note">Автоматический поиск по номеру телефона, имени заказчика, городу и месту проведения.</p>
+        </div>
+      </div>
+      <input class="search-input" id="searchInput" type="text" placeholder="Начните вводить имя, телефон, город или место проведения" />
+    </section>
+
+    <section class="layout">
+      <aside class="form-card">
+        <div class="section-title">
+          <div>
+            <h3 id="formTitle">Новая заявка</h3>
+            <p class="section-note">Поля с обязательным заполнением будут подсвечены, если их пропустить.</p>
+          </div>
+        </div>
+        <form id="applicationForm" novalidate>
+          <div class="form-grid">
+            <div class="field">
+              <label for="customerName">Имя заказчика *</label>
+              <input id="customerName" name="customerName" type="text" placeholder="Укажите имя заказчика" required />
+            </div>
+            <div class="field">
+              <label for="customerPhone">Телефон заказчика *</label>
+              <input id="customerPhone" name="customerPhone" type="tel" placeholder="Укажите номер телефона заказчика" required />
+            </div>
+            <div class="field">
+              <label for="eventType">Тип мероприятия *</label>
+              <select id="eventType" name="eventType" required>
+                <option value="">Выберите тип мероприятия</option>
+                <option>Свадьба</option>
+                <option>Корпоратив</option>
+                <option>Частный прием</option>
+                <option>Другое</option>
+              </select>
+            </div>
+            <div class="two-col">
+              <div class="field">
+                <label for="eventDate">Дата выступления *</label>
+                <input id="eventDate" name="eventDate" type="date" required />
+              </div>
+              <div class="field">
+                <label for="eventTime">Время выступления *</label>
+                <input id="eventTime" name="eventTime" type="time" step="1800" required />
+              </div>
+            </div>
+            <div class="field">
+              <label for="venue">Место проведения *</label>
+              <input id="venue" name="venue" type="text" placeholder="Укажите место например: Якасарой" required />
+            </div>
+            <div class="field">
+              <label for="city">Выбрать город *</label>
+              <select id="city" name="city" required></select>
+            </div>
+            <div class="field">
+              <label for="comments">Комментарии</label>
+              <textarea id="comments" name="comments" placeholder="Можете здесь указать дополнительные данные"></textarea>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="primary-btn" id="saveButton" type="submit" disabled>Сохранить</button>
+            <button class="ghost-btn" id="resetButton" type="button">Очистить</button>
+          </div>
+          <div class="loading-text" id="loadingText"><span class="spinner"></span>Идет сохранение данных...</div>
+          <div class="success-text" id="successText">Заявка успешно сохранена.</div>
+          <div class="error-text" id="errorText">Не удалось выполнить действие. Проверьте настройки Google Apps Script.</div>
+        </form>
+      </aside>
+
+      <section class="list-card">
+        <div class="list-toolbar">
+          <div>
+            <h3 style="margin:0">Список заявок</h3>
+            <p class="section-note" id="listDescription">Показаны все заявки.</p>
+          </div>
+          <div class="filter-chip" id="currentFilterChip">Фильтр: Все</div>
+        </div>
+        <div class="application-list" id="applicationList"></div>
+      </section>
+    </section>
+
+    <div class="footer">Театр Падида · Программа приема заявок · v1.0.1</div>
+  </main>
+
+  <script>
+    const APP_VERSION = 'v1.0.1';
+
+    // ВАЖНО: вставьте сюда URL развернутого Google Apps Script web app
+    const API_URL = 'PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEBAPP_URL_HERE';
+
+    const CITIES = [
+      'Душанбе','Худжанд','Бохтар','Куляб','Турсунзаде','Истаравшан','Пенджикент','Исфара',
+      'Канибадам','Вахдат','Гиссар','Нурек','Рогун','Левакант','Бустон','Гулистон',
+      'Фархор','Дангара','Восе','Яван','Кушониён','Хуросон','Шахритус','Кубодиён',
+      'Айни','Шахринав','Рудаки','Варзоб','Рашт','Таджикабад','Мургаб','Хорог'
+    ];
+
+    const STATUS_LABELS = {
+      active: 'Активная',
+      cancelled: 'Отмененная',
+      completed: 'Выполненная'
+    };
+
+    const FILTER_LABELS = {
+      all: 'Все',
+      active: 'Активные',
+      cancelled: 'Отмененные',
+      completed: 'Выполненные'
+    };
+
+    const requiredFieldIds = ['customerName', 'customerPhone', 'eventType', 'eventDate', 'eventTime', 'venue', 'city'];
+    const form = document.getElementById('applicationForm');
+    const saveButton = document.getElementById('saveButton');
+    const resetButton = document.getElementById('resetButton');
+    const searchInput = document.getElementById('searchInput');
+    const applicationList = document.getElementById('applicationList');
+    const formTitle = document.getElementById('formTitle');
+    const loadingText = document.getElementById('loadingText');
+    const successText = document.getElementById('successText');
+    const errorText = document.getElementById('errorText');
+    const currentFilterChip = document.getElementById('currentFilterChip');
+    const listDescription = document.getElementById('listDescription');
+
+    const state = {
+      applications: [],
+      currentFilter: 'all',
+      editingId: null,
+      isBusy: false
+    };
+
+    function populateCities() {
+      const citySelect = document.getElementById('city');
+      citySelect.innerHTML = CITIES.map(city => `<option value="${city}" ${city === 'Душанбе' ? 'selected' : ''}>${city}</option>`).join('');
+    }
+
+    function normalizePhone(phone) {
+      return (phone || '').replace(/\D/g, '');
+    }
+
+    function formatDate(dateString) {
+      if (!dateString) return '—';
+      const date = new Date(`${dateString}T00:00:00`);
+      if (Number.isNaN(date.getTime())) return dateString;
+      return new Intl.DateTimeFormat('ru-RU', { day: '2-digit', month: 'long', year: 'numeric' }).format(date);
+    }
+
+    function getDaysUntil(eventDate) {
+      if (!eventDate) return null;
+      const today = new Date();
+      today.setHours(0,0,0,0);
+      const target = new Date(`${eventDate}T00:00:00`);
+      if (Number.isNaN(target.getTime())) return null;
+      return Math.ceil((target - today) / 86400000);
+    }
+
+    function getCardClass(app) {
+      if (app.status !== 'active') return '';
+      const days = getDaysUntil(app.eventDate);
+      if (days === null) return '';
+      if (days <= 2 && days >= 0) return 'due-soon';
+      if (days > 2 && days <= 5) return 'mid-range';
+      return '';
+    }
+
+    function getDeadlineText(app) {
+      const days = getDaysUntil(app.eventDate);
+      if (days === null) return 'Дата не указана';
+      if (days < 0) return 'Дата уже прошла';
+      if (days === 0) return 'Выступление сегодня';
+      if (days === 1) return 'Остался 1 день';
+      return `Осталось ${days} дн.`;
+    }
+
+    function validateField(field) {
+      const isRequired = requiredFieldIds.includes(field.id);
+      const hasValue = String(field.value || '').trim() !== '';
+      const valid = !isRequired || hasValue;
+      field.classList.toggle('invalid', !valid);
+      return valid;
+    }
+
+    function validateForm(showErrors = false) {
+      let allValid = true;
+      requiredFieldIds.forEach(id => {
+        const field = document.getElementById(id);
+        const valid = validateField(field);
+        if (!valid) allValid = false;
+        if (!showErrors && valid) field.classList.remove('invalid');
+      });
+      saveButton.disabled = !allValid || state.isBusy;
+      return allValid;
+    }
+
+    function getFormData() {
+      return {
+        customerName: document.getElementById('customerName').value.trim(),
+        customerPhone: document.getElementById('customerPhone').value.trim(),
+        eventType: document.getElementById('eventType').value.trim(),
+        eventDate: document.getElementById('eventDate').value,
+        eventTime: document.getElementById('eventTime').value,
+        venue: document.getElementById('venue').value.trim(),
+        city: document.getElementById('city').value.trim(),
+        comments: document.getElementById('comments').value.trim()
+      };
+    }
+
+    function fillForm(app) {
+      document.getElementById('customerName').value = app.customerName || '';
+      document.getElementById('customerPhone').value = app.customerPhone || '';
+      document.getElementById('eventType').value = app.eventType || '';
+      document.getElementById('eventDate').value = app.eventDate || '';
+      document.getElementById('eventTime').value = app.eventTime || '';
+      document.getElementById('venue').value = app.venue || '';
+      document.getElementById('city').value = app.city || 'Душанбе';
+      document.getElementById('comments').value = app.comments || '';
+      state.editingId = app.id;
+      formTitle.textContent = 'Редактирование заявки';
+      validateForm();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function resetForm() {
+      form.reset();
+      document.getElementById('city').value = 'Душанбе';
+      state.editingId = null;
+      formTitle.textContent = 'Новая заявка';
+      requiredFieldIds.forEach(id => document.getElementById(id).classList.remove('invalid'));
+      hideMessages();
+      validateForm();
+    }
+
+    function hideMessages() {
+      loadingText.style.display = 'none';
+      successText.style.display = 'none';
+      errorText.style.display = 'none';
+    }
+
+    function setBusy(isBusy) {
+      state.isBusy = isBusy;
+      saveButton.disabled = isBusy || !validateForm(false);
+      Array.from(form.elements).forEach(el => el.disabled = isBusy && el.type !== 'button');
+      resetButton.disabled = isBusy;
+    }
+
+    async function apiRequest(action, payload = {}) {
+      if (!API_URL || API_URL.includes('PASTE_YOUR')) {
+        throw new Error('API URL not configured');
+      }
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action, payload })
+      });
+      const data = await response.json();
+      if (!data.success) {
+        throw new Error(data.message || 'Unknown API error');
+      }
+      return data;
+    }
+
+    async function loadApplications() {
+      applicationList.innerHTML = '<div class="empty-state">Загрузка заявок...</div>';
+      try {
+        const data = await apiRequest('list');
+        state.applications = Array.isArray(data.items) ? data.items : [];
+        sortApplications();
+        renderStats();
+        renderApplications();
+      } catch (error) {
+        applicationList.innerHTML = '<div class="empty-state">Не удалось загрузить заявки. Проверьте URL веб-приложения Google Apps Script.</div>';
+        console.error(error);
+      }
+    }
+
+    function sortApplications() {
+      state.applications.sort((a, b) => {
+        const aDate = new Date(`${a.eventDate || '2100-01-01'}T${a.eventTime || '00:00'}`).getTime();
+        const bDate = new Date(`${b.eventDate || '2100-01-01'}T${b.eventTime || '00:00'}`).getTime();
+        return aDate - bDate;
+      });
+    }
+
+    function renderStats() {
+      const all = state.applications.length;
+      const active = state.applications.filter(a => a.status === 'active').length;
+      const cancelled = state.applications.filter(a => a.status === 'cancelled').length;
+      const completed = state.applications.filter(a => a.status === 'completed').length;
+      document.getElementById('countAll').textContent = all;
+      document.getElementById('countActive').textContent = active;
+      document.getElementById('countCancelled').textContent = cancelled;
+      document.getElementById('countCompleted').textContent = completed;
+    }
+
+    function getFilteredApplications() {
+      const query = searchInput.value.trim().toLowerCase();
+      return state.applications.filter(app => {
+        const matchesFilter = state.currentFilter === 'all' ? true : app.status === state.currentFilter;
+        if (!matchesFilter) return false;
+        if (!query) return true;
+        const haystack = [app.customerName, app.customerPhone, normalizePhone(app.customerPhone), app.city, app.venue]
+          .join(' ')
+          .toLowerCase();
+        return haystack.includes(query) || normalizePhone(query) && haystack.includes(normalizePhone(query));
+      });
+    }
+
+    function renderApplications() {
+      const items = getFilteredApplications();
+      currentFilterChip.textContent = `Фильтр: ${FILTER_LABELS[state.currentFilter]}`;
+      listDescription.textContent = items.length
+        ? `Найдено заявок: ${items.length}`
+        : `По выбранному фильтру пока нет заявок.`;
+
+      if (!items.length) {
+        applicationList.innerHTML = '<div class="empty-state">Заявки не найдены. Попробуйте изменить фильтр или строку поиска.</div>';
+        return;
+      }
+
+      applicationList.innerHTML = items.map(app => `
+        <article class="application-card ${getCardClass(app)}">
+          <div class="app-top">
+            <div>
+              <h4 class="app-title">${escapeHtml(app.customerName || 'Без имени')}</h4>
+              <div class="app-subtitle">${escapeHtml(app.eventType || '—')} · ${escapeHtml(app.city || '—')} · ${escapeHtml(app.venue || '—')}</div>
+            </div>
+            <div class="status-pill">${STATUS_LABELS[app.status] || app.status || '—'} · ${getDeadlineText(app)}</div>
+          </div>
+          <div class="app-grid">
+            <div class="app-item"><span>Телефон</span>${escapeHtml(app.customerPhone || '—')}</div>
+            <div class="app-item"><span>Дата выступления</span>${formatDate(app.eventDate)}${app.eventTime ? `, ${escapeHtml(app.eventTime)}` : ''}</div>
+            <div class="app-item"><span>Город</span>${escapeHtml(app.city || '—')}</div>
+            <div class="app-item"><span>Место проведения</span>${escapeHtml(app.venue || '—')}</div>
+            <div class="app-item"><span>Комментарий</span>${escapeHtml(app.comments || '—')}</div>
+            <div class="app-item"><span>ID заявки</span>${escapeHtml(app.id || '—')}</div>
+          </div>
+          <div class="app-actions">
+            <button class="small-btn edit-btn" type="button" onclick="handleEdit('${app.id}')">Редактировать</button>
+            ${app.status !== 'cancelled' ? `<button class="small-btn cancel-btn" type="button" onclick="changeStatus('${app.id}', 'cancelled')">Отменить</button>` : `<button class="small-btn restore-btn" type="button" onclick="changeStatus('${app.id}', 'active')">Восстановить</button>`}
+            ${app.status !== 'completed' ? `<button class="small-btn ghost-btn" type="button" onclick="changeStatus('${app.id}', 'completed')">Отметить выполненной</button>` : `<button class="small-btn restore-btn" type="button" onclick="changeStatus('${app.id}', 'active')">Вернуть в активные</button>`}
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function handleEdit(id) {
+      const app = state.applications.find(item => item.id === id);
+      if (!app) return;
+      fillForm(app);
+    }
+
+    async function changeStatus(id, status) {
+      hideMessages();
+      try {
+        await apiRequest('updateStatus', { id, status });
+        successText.textContent = status === 'cancelled' ? 'Заявка перенесена в отмененные.' : 'Статус заявки обновлен.';
+        successText.style.display = 'block';
+        await loadApplications();
+      } catch (error) {
+        errorText.textContent = 'Не удалось обновить статус заявки.';
+        errorText.style.display = 'block';
+        console.error(error);
+      }
+    }
+
+    async function submitForm(event) {
+      event.preventDefault();
+      hideMessages();
+      if (!validateForm(true)) return;
+      const payload = getFormData();
+      setBusy(true);
+      loadingText.style.display = 'block';
+      try {
+        if (state.editingId) {
+          await apiRequest('update', { id: state.editingId, ...payload });
+          successText.textContent = 'Заявка успешно обновлена.';
+        } else {
+          await apiRequest('create', payload);
+          successText.textContent = 'Заявка успешно сохранена.';
+        }
+        successText.style.display = 'block';
+        resetForm();
+        successText.style.display = 'block';
+        await loadApplications();
+      } catch (error) {
+        errorText.textContent = 'Не удалось сохранить заявку. Проверьте подключение к Google Sheets.';
+        errorText.style.display = 'block';
+        console.error(error);
+      } finally {
+        loadingText.style.display = 'none';
+        setBusy(false);
+      }
+    }
+
+    function setFilter(filter) {
+      state.currentFilter = filter;
+      document.querySelectorAll('.stat-card').forEach(card => {
+        card.classList.toggle('active', card.dataset.filter === filter);
+      });
+      renderApplications();
+    }
+
+    document.getElementById('statsCards').addEventListener('click', (event) => {
+      const card = event.target.closest('.stat-card');
+      if (!card) return;
+      setFilter(card.dataset.filter);
+    });
+
+    requiredFieldIds.forEach(id => {
+      const field = document.getElementById(id);
+      field.addEventListener('input', () => validateForm(false));
+      field.addEventListener('change', () => validateForm(false));
+      field.addEventListener('blur', () => validateField(field));
+    });
+
+    searchInput.addEventListener('input', renderApplications);
+    form.addEventListener('submit', submitForm);
+    resetButton.addEventListener('click', resetForm);
+
+    populateCities();
+    validateForm(false);
+    loadApplications();
+
+    window.handleEdit = handleEdit;
+    window.changeStatus = changeStatus;
+  </script>
+</body>
+</html>
