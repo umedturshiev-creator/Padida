@@ -490,7 +490,7 @@
       </section>
     </section>
 
-    <div class="footer">Театр Падида · Программа приема заявок · v1.0.8</div>
+    <div class="footer" id="footerText"></div>
   </main>
 
   <script>
@@ -643,6 +643,7 @@
         confirmLogoutText: 'Выйти из системы?',
         passwordLabel: 'Пароль',
         loginWarning: 'Это базовая защита доступа для текущей архитектуры.',
+        appDescription: 'Программа приема заявок',
       },
       tj: {
         appTitle: 'Театри Падида',
@@ -733,6 +734,7 @@
         confirmLogoutText: 'Аз система бароед?',
         passwordLabel: 'Рамз',
         loginWarning: 'Ин муҳофизати ибтидоии дастрасӣ барои меъмории ҷорӣ мебошад.',
+        appDescription: 'Барномаи қабули дархостҳо',
       }
     };
 
@@ -992,6 +994,11 @@
 
       const exportTitle = document.querySelector('#exportOverlay h3');
       if (exportTitle) exportTitle.textContent = t('exportTitle');
+
+      const footer = document.getElementById('footerText');
+      if (footer) {
+        footer.textContent = `${t('appTitle')} · ${t('appDescription')} · v${APP_VERSION}`;
+      }
 
       const exportNote = document.querySelector('#exportOverlay .section-note');
       if (exportNote) exportNote.textContent = t('exportNote');
