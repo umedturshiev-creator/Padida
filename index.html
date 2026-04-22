@@ -30,6 +30,7 @@
       --radius-md: 14px;
       --transition: 180ms ease;
     }
+
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
@@ -42,81 +43,16 @@
       color: var(--text);
       min-height: 100vh;
     }
-.action-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  padding: 10px;
-  border-radius: 12px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.12);
-  color: #fff;
-  font-size: 16px;
-  min-width: 68px;
-  text-decoration: none;
-  transition: transform 0.14s ease, box-shadow 0.14s ease, background 0.14s ease;
-  -webkit-tap-highlight-color: transparent;
-  user-select: none;
-}
 
-.action-btn span {
-  font-size: 18px;
-}
-
-.action-btn small {
-  font-size: 11px;
-  opacity: 0.85;
-  line-height: 1.1;
-}
-
-.action-btn:hover {
-  transform: translateY(-2px);
-}
-
-.action-btn:active {
-  transform: scale(0.92);
-}
-
-.action-btn.call {
-  background: rgba(59,130,246,0.16);
-  border-color: rgba(59,130,246,0.28);
-}
-
-.action-btn.whatsapp {
-  background: rgba(34,197,94,0.22);
-  border-color: rgba(34,197,94,0.42);
-  box-shadow: 0 8px 18px rgba(34,197,94,0.18);
-}
-
-.action-btn.edit {
-  background: rgba(59,130,246,0.18);
-  border-color: rgba(59,130,246,0.28);
-}
-
-.action-btn.cancel {
-  background: rgba(239,68,68,0.20);
-  border-color: rgba(239,68,68,0.30);
-}
-
-.action-btn.restore {
-  background: rgba(16,185,129,0.20);
-  border-color: rgba(16,185,129,0.30);
-}
-
-.action-btn.pressed {
-  transform: scale(0.92);
-}
-    
     .container { width: min(1260px, calc(100% - 20px)); margin: 0 auto; padding: 14px 0 36px; }
-    .hero, .form-card, .list-card, .login-card, .modal-card, .utility-card {
+    .hero, .form-card, .list-card, .login-card, .modal-card {
       border: 1px solid var(--border);
       background: rgba(255,255,255,0.08);
       border-radius: var(--radius-xl);
       box-shadow: var(--shadow);
       backdrop-filter: blur(14px);
     }
+
     .hero {
       display: grid;
       gap: 10px;
@@ -124,6 +60,7 @@
       padding: 14px 16px;
       background: linear-gradient(135deg, rgba(124,58,237,0.25), rgba(20,184,166,0.18));
     }
+
     .hero-top {
       display:flex;
       justify-content: space-between;
@@ -131,37 +68,44 @@
       gap:10px;
       flex-wrap: nowrap;
     }
+
     .brand { display:flex; gap:12px; align-items:center; flex-wrap:nowrap; min-width:0; }
     .brand-copy { display:grid; gap:2px; min-width:0; }
+
     .logo {
       width: 48px;
       height: 48px;
-      border-radius: 22px;
+      border-radius: 16px;
       background: linear-gradient(135deg, #7c3aed, #14b8a6);
       display: grid;
       place-items: center;
       box-shadow: 0 14px 30px rgba(92, 48, 200, 0.35);
       flex-shrink: 0;
       overflow: hidden;
-      padding: 8px;
+      padding: 6px;
     }
     .logo-img { width:100%; height:100%; object-fit:contain; display:block; }
     .logo-fallback { width:100%; height:100%; display:grid; place-items:center; }
-    .logo-fallback svg { width:54px; height:54px; }
+    .logo-fallback svg { width:40px; height:40px; }
+
     h1 { margin:0; font-size: clamp(18px, 4.8vw, 28px); line-height:1.05; }
     .subtitle { display:none; }
+
     .hero-actions { display:flex; gap:8px; flex-wrap:nowrap; justify-content:flex-end; align-items:center; }
+
     .version-badge, .chip {
       display:inline-flex; align-items:center; gap:6px; width:fit-content;
       padding:8px 12px; border-radius:999px; border:1px solid rgba(255,255,255,0.1);
       background: rgba(255,255,255,0.08); font-size:12px; font-weight:600;
     }
+
     .layout { display:grid; grid-template-columns: 390px 1fr; gap:18px; align-items:start; }
-    .form-card, .list-card, .utility-card { padding:20px; }
-    .stack { display:grid; gap:18px; }
+    .form-card, .list-card { padding:20px; }
+
     .section-title { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom: 14px; }
     .section-title h2, .section-title h3 { margin:0; font-size: 22px; }
     .section-note { margin:4px 0 0; color: var(--muted); font-size:14px; }
+
     button {
       border:none; border-radius:12px; padding:10px 12px; font-weight:700; font-size:13px;
       cursor:pointer; transition: transform var(--transition), opacity var(--transition), box-shadow var(--transition), background var(--transition);
@@ -172,12 +116,16 @@
     .ghost-btn { color:#fff; background: rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.12); }
     .danger-btn { color:#fff; background: linear-gradient(135deg, #ef4444, #f97316); }
     .install-btn { color:#fff; background: linear-gradient(135deg, #14b8a6, #0ea5e9); }
+    .pdf-btn { color:#fff; background: linear-gradient(135deg, #f97316, #fb923c); }
+
     .toggle-btn { width:100%; display:flex; align-items:center; justify-content:space-between; background: rgba(255,255,255,0.06); color:#fff; border:1px solid var(--border); }
     .collapsible { display:none; margin-top: 14px; }
     .collapsible.open { display:block; }
+
     .form-grid { display:grid; gap:14px; }
     .two-col { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
     .field label { display:block; margin-bottom:8px; font-size:14px; font-weight:600; }
+
     .search-input, input, select, textarea {
       width:100%; background: rgba(255,255,255,0.08); color:var(--text); border:1px solid rgba(255,255,255,0.12);
       border-radius:14px; padding:14px 14px; font-size:15px; outline:none;
@@ -191,15 +139,18 @@
     .invalid { border-color: rgba(239,68,68,0.95) !important; background: rgba(239,68,68,0.14) !important; }
     .actions { display:flex; gap:12px; flex-wrap:wrap; margin-top: 8px; }
     .search-wrap { display:grid; gap:12px; margin: 14px 0 16px; }
+
     .mini-filters { display:grid; grid-template-columns: repeat(4, 1fr); gap:10px; }
     .filter-btn { background: var(--card-soft); color:#fff; border:1px solid var(--border); border-radius: 14px; padding:12px; text-align:left; }
     .filter-btn.active { background: rgba(255,255,255,0.16); border-color: rgba(255,255,255,0.22); }
     .filter-btn .small { display:block; color: var(--muted); font-size:12px; margin-bottom:6px; }
     .filter-btn .value { display:block; font-size:20px; font-weight:800; }
+
     .application-list { display:grid; gap:14px; min-height:180px; }
     .application-card { border-radius:20px; padding:18px; border:1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.06); display:grid; gap:12px; }
     .application-card.due-soon { background: rgba(245, 158, 11, 0.18); border-color: rgba(245, 158, 11, 0.5); }
     .application-card.mid-range { background: rgba(16, 185, 129, 0.18); border-color: rgba(16, 185, 129, 0.42); }
+
     .app-top { display:flex; justify-content:space-between; gap:10px; align-items:flex-start; flex-wrap:wrap; }
     .app-title { margin:0; font-size:18px; font-weight:800; }
     .app-subtitle { color:#d5dcf7; font-size:13px; margin-top:6px; line-height:1.5; }
@@ -207,61 +158,64 @@
     .app-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px 16px; }
     .app-item { color:#e8edff; font-size:14px; line-height:1.45; }
     .app-item span { display:block; color:var(--muted); font-size:12px; margin-bottom:2px; }
+
     .app-actions { display:flex; flex-wrap:wrap; gap:10px; }
-    .small-btn { padding:9px 12px; font-size:13px; border-radius:12px; }
-    .edit-btn { background: rgba(59,130,246,0.18); color: #d7e7ff; border: 1px solid rgba(59,130,246,0.28); }
-    .cancel-btn { background: rgba(239,68,68,0.16); color: #ffd0d0; border: 1px solid rgba(239,68,68,0.28); }
-    .restore-btn { background: rgba(16,185,129,0.16); color: #d0fff0; border: 1px solid rgba(16,185,129,0.28); }
-    .wa-btn { background: rgba(34,197,94,0.18); color:#d7ffe6; border:1px solid rgba(34,197,94,0.34); }
-    .pdf-btn { background: rgba(249,115,22,0.18); color:#ffe3d0; border:1px solid rgba(249,115,22,0.34); }
+
+    .action-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      padding: 10px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #fff;
+      font-size: 16px;
+      min-width: 72px;
+      text-decoration: none;
+      transition: transform 0.14s ease, box-shadow 0.14s ease, background 0.14s ease;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      cursor: pointer;
+    }
+    .action-btn span { font-size: 18px; }
+    .action-btn small { font-size: 11px; opacity: 0.85; line-height: 1.1; }
+    .action-btn:hover { transform: translateY(-2px); }
+    .action-btn:active { transform: scale(0.92); }
+    .action-btn.call { background: rgba(59,130,246,0.16); border-color: rgba(59,130,246,0.28); }
+    .action-btn.whatsapp { background: rgba(34,197,94,0.22); border-color: rgba(34,197,94,0.42); box-shadow: 0 8px 18px rgba(34,197,94,0.18); }
+    .action-btn.edit { background: rgba(59,130,246,0.18); border-color: rgba(59,130,246,0.28); }
+    .action-btn.cancel { background: rgba(239,68,68,0.20); border-color: rgba(239,68,68,0.30); }
+    .action-btn.restore { background: rgba(16,185,129,0.20); border-color: rgba(16,185,129,0.30); }
+    .action-btn.pressed { transform: scale(0.92); }
+
     .empty-state { display:grid; place-items:center; text-align:center; min-height:220px; border:1px dashed rgba(255,255,255,0.14); border-radius:18px; color:var(--muted); padding:24px; }
     .loading-text, .success-text, .error-text { margin-top:12px; font-size:14px; display:none; }
     .loading-text { color: #c8d2ff; } .success-text { color:#90f7d7; } .error-text { color:#ffb1b1; }
     .spinner { width:16px;height:16px;border:2px solid rgba(255,255,255,0.24);border-top-color:#fff;border-radius:50%;display:inline-block;vertical-align:middle;margin-right:8px;animation: spin .7s linear infinite; }
     @keyframes spin { to { transform:rotate(360deg);} }
-.toast {
-  min-width: 260px;
-  max-width: 420px;
-  padding: 14px 16px;
-  border-radius: 16px;
-  color: #fff;
-  box-shadow: 0 18px 40px rgba(0,0,0,0.4);
-  border: 1px solid rgba(255,255,255,0.14);
-  backdrop-filter: blur(12px);
-  animation: toastIn 0.25s ease;
-}
 
-.toast.success {
-  background: linear-gradient(135deg, #10b981, #34d399);
-}
+    .toast-wrap { position: fixed; right:20px; bottom:20px; display:grid; gap:10px; z-index:2000; }
+    .toast {
+      min-width: 260px; max-width: 420px; padding: 14px 16px; border-radius: 16px; color: #fff;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.14); backdrop-filter: blur(12px);
+      animation: toastIn 0.25s ease;
+    }
+    .toast.success { background: linear-gradient(135deg, #10b981, #34d399); }
+    .toast.error { background: linear-gradient(135deg, #ef4444, #f87171); }
+    .toast.info { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
+    .toast.warning { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(15px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
 
-.toast.error {
-  background: linear-gradient(135deg, #ef4444, #f87171);
-}
-
-.toast.info {
-  background: linear-gradient(135deg, #3b82f6, #60a5fa);
-}
-
-.toast.warning {
-  background: linear-gradient(135deg, #f59e0b, #fbbf24);
-}
-
-@keyframes toastIn {
-  from {
-    opacity: 0;
-    transform: translateY(15px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-    @keyframes slideIn { from { opacity:0; transform: translateY(8px);} to { opacity:1; transform:none;} }
     .overlay { position: fixed; inset: 0; background: rgba(6,8,20,0.72); display:flex; align-items:center; justify-content:center; padding:20px; z-index:3000; }
     .overlay.hidden { display:none; }
     .login-card, .modal-card { width:min(460px,100%); padding:22px; }
-    .modal-actions, .login-actions { display:flex; gap:10px; justify-content:flex-end; margin-top:16px; }
+    .modal-actions, .login-actions { display:flex; gap:10px; justify-content:flex-end; margin-top:16px; align-items:center; }
     .footer { color: rgba(255,255,255,0.56); text-align:center; padding-top:18px; font-size:13px; }
     .warning-note { margin-top: 12px; color: #f5d38b; font-size: 13px; line-height: 1.45; border: 1px dashed rgba(245, 158, 11, 0.35); border-radius: 14px; padding: 12px; background: rgba(245, 158, 11, 0.08); }
 
@@ -271,25 +225,21 @@
       background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); color:#fff;
     }
     .export-option small { display:block; color: var(--muted); margin-top:4px; font-size:12px; font-weight:500; }
-    .stats-months { display:grid; gap:12px; }
-    .stats-month-card { border-radius:18px; padding:16px; background: rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); }
-    .stats-month-top { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; flex-wrap:wrap; margin-bottom:12px; }
-    .stats-metrics { display:grid; grid-template-columns: repeat(4, 1fr); gap:10px; }
-    .metric { background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.09); border-radius:14px; padding:12px; }
-    .metric span { display:block; color:var(--muted); font-size:12px; margin-bottom:4px; }
-    .metric strong { font-size:18px; }
-    .progress { height:10px; border-radius:999px; background: rgba(255,255,255,0.08); overflow:hidden; margin-top:10px; }
-    .progress > div { height:100%; background: linear-gradient(90deg, var(--accent-1), var(--accent-2)); }
+
     .pdf-export-area { background:#fff; color:#111827; padding:24px; font-family: Arial, sans-serif; }
     .pdf-export-area h1, .pdf-export-area h2 { margin:0 0 10px; }
     .pdf-export-area table { width:100%; border-collapse:collapse; margin-top:14px; }
     .pdf-export-area th, .pdf-export-area td { border:1px solid #d1d5db; padding:8px; font-size:12px; vertical-align:top; text-align:left; }
     .pdf-export-area th { background:#f3f4f6; }
-    @media (max-width: 1080px) { .layout { grid-template-columns:1fr; } }
+
+    @media (max-width: 1080px) {
+      .layout { grid-template-columns:1fr; }
+    }
+
     @media (max-width: 760px) {
       .container { width:min(100% - 12px, 1260px); padding-top:10px; }
-      .hero, .form-card, .list-card, .login-card, .modal-card, .utility-card { padding:14px; }
-      .two-col, .app-grid, .mini-filters, .stats-metrics { grid-template-columns:1fr; }
+      .hero, .form-card, .list-card, .login-card, .modal-card { padding:14px; }
+      .two-col, .app-grid, .mini-filters { grid-template-columns:1fr; }
       .app-top { flex-direction:column; }
       .hero-top { align-items:flex-start; flex-wrap:wrap; }
       .brand { width:100%; }
@@ -298,6 +248,7 @@
       .version-badge { font-size:11px; padding:6px 10px; }
       .toast-wrap { left:12px; right:12px; bottom:12px; }
       .toast { min-width: 0; max-width: unset; }
+      .action-btn { min-width: 66px; }
     }
   </style>
 </head>
@@ -315,12 +266,12 @@
         <input id="loginPassword" type="password" placeholder="Введите пароль" />
       </div>
       <div class="warning-note">
-        Это базовая защита доступа для текущей архитектуры!
+        Это базовая защита доступа для текущей архитектуры.
       </div>
       <div class="login-actions">
         <div class="loading-text" id="loginLoadingText">
-  <span class="spinner"></span>Проверка пароля...
-</div>
+          <span class="spinner"></span>Проверка пароля...
+        </div>
         <button class="primary-btn" id="loginButton" type="button">Войти</button>
       </div>
     </div>
@@ -340,7 +291,6 @@
       </div>
     </div>
   </div>
-
 
   <div class="overlay hidden" id="exportOverlay">
     <div class="modal-card">
@@ -389,108 +339,89 @@
         </div>
 
         <div class="hero-actions">
-          <button class="ghost-btn" id="installButton" type="button" style="display:none;">Установить</button>
-          <button class="pdf-btn" id="exportPdfButton" type="button">Экспорт в PDF</button>
+          <button class="install-btn" id="installButton" type="button" style="display:none;">Установить</button>
+          <button class="pdf-btn" id="exportPdfButton" type="button">PDF</button>
           <button class="danger-btn" id="logoutButton" type="button">Выйти</button>
         </div>
       </div>
-      <div class="version-badge">Версия приложения: v1.0.6</div>
+      <div class="version-badge">Версия приложения: v1.0.7</div>
     </section>
 
     <section class="layout">
-      <div class="stack">
-        <aside class="form-card">
-          <button class="toggle-btn" id="toggleFormBtn" type="button">
-            <span id="toggleFormLabel">➕ Новая заявка</span>
-            <span id="toggleFormArrow">▼</span>
-          </button>
+      <aside class="form-card">
+        <button class="toggle-btn" id="toggleFormBtn" type="button">
+          <span id="toggleFormLabel">➕ Новая заявка</span>
+          <span id="toggleFormArrow">▼</span>
+        </button>
 
-          <div class="collapsible" id="formCollapse">
-            <div class="section-title" style="margin-top:14px">
-              <div>
-                <h3 id="formTitle">Новая заявка</h3>
-                <p class="section-note">Заполните обязательные поля для сохранения.</p>
+        <div class="collapsible" id="formCollapse">
+          <div class="section-title" style="margin-top:14px">
+            <div>
+              <h3 id="formTitle">Новая заявка</h3>
+              <p class="section-note">Заполните обязательные поля для сохранения.</p>
+            </div>
+          </div>
+
+          <form id="applicationForm" novalidate>
+            <div class="form-grid">
+              <div class="field">
+                <label for="customerName">Имя заказчика *</label>
+                <input id="customerName" name="customerName" type="text" placeholder="Укажите имя заказчика" required />
+              </div>
+
+              <div class="field">
+                <label for="customerPhone">Телефон заказчика *</label>
+                <input id="customerPhone" name="customerPhone" type="tel" inputmode="numeric" maxlength="9" placeholder="Укажите 9 цифр номера заказчика" required />
+              </div>
+
+              <div class="field">
+                <label for="eventType">Тип мероприятия *</label>
+                <select id="eventType" name="eventType" required>
+                  <option>Свадьба</option>
+                  <option>Корпоратив</option>
+                  <option>Частный прием</option>
+                  <option>Другое</option>
+                </select>
+              </div>
+
+              <div class="two-col">
+                <div class="field">
+                  <label for="eventDate">Дата выступления *</label>
+                  <input id="eventDate" name="eventDate" type="date" required />
+                </div>
+                <div class="field">
+                  <label for="eventTime">Время выступления *</label>
+                  <input id="eventTime" name="eventTime" type="time" step="1800" required value="18:00" />
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="venue">Место проведения *</label>
+                <input id="venue" name="venue" type="text" placeholder="Укажите место например: Якасарой" required />
+              </div>
+
+              <div class="field">
+                <label for="city">Выбрать город *</label>
+                <select id="city" name="city" required></select>
+              </div>
+
+              <div class="field">
+                <label for="comments">Комментарии</label>
+                <textarea id="comments" name="comments" placeholder="Можете здесь указать дополнительные данные"></textarea>
               </div>
             </div>
 
-            <form id="applicationForm" novalidate>
-              <div class="form-grid">
-                <div class="field">
-                  <label for="customerName">Имя заказчика *</label>
-                  <input id="customerName" name="customerName" type="text" placeholder="Укажите имя заказчика" required />
-                </div>
-
-                <div class="field">
-                  <label for="customerPhone">Телефон заказчика *</label>
-                  <input id="customerPhone" name="customerPhone" type="tel" inputmode="numeric" maxlength="9" placeholder="Укажите 9 цифр номера заказчика" required />
-                </div>
-
-                <div class="field">
-                  <label for="eventType">Тип мероприятия *</label>
-                  <select id="eventType" name="eventType" required>
-                    <option>Свадьба</option>
-                    <option>Корпоратив</option>
-                    <option>Частный прием</option>
-                    <option>Другое</option>
-                  </select>
-                </div>
-
-                <div class="two-col">
-                  <div class="field">
-                    <label for="eventDate">Дата выступления *</label>
-                    <input id="eventDate" name="eventDate" type="date" required />
-                  </div>
-                  <div class="field">
-                    <label for="eventTime">Время выступления *</label>
-                    <input id="eventTime" name="eventTime" type="time" step="1800" required value="18:00" />
-                  </div>
-                </div>
-
-                <div class="field">
-                  <label for="venue">Место проведения *</label>
-                  <input id="venue" name="venue" type="text" placeholder="Укажите место например: Якасарой" required />
-                </div>
-
-                <div class="field">
-                  <label for="city">Выбрать город *</label>
-                  <select id="city" name="city" required></select>
-                </div>
-
-                <div class="field">
-                  <label for="comments">Комментарии</label>
-                  <textarea id="comments" name="comments" placeholder="Можете здесь указать дополнительные данные"></textarea>
-                </div>
-              </div>
-
-              <div class="actions">
-                <button class="primary-btn" id="saveButton" type="submit" disabled>Сохранить</button>
-                <button class="ghost-btn" id="resetButton" type="button">Очистить</button>
-              </div>
-
-              <div class="loading-text" id="loadingText"><span class="spinner"></span>Идет сохранение данных...</div>
-              <div class="success-text" id="successText">Заявка успешно сохранена.</div>
-              <div class="error-text" id="errorText">Не удалось выполнить действие.</div>
-            </form>
-          </div>
-        </aside>
-
-
-        <section class="utility-card">
-          <button class="toggle-btn" id="toggleStatsBtn" type="button">
-            <span>📊 Статистика по месяцам</span>
-            <span id="toggleStatsArrow">▼</span>
-          </button>
-          <div class="collapsible" id="statsCollapse">
-            <div class="section-title" style="margin-top:14px">
-              <div>
-                <h3>Статистика по месяцам</h3>
-                <p class="section-note">Количество заказов и ориентировочная загрузка по месяцам.</p>
-              </div>
+            <div class="actions">
+              <button class="primary-btn" id="saveButton" type="submit" disabled>Сохранить</button>
+              <button class="ghost-btn" id="resetButton" type="button">Очистить</button>
             </div>
-            <div id="statsView" class="stats-months"></div>
-          </div>
-        </section>
-      </div>
+
+            <div class="loading-text" id="loadingText"><span class="spinner"></span>Идет сохранение данных...</div>
+            <div class="success-text" id="successText">Заявка успешно сохранена.</div>
+            <div class="error-text" id="errorText">Не удалось выполнить действие.</div>
+          </form>
+        </div>
+      </aside>
 
       <section class="list-card">
         <div class="section-title">
@@ -533,11 +464,11 @@
       </section>
     </section>
 
-    <div class="footer">Театр Падида · Программа приема заявок · v1.0.6</div>
+    <div class="footer">Театр Падида · Программа приема заявок · v1.0.7</div>
   </main>
 
   <script>
-    const APP_VERSION = 'v1.0.6';
+    const APP_VERSION = 'v1.0.7';
     const API_URL = 'https://script.google.com/macros/s/AKfycbxVq0f5JuvsGSemErm2BI7TgoXHz6SWzrWHQ6bPEnnfadvBws6ZQAYbgM5Bn-UB_k_f/exec';
 
     const CITIES = [
@@ -580,10 +511,6 @@
     const toggleFiltersBtn = document.getElementById('toggleFiltersBtn');
     const filtersCollapse = document.getElementById('filtersCollapse');
     const toggleFiltersArrow = document.getElementById('toggleFiltersArrow');
-    const toggleStatsBtn = document.getElementById('toggleStatsBtn');
-    const statsCollapse = document.getElementById('statsCollapse');
-    const toggleStatsArrow = document.getElementById('toggleStatsArrow');
-    const statsView = document.getElementById('statsView');
 
     const state = {
       applications: [],
@@ -595,10 +522,10 @@
     };
 
     function setLoginBusy(isBusy) {
-  loginButton.disabled = isBusy;
-  loginPassword.disabled = isBusy;
-  loginLoadingText.style.display = isBusy ? 'block' : 'none';
-}
+      loginButton.disabled = isBusy;
+      loginPassword.disabled = isBusy;
+      loginLoadingText.style.display = isBusy ? 'block' : 'none';
+    }
 
     function populateCities() {
       const citySelect = document.getElementById('city');
@@ -628,13 +555,6 @@
       }).format(date);
     }
 
-    function formatDateOnly(dateString) {
-      if (!dateString) return '—';
-      const date = new Date(`${dateString}T00:00:00`);
-      if (Number.isNaN(date.getTime())) return dateString;
-      return new Intl.DateTimeFormat('ru-RU', { day: '2-digit', month: 'long', year: 'numeric' }).format(date);
-    }
-
     function getDaysUntil(eventDate, eventTime) {
       if (!eventDate) return null;
       const dateTime = new Date(`${eventDate}T${eventTime || '00:00'}:00`);
@@ -662,37 +582,30 @@
     }
 
     function escapeHtml(value) {
-      return String(value ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+      return String(value ?? '')
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
     }
 
-function showToast(text, type = 'success') {
-  const icons = {
-    success: '✅',
-    error: '❌',
-    info: 'ℹ️',
-    warning: '⚠️'
-  };
-
-  const wrap = document.getElementById('toastWrap');
-
-  const toast = document.createElement('div');
-  toast.className = `toast ${type}`;
-
-  toast.innerHTML = `
-    <div style="display:flex; gap:10px; align-items:center;">
-      <div style="font-size:18px">${icons[type] || '🔔'}</div>
-      <div style="font-weight:600;">${text}</div>
-    </div>
-  `;
-
-  wrap.appendChild(toast);
-
-  setTimeout(() => {
-    toast.style.opacity = '0';
-    toast.style.transform = 'translateY(10px)';
-    setTimeout(() => toast.remove(), 250);
-  }, 3000);
-}
+    function showToast(text, type = 'success') {
+      const icons = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
+      const wrap = document.getElementById('toastWrap');
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.innerHTML = `
+        <div style="display:flex; gap:10px; align-items:center;">
+          <div style="font-size:18px">${icons[type] || '🔔'}</div>
+          <div style="font-weight:600;">${text}</div>
+        </div>
+      `;
+      wrap.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(10px)';
+        setTimeout(() => toast.remove(), 250);
+      }, 3000);
+    }
 
     function showConfirm(title, text) {
       return new Promise(resolve => {
@@ -710,6 +623,7 @@ function showToast(text, type = 'success') {
           cancelBtn.removeEventListener('click', onCancel);
           resolve(result);
         }
+
         function onOk() { cleanup(true); }
         function onCancel() { cleanup(false); }
 
@@ -825,7 +739,6 @@ function showToast(text, type = 'success') {
         sortApplications();
         renderStats();
         renderApplications();
-        renderMonthlyStats();
       } catch (error) {
         applicationList.innerHTML = `<div class="empty-state">Не удалось загрузить заявки.<br>${escapeHtml(error.message || String(error))}</div>`;
       }
@@ -840,14 +753,10 @@ function showToast(text, type = 'success') {
     }
 
     function renderStats() {
-      const all = state.applications.length;
-      const active = state.applications.filter(a => a.status === 'active').length;
-      const cancelled = state.applications.filter(a => a.status === 'cancelled').length;
-      const completed = state.applications.filter(a => a.status === 'completed').length;
-      document.getElementById('countAll').textContent = all;
-      document.getElementById('countActive').textContent = active;
-      document.getElementById('countCancelled').textContent = cancelled;
-      document.getElementById('countCompleted').textContent = completed;
+      document.getElementById('countAll').textContent = state.applications.length;
+      document.getElementById('countActive').textContent = state.applications.filter(a => a.status === 'active').length;
+      document.getElementById('countCancelled').textContent = state.applications.filter(a => a.status === 'cancelled').length;
+      document.getElementById('countCompleted').textContent = state.applications.filter(a => a.status === 'completed').length;
     }
 
     function getFilteredApplications() {
@@ -856,29 +765,22 @@ function showToast(text, type = 'success') {
         const matchesFilter = state.currentFilter === 'all' ? true : app.status === state.currentFilter;
         if (!matchesFilter) return false;
         if (!query) return true;
-        const haystack = [app.customerName, app.customerPhone, normalizePhone(app.customerPhone), app.city, app.venue].join(' ').toLowerCase();
+
+        const haystack = [
+          app.customerName,
+          app.customerPhone,
+          normalizePhone(app.customerPhone),
+          app.city,
+          app.venue
+        ].join(' ').toLowerCase();
+
         const normalizedQuery = normalizePhone(query);
         return haystack.includes(query) || (normalizedQuery && haystack.includes(normalizedQuery));
       });
     }
 
-    function getWhatsAppLink(app) {
-      const phone = normalizePhone(app.customerPhone);
-      if (phone.length !== 9) return '';
-      const text = [
-        `Здравствуйте, ${app.customerName || 'уважаемый клиент'}!`,
-        'Направляем данные по вашей заявке:',
-        `Тип мероприятия: ${app.eventType || '—'}`,
-        `Дата и время: ${formatDateTime(app.eventDate, app.eventTime)}`,
-        `Город: ${app.city || '—'}`,
-        `Место: ${app.venue || '—'}`,
-        app.comments ? `Комментарий: ${app.comments}` : ''
-      ].filter(Boolean).join('\n');
-      return `https://wa.me/992${phone}?text=${encodeURIComponent(text)}`;
-    }
-    
-function getWhatsAppText(app) {
-  return `Здравствуйте!
+    function getWhatsAppText(app) {
+      return `Здравствуйте!
 Напоминаем о выступлении:
 
 🎭 Тип: ${app.eventType || '-'}
@@ -888,8 +790,8 @@ function getWhatsAppText(app) {
 🏙 Город: ${app.city || '-'}
 
 Спасибо!`;
-}
-    
+    }
+
     function renderApplications() {
       const items = getFilteredApplications();
       currentFilterChip.textContent = `Фильтр: ${FILTER_LABELS[state.currentFilter]}`;
@@ -900,141 +802,76 @@ function getWhatsAppText(app) {
         return;
       }
 
-      applicationList.innerHTML = items.map(app => {
-        const waLink = getWhatsAppLink(app);
-        return `
-          <article class="application-card ${getCardClass(app)}">
-            <div class="app-top">
-              <div>
-                <h4 class="app-title">${escapeHtml(app.customerName || 'Без имени')}</h4>
-                <div class="app-subtitle">${escapeHtml(app.eventType || '—')} · ${escapeHtml(app.city || '—')} · ${escapeHtml(app.venue || '—')}</div>
-              </div>
-              <div class="status-pill">${STATUS_LABELS[app.status] || app.status || '—'} · ${getDeadlineText(app)}</div>
+      applicationList.innerHTML = items.map(app => `
+        <article class="application-card ${getCardClass(app)}">
+          <div class="app-top">
+            <div>
+              <h4 class="app-title">${escapeHtml(app.customerName || 'Без имени')}</h4>
+              <div class="app-subtitle">${escapeHtml(app.eventType || '—')} · ${escapeHtml(app.city || '—')} · ${escapeHtml(app.venue || '—')}</div>
             </div>
-            <div class="app-grid">
-              <div class="app-item"><span>Телефон</span>${escapeHtml(app.customerPhone || '—')}</div>
-              <div class="app-item"><span>Дата и время</span>${formatDateTime(app.eventDate, app.eventTime)}</div>
-              <div class="app-item"><span>Город</span>${escapeHtml(app.city || '—')}</div>
-              <div class="app-item"><span>Место проведения</span>${escapeHtml(app.venue || '—')}</div>
-              <div class="app-item"><span>Комментарий</span>${escapeHtml(app.comments || '—')}</div>
-              <div class="app-item"><span>ID заявки</span>${escapeHtml(app.id || '—')}</div>
-            </div>
-<div class="app-actions">
+            <div class="status-pill">${STATUS_LABELS[app.status] || app.status || '—'} · ${getDeadlineText(app)}</div>
+          </div>
 
-  <a
-    class="action-btn call"
-    href="tel:992${normalizePhone(app.customerPhone || '')}"
-    onclick="triggerHaptic()"
-  >
-    <span>📞</span>
-    <small>Позвонить</small>
-  </a>
+          <div class="app-grid">
+            <div class="app-item"><span>Телефон</span>${escapeHtml(app.customerPhone || '—')}</div>
+            <div class="app-item"><span>Дата и время</span>${formatDateTime(app.eventDate, app.eventTime)}</div>
+            <div class="app-item"><span>Город</span>${escapeHtml(app.city || '—')}</div>
+            <div class="app-item"><span>Место проведения</span>${escapeHtml(app.venue || '—')}</div>
+            <div class="app-item"><span>Комментарий</span>${escapeHtml(app.comments || '—')}</div>
+            <div class="app-item"><span>ID заявки</span>${escapeHtml(app.id || '—')}</div>
+          </div>
 
-  <a
-    class="action-btn whatsapp"
-    href="https://wa.me/992${normalizePhone(app.customerPhone || '')}?text=${encodeURIComponent(getWhatsAppText(app))}"
-    target="_blank"
-    onclick="triggerHaptic()"
-  >
-    <span>💬</span>
-    <small>WhatsApp</small>
-  </a>
+          <div class="app-actions">
+            <a class="action-btn call" href="tel:992${normalizePhone(app.customerPhone || '')}" onclick="triggerHaptic()">
+              <span>📞</span>
+              <small>Позвонить</small>
+            </a>
 
-  <button class="action-btn edit" type="button" onclick="triggerHaptic(); handleEdit('${app.id}')">
-    <span>✏️</span>
-    <small>Изменить</small>
-  </button>
+            <a class="action-btn whatsapp" href="https://wa.me/992${normalizePhone(app.customerPhone || '')}?text=${encodeURIComponent(getWhatsAppText(app))}" target="_blank" onclick="triggerHaptic()">
+              <span>💬</span>
+              <small>WhatsApp</small>
+            </a>
 
-  ${app.status !== 'cancelled'
-    ? `<button class="action-btn cancel" type="button" onclick="triggerHaptic(); changeStatus('${app.id}', 'cancelled')">
-         <span>❌</span>
-         <small>Отменить</small>
-       </button>`
-    : `<button class="action-btn restore" type="button" onclick="triggerHaptic(); changeStatus('${app.id}', 'active')">
-         <span>↩️</span>
-         <small>Восстановить</small>
-       </button>`
-  }
+            <button class="action-btn edit" type="button" onclick="triggerHaptic(); handleEdit('${app.id}')">
+              <span>✏️</span>
+              <small>Изменить</small>
+            </button>
 
-</div>
-          </article>
-        `;
-      }).join('');
+            ${app.status !== 'cancelled'
+              ? `<button class="action-btn cancel" type="button" onclick="triggerHaptic(); changeStatus('${app.id}', 'cancelled')">
+                   <span>❌</span>
+                   <small>Отменить</small>
+                 </button>`
+              : `<button class="action-btn restore" type="button" onclick="triggerHaptic(); changeStatus('${app.id}', 'active')">
+                   <span>↩️</span>
+                   <small>Восстановить</small>
+                 </button>`
+            }
+          </div>
+        </article>
+      `).join('');
     }
 
     function triggerHaptic() {
-  if (navigator.vibrate) {
-    navigator.vibrate(20);
-  }
-
-    function renderMonthlyStats() {
-      const withDates = state.applications.filter(app => app.eventDate);
-      if (!withDates.length) {
-        statsView.innerHTML = '<div class="empty-state">Недостаточно данных для статистики по месяцам.</div>';
-        return;
-      }
-
-      const grouped = withDates.reduce((acc, app) => {
-        const monthKey = String(app.eventDate).slice(0, 7);
-        if (!acc[monthKey]) acc[monthKey] = [];
-        acc[monthKey].push(app);
-        return acc;
-      }, {});
-
-      const monthNames = new Intl.DateTimeFormat('ru-RU', { month: 'long', year: 'numeric' });
-
-      statsView.innerHTML = Object.entries(grouped)
-        .sort((a, b) => b[0].localeCompare(a[0]))
-        .map(([monthKey, apps]) => {
-          const active = apps.filter(a => a.status === 'active').length;
-          const completed = apps.filter(a => a.status === 'completed').length;
-          const cancelled = apps.filter(a => a.status === 'cancelled').length;
-          const total = apps.length;
-          const uniqueDays = new Set(apps.map(a => a.eventDate)).size;
-          const monthDate = new Date(`${monthKey}-01T00:00:00`);
-          const daysInMonth = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0).getDate();
-          const loadPercent = Math.min(100, Math.round((uniqueDays / daysInMonth) * 100));
-          return `
-            <div class="stats-month-card">
-              <div class="stats-month-top">
-                <div>
-                  <strong style="font-size:18px;">${monthNames.format(monthDate)}</strong>
-                  <div class="section-note">Уникальных занятых дней: ${uniqueDays} из ${daysInMonth}</div>
-                </div>
-                <div class="chip">Загрузка: ${loadPercent}%</div>
-              </div>
-              <div class="stats-metrics">
-                <div class="metric"><span>Всего заказов</span><strong>${total}</strong></div>
-                <div class="metric"><span>Активные</span><strong>${active}</strong></div>
-                <div class="metric"><span>Выполненные</span><strong>${completed}</strong></div>
-                <div class="metric"><span>Отмененные</span><strong>${cancelled}</strong></div>
-              </div>
-              <div class="progress"><div style="width:${loadPercent}%"></div></div>
-            </div>
-          `;
-        }).join('');
+      if (navigator.vibrate) navigator.vibrate(20);
     }
 
     async function changeStatus(id, status) {
       const app = state.applications.find(item => item.id === id);
       if (!app) return;
+
       const texts = {
         cancelled: ['Подтвердите отмену', `Отменить заявку ${app.customerName}?`],
-        completed: ['Подтвердите завершение', `Отметить заявку ${app.customerName} как выполненную?`],
         active: ['Подтвердите восстановление', `Вернуть заявку ${app.customerName} в активные?`]
       };
+
       const confirmed = await showConfirm(texts[status][0], texts[status][1]);
       if (!confirmed) return;
 
       hideMessages();
       try {
         await apiRequest('updateStatus', { id, status });
-        showToast(
-          status === 'cancelled' ? 'Заявка перенесена в отмененные.' :
-          status === 'completed' ? 'Заявка отмечена выполненной.' :
-          'Заявка восстановлена.',
-          'success'
-        );
+        showToast(status === 'cancelled' ? 'Заявка перенесена в отмененные.' : 'Заявка восстановлена.', 'success');
         await loadApplications();
       } catch (error) {
         showToast(error.message || 'Не удалось обновить статус заявки.', 'error');
@@ -1051,9 +888,11 @@ function getWhatsAppText(app) {
       event.preventDefault();
       hideMessages();
       if (!validateForm(true)) return;
+
       const payload = getFormData();
       setBusy(true);
       loadingText.style.display = 'block';
+
       try {
         if (state.editingId) {
           await apiRequest('update', { id: state.editingId, ...payload });
@@ -1097,7 +936,10 @@ function getWhatsAppText(app) {
         return;
       }
 
-      const dateLabel = new Intl.DateTimeFormat('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric', hour:'2-digit', minute:'2-digit' }).format(new Date());
+      const dateLabel = new Intl.DateTimeFormat('ru-RU', {
+        day: '2-digit', month: '2-digit', year: 'numeric', hour:'2-digit', minute:'2-digit'
+      }).format(new Date());
+
       const wrapper = document.createElement('div');
       wrapper.className = 'pdf-export-area';
       wrapper.innerHTML = `
@@ -1164,19 +1006,18 @@ function getWhatsAppText(app) {
       buildPdf(items, monthLabel);
     }
 
+    async function logout() {
+      const confirmed = await showConfirm('Подтвердите выход', 'Выйти из системы?');
+      if (!confirmed) return;
 
-async function logout() {
-  const confirmed = await showConfirm('Подтвердите выход', 'Выйти из системы?');
-  if (!confirmed) return;
-
-  sessionStorage.removeItem('padida_password');
-  state.password = '';
-  state.applications = [];
-  applicationList.innerHTML = '<div class="empty-state">Для продолжения войдите в систему.</div>';
-  loginOverlay.classList.remove('hidden');
-  loginPassword.value = '';
-  showToast('Вы вышли из системы.', 'info');
-}
+      sessionStorage.removeItem('padida_password');
+      state.password = '';
+      state.applications = [];
+      applicationList.innerHTML = '<div class="empty-state">Для продолжения войдите в систему.</div>';
+      loginOverlay.classList.remove('hidden');
+      loginPassword.value = '';
+      showToast('Вы вышли из системы.', 'info');
+    }
 
     async function installApp() {
       if (!state.deferredInstallPrompt) return;
@@ -1229,57 +1070,35 @@ async function logout() {
         validateForm(false);
       });
 
-        document.addEventListener('pointerdown', (event) => {
-    const btn = event.target.closest('.action-btn');
-    if (!btn) return;
-    btn.classList.add('pressed');
-  });
-
-  document.addEventListener('pointerup', () => {
-    document.querySelectorAll('.action-btn.pressed')
-      .forEach(btn => btn.classList.remove('pressed'));
-  });
-
-  document.addEventListener('pointercancel', () => {
-    document.querySelectorAll('.action-btn.pressed')
-      .forEach(btn => btn.classList.remove('pressed'));
-  });
-
-}
-
       searchInput.addEventListener('input', renderApplications);
       form.addEventListener('submit', submitForm);
       resetButton.addEventListener('click', resetForm);
-      exportPdfButton.addEventListener('click', openExportModal);
-      exportMonthBtn.addEventListener('click', exportSelectedMonth);
-      exportAllBtn.addEventListener('click', exportAllPeriod);
-      exportCancelBtn.addEventListener('click', closeExportModal);
       logoutButton.addEventListener('click', logout);
       installButton.addEventListener('click', installApp);
 
-loginButton.addEventListener('click', async () => {
-  const password = loginPassword.value.trim();
-  if (!password) {
-    showToast('Введите пароль.', 'error');
-    return;
-  }
+      loginButton.addEventListener('click', async () => {
+        const password = loginPassword.value.trim();
+        if (!password) {
+          showToast('Введите пароль.', 'error');
+          return;
+        }
 
-  state.password = password;
-  setLoginBusy(true);
+        state.password = password;
+        setLoginBusy(true);
 
-  try {
-    await apiRequest('list');
-    sessionStorage.setItem('padida_password', password);
-    loginOverlay.classList.add('hidden');
-    loginPassword.value = '';
-    showToast('Вход выполнен.', 'success');
-    await loadApplications();
-  } catch (error) {
-    showToast('Неверный пароль или недоступен backend.', 'error');
-  } finally {
-    setLoginBusy(false);
-  }
-});
+        try {
+          await apiRequest('list');
+          sessionStorage.setItem('padida_password', password);
+          loginOverlay.classList.add('hidden');
+          loginPassword.value = '';
+          showToast('Вход выполнен.', 'success');
+          await loadApplications();
+        } catch (error) {
+          showToast('Неверный пароль или недоступен backend.', 'error');
+        } finally {
+          setLoginBusy(false);
+        }
+      });
 
       loginPassword.addEventListener('keydown', e => {
         if (e.key === 'Enter') loginButton.click();
@@ -1287,9 +1106,19 @@ loginButton.addEventListener('click', async () => {
 
       toggleFormBtn.addEventListener('click', () => toggleCollapse(formCollapse, toggleFormArrow));
       toggleFiltersBtn.addEventListener('click', () => toggleCollapse(filtersCollapse, toggleFiltersArrow));
-      toggleStatsBtn.addEventListener('click', () => toggleCollapse(statsCollapse, toggleStatsArrow));
 
-      document.querySelectorAll('.filter-btn').forEach(btn => btn.addEventListener('click', () => setFilter(btn.dataset.filter)));
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => setFilter(btn.dataset.filter));
+      });
+
+      exportPdfButton.addEventListener('click', openExportModal);
+      exportMonthBtn.addEventListener('click', exportSelectedMonth);
+      exportAllBtn.addEventListener('click', exportAllPeriod);
+      exportCancelBtn.addEventListener('click', closeExportModal);
+
+      exportOverlay.addEventListener('click', e => {
+        if (e.target === exportOverlay) closeExportModal();
+      });
 
       window.addEventListener('beforeinstallprompt', event => {
         event.preventDefault();
@@ -1297,14 +1126,24 @@ loginButton.addEventListener('click', async () => {
         installButton.style.display = 'inline-flex';
       });
 
-      exportOverlay.addEventListener('click', e => {
-        if (e.target === exportOverlay) closeExportModal();
-      });
-
       window.addEventListener('appinstalled', () => {
         installButton.style.display = 'none';
         state.deferredInstallPrompt = null;
         showToast('Приложение установлено.', 'success');
+      });
+
+      document.addEventListener('pointerdown', event => {
+        const btn = event.target.closest('.action-btn');
+        if (!btn) return;
+        btn.classList.add('pressed');
+      });
+
+      document.addEventListener('pointerup', () => {
+        document.querySelectorAll('.action-btn.pressed').forEach(btn => btn.classList.remove('pressed'));
+      });
+
+      document.addEventListener('pointercancel', () => {
+        document.querySelectorAll('.action-btn.pressed').forEach(btn => btn.classList.remove('pressed'));
       });
     }
 
@@ -1314,8 +1153,8 @@ loginButton.addEventListener('click', async () => {
       bindEvents();
       toggleCollapse(formCollapse, toggleFormArrow, false);
       toggleCollapse(filtersCollapse, toggleFiltersArrow, false);
-      toggleCollapse(statsCollapse, toggleStatsArrow, false);
       registerServiceWorker();
+
       if (state.password) {
         loginOverlay.classList.add('hidden');
         loadApplications();
