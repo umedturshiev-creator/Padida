@@ -42,6 +42,73 @@
       color: var(--text);
       min-height: 100vh;
     }
+.action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 10px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #fff;
+  font-size: 16px;
+  min-width: 68px;
+  text-decoration: none;
+  transition: transform 0.14s ease, box-shadow 0.14s ease, background 0.14s ease;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.action-btn span {
+  font-size: 18px;
+}
+
+.action-btn small {
+  font-size: 11px;
+  opacity: 0.85;
+  line-height: 1.1;
+}
+
+.action-btn:hover {
+  transform: translateY(-2px);
+}
+
+.action-btn:active {
+  transform: scale(0.92);
+}
+
+.action-btn.call {
+  background: rgba(59,130,246,0.16);
+  border-color: rgba(59,130,246,0.28);
+}
+
+.action-btn.whatsapp {
+  background: rgba(34,197,94,0.22);
+  border-color: rgba(34,197,94,0.42);
+  box-shadow: 0 8px 18px rgba(34,197,94,0.18);
+}
+
+.action-btn.edit {
+  background: rgba(59,130,246,0.18);
+  border-color: rgba(59,130,246,0.28);
+}
+
+.action-btn.cancel {
+  background: rgba(239,68,68,0.20);
+  border-color: rgba(239,68,68,0.30);
+}
+
+.action-btn.restore {
+  background: rgba(16,185,129,0.20);
+  border-color: rgba(16,185,129,0.30);
+}
+
+.action-btn.pressed {
+  transform: scale(0.92);
+}
+    
     .container { width: min(1260px, calc(100% - 20px)); margin: 0 auto; padding: 14px 0 36px; }
     .hero, .form-card, .list-card, .login-card, .modal-card, .utility-card {
       border: 1px solid var(--border);
@@ -854,34 +921,39 @@ function getWhatsAppText(app) {
             </div>
 <div class="app-actions">
 
-  <!-- 📞 Звонок -->
   <a
-    class="small-btn ghost-btn"
+    class="action-btn call"
     href="tel:992${normalizePhone(app.customerPhone || '')}"
-    style="text-decoration:none;display:inline-flex;align-items:center;"
+    onclick="triggerHaptic()"
   >
-    📞
+    <span>📞</span>
+    <small>Позвонить</small>
   </a>
 
-  <!-- 📲 WhatsApp -->
   <a
-    class="small-btn ghost-btn"
+    class="action-btn whatsapp"
     href="https://wa.me/992${normalizePhone(app.customerPhone || '')}?text=${encodeURIComponent(getWhatsAppText(app))}"
     target="_blank"
-    style="text-decoration:none;display:inline-flex;align-items:center;"
+    onclick="triggerHaptic()"
   >
-    💬
+    <span>💬</span>
+    <small>WhatsApp</small>
   </a>
 
-  <!-- ✏️ Редактировать -->
-  <button class="small-btn edit-btn" type="button" onclick="handleEdit('${app.id}')">
-    ✏️
+  <button class="action-btn edit" type="button" onclick="triggerHaptic(); handleEdit('${app.id}')">
+    <span>✏️</span>
+    <small>Изменить</small>
   </button>
 
-  <!-- ❌ Отмена / восстановление -->
   ${app.status !== 'cancelled'
-    ? `<button class="small-btn cancel-btn" type="button" onclick="changeStatus('${app.id}', 'cancelled')">❌</button>`
-    : `<button class="small-btn restore-btn" type="button" onclick="changeStatus('${app.id}', 'active')">↩️</button>`
+    ? `<button class="action-btn cancel" type="button" onclick="triggerHaptic(); changeStatus('${app.id}', 'cancelled')">
+         <span>❌</span>
+         <small>Отменить</small>
+       </button>`
+    : `<button class="action-btn restore" type="button" onclick="triggerHaptic(); changeStatus('${app.id}', 'active')">
+         <span>↩️</span>
+         <small>Восстановить</small>
+       </button>`
   }
 
 </div>
@@ -889,6 +961,11 @@ function getWhatsAppText(app) {
         `;
       }).join('');
     }
+
+    function triggerHaptic() {
+  if (navigator.vibrate) {
+    navigator.vibrate(20);
+  }
 
     function renderMonthlyStats() {
       const withDates = state.applications.filter(app => app.eventDate);
@@ -1151,6 +1228,24 @@ async function logout() {
         e.target.value = normalizePhone(e.target.value).slice(0, 9);
         validateForm(false);
       });
+
+        document.addEventListener('pointerdown', (event) => {
+    const btn = event.target.closest('.action-btn');
+    if (!btn) return;
+    btn.classList.add('pressed');
+  });
+
+  document.addEventListener('pointerup', () => {
+    document.querySelectorAll('.action-btn.pressed')
+      .forEach(btn => btn.classList.remove('pressed'));
+  });
+
+  document.addEventListener('pointercancel', () => {
+    document.querySelectorAll('.action-btn.pressed')
+      .forEach(btn => btn.classList.remove('pressed'));
+  });
+
+}
 
       searchInput.addEventListener('input', renderApplications);
       form.addEventListener('submit', submitForm);
