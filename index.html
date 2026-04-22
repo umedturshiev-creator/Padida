@@ -263,13 +263,7 @@
       </div>
       <div class="field">
         <label for="loginPassword">Пароль</label>
-        <input
-  id="loginPassword"
-  type="password"
-  inputmode="numeric"
-  pattern="[0-9]*"
-  placeholder="Введите пароль"
-/>
+        <input id="loginPassword" type="password" placeholder="Введите пароль" />
       </div>
       <div class="warning-note">
         Это базовая защита доступа для текущей архитектуры.
@@ -347,6 +341,10 @@
         <div class="hero-actions">
           <button class="install-btn" id="installButton" type="button" style="display:none;">Установить</button>
           <button class="pdf-btn" id="exportPdfButton" type="button">PDF</button>
+          <select id="languageSwitcher" class="ghost-btn" style="padding:8px 10px;">
+            <option value="ru">Русский</option>
+            <option value="tj">Тоҷикӣ</option>
+          </select>
           <button class="danger-btn" id="logoutButton" type="button">Выйти</button>
         </div>
       </div>
@@ -484,8 +482,197 @@
       'Айни','Шахринав','Рудаки','Варзоб','Рашт','Таджикабад','Мургаб','Хорог'
     ];
 
-    const STATUS_LABELS = { active: 'Активная', cancelled: 'Отмененная', completed: 'Выполненная' };
-    const FILTER_LABELS = { all: 'Все', active: 'Активные', cancelled: 'Отмененные', completed: 'Выполненные' };
+    const i18n = {
+      ru: {
+        appTitle: 'Театр Падида',
+        loginTitle: 'Вход в систему',
+        loginNote: 'Введите пароль для доступа к заявкам.',
+        loginPlaceholder: 'Введите пароль',
+        loginButton: 'Войти',
+        loginLoading: 'Проверка пароля...',
+        logoutButton: 'Выйти',
+        installButton: 'Установить',
+        exportPdfButton: 'PDF',
+        versionLabel: 'Версия приложения',
+        newRequest: 'Новая заявка',
+        formNote: 'Заполните обязательные поля для сохранения.',
+        save: 'Сохранить',
+        clear: 'Очистить',
+        searchPlaceholder: 'Поиск: имя, телефон, город, место проведения',
+        filtersTitle: '📊 Статусы и фильтры',
+        allRequests: 'Всего заявок',
+        activeRequests: 'Активные',
+        cancelledRequests: 'Отмененные',
+        completedRequests: 'Выполненные',
+        requestList: 'Список заявок',
+        requestListNote: 'Показаны все заявки.',
+        customerName: 'Имя заказчика',
+        customerPhone: 'Телефон заказчика',
+        eventType: 'Тип мероприятия',
+        eventDate: 'Дата выступления',
+        eventTime: 'Время выступления',
+        venue: 'Место проведения',
+        city: 'Выбрать город',
+        comments: 'Комментарии',
+        customerNamePlaceholder: 'Укажите имя заказчика',
+        customerPhonePlaceholder: 'Укажите 9 цифр номера заказчика',
+        venuePlaceholder: 'Укажите место например: Якасарой',
+        commentsPlaceholder: 'Можете здесь указать дополнительные данные',
+        call: 'Позвонить',
+        whatsapp: 'WhatsApp',
+        edit: 'Изменить',
+        cancel: 'Отменить',
+        restore: 'Восстановить',
+        wedding: 'Свадьба',
+        corporate: 'Корпоратив',
+        privateReception: 'Частный прием',
+        other: 'Другое',
+        filterLabel: 'Фильтр',
+        all: 'Все',
+        active: 'Активные',
+        cancelled: 'Отмененные',
+        completed: 'Выполненные',
+        noApplications: 'Заявки не найдены. Попробуйте изменить фильтр или строку поиска.',
+        foundRequests: 'Найдено заявок',
+        noRequestsByFilter: 'По выбранному фильтру пока нет заявок.',
+        statusActive: 'Активная',
+        statusCancelled: 'Отмененная',
+        statusCompleted: 'Выполненная',
+        noDate: 'Дата не указана',
+        timePassed: 'Время выступления прошло',
+        today: 'Сегодня',
+        tomorrow: 'Завтра',
+        inTwoDays: 'Через 2 дня',
+        inDays: 'Через {n} дн.',
+        phone: 'Телефон',
+        dateTime: 'Дата и время',
+        cityLabel: 'Город',
+        venueLabel: 'Место проведения',
+        commentLabel: 'Комментарий',
+        requestId: 'ID заявки',
+        noName: 'Без имени',
+        exportTitle: 'Экспорт в PDF',
+        exportNote: 'Выберите период для выгрузки заявок.',
+        exportMonth: 'За месяц',
+        exportMonthSmall: 'Выгрузка заявок только за выбранный месяц',
+        exportAll: 'Весь период',
+        exportAllSmall: 'Экспорт всех заявок из системы',
+        close: 'Закрыть',
+        confirmTitle: 'Подтверждение',
+        confirmText: 'Вы уверены?',
+        confirmCancel: 'Отмена',
+        confirmOk: 'Подтвердить'
+      },
+      tj: {
+        appTitle: 'Театри Падида',
+        loginTitle: 'Вуруд ба система',
+        loginNote: 'Барои дастрасӣ ба дархостҳо рамзро ворид кунед.',
+        loginPlaceholder: 'Рамзро ворид кунед',
+        loginButton: 'Вуруд',
+        loginLoading: 'Санҷиши рамз...',
+        logoutButton: 'Баромад',
+        installButton: 'Насб',
+        exportPdfButton: 'PDF',
+        versionLabel: 'Версияи барнома',
+        newRequest: 'Дархости нав',
+        formNote: 'Барои сабт майдонҳои ҳатмиро пур кунед.',
+        save: 'Сабт кардан',
+        clear: 'Тоза кардан',
+        searchPlaceholder: 'Ҷустуҷӯ: ном, телефон, шаҳр, ҷойи баргузоршавӣ',
+        filtersTitle: '📊 Ҳолатҳо ва филтрҳо',
+        allRequests: 'Ҳамаи дархостҳо',
+        activeRequests: 'Фаъол',
+        cancelledRequests: 'Бекоршуда',
+        completedRequests: 'Иҷрошуда',
+        requestList: 'Рӯйхати дархостҳо',
+        requestListNote: 'Ҳамаи дархостҳо нишон дода мешаванд.',
+        customerName: 'Номи фармоишгар',
+        customerPhone: 'Телефони фармоишгар',
+        eventType: 'Навъи чорабинӣ',
+        eventDate: 'Санаи баромад',
+        eventTime: 'Вақти баромад',
+        venue: 'Ҷойи баргузоршавӣ',
+        city: 'Интихоби шаҳр',
+        comments: 'Шарҳҳо',
+        customerNamePlaceholder: 'Номи фармоишгарро нишон диҳед',
+        customerPhonePlaceholder: '9 рақами рақамро ворид кунед',
+        venuePlaceholder: 'Ҷойро нишон диҳед, масалан: Яккасарой',
+        commentsPlaceholder: 'Маълумоти иловагиро дар ин ҷо метавонед нависед',
+        call: 'Занг',
+        whatsapp: 'WhatsApp',
+        edit: 'Таҳрир',
+        cancel: 'Бекор кардан',
+        restore: 'Барқарор кардан',
+        wedding: 'Тӯй',
+        corporate: 'Корпоратив',
+        privateReception: 'Қабули хусусӣ',
+        other: 'Дигар',
+        filterLabel: 'Филтр',
+        all: 'Ҳама',
+        active: 'Фаъол',
+        cancelled: 'Бекоршуда',
+        completed: 'Иҷрошуда',
+        noApplications: 'Дархостҳо ёфт нашуданд. Филтр ё ҷустуҷӯро тағйир диҳед.',
+        foundRequests: 'Дархостҳои ёфтшуда',
+        noRequestsByFilter: 'Аз рӯи филтри интихобшуда ҳоло дархост нест.',
+        statusActive: 'Фаъол',
+        statusCancelled: 'Бекоршуда',
+        statusCompleted: 'Иҷрошуда',
+        noDate: 'Сана нишон дода нашудааст',
+        timePassed: 'Вақти баромад гузаштааст',
+        today: 'Имрӯз',
+        tomorrow: 'Фардо',
+        inTwoDays: 'Пас аз 2 рӯз',
+        inDays: 'Пас аз {n} рӯз',
+        phone: 'Телефон',
+        dateTime: 'Сана ва вақт',
+        cityLabel: 'Шаҳр',
+        venueLabel: 'Ҷойи баргузоршавӣ',
+        commentLabel: 'Шарҳ',
+        requestId: 'ID дархост',
+        noName: 'Бе ном',
+        exportTitle: 'Содирот ба PDF',
+        exportNote: 'Барои баровардани дархостҳо давраро интихоб кунед.',
+        exportMonth: 'Барои як моҳ',
+        exportMonthSmall: 'Танҳо дархостҳои моҳи интихобшуда',
+        exportAll: 'Тамоми давра',
+        exportAllSmall: 'Содироти ҳамаи дархостҳо аз система',
+        close: 'Пӯшидан',
+        confirmTitle: 'Тасдиқ',
+        confirmText: 'Шумо мутмаин ҳастед?',
+        confirmCancel: 'Бекор кардан',
+        confirmOk: 'Тасдиқ кардан'
+      }
+    };
+
+    let currentLang = localStorage.getItem('padida_lang') || 'ru';
+
+    function t(key, vars = {}) {
+      let text = (i18n[currentLang] && i18n[currentLang][key]) || key;
+      Object.keys(vars).forEach(k => {
+        text = text.replace(`{${k}}`, vars[k]);
+      });
+      return text;
+    }
+
+    function getStatusLabel(status) {
+      const map = {
+        active: t('statusActive'),
+        cancelled: t('statusCancelled'),
+        completed: t('statusCompleted')
+      };
+      return map[status] || status || '—';
+    }
+
+    function getFilterLabel(filter) {
+      const map = {
+        all: t('all'),
+        active: t('active'),
+        cancelled: t('cancelled'),
+        completed: t('completed')
+      };
+      return map[filter] || filter;
+    }
     const requiredFieldIds = ['customerName', 'customerPhone', 'eventType', 'eventDate', 'eventTime', 'venue', 'city'];
 
     const form = document.getElementById('applicationForm');
@@ -504,6 +691,7 @@
     const loginButton = document.getElementById('loginButton');
     const loginLoadingText = document.getElementById('loginLoadingText');
     const logoutButton = document.getElementById('logoutButton');
+    const languageSwitcher = document.getElementById('languageSwitcher');
     const installButton = document.getElementById('installButton');
     const exportPdfButton = document.getElementById('exportPdfButton');
     const exportOverlay = document.getElementById('exportOverlay');
@@ -579,12 +767,12 @@
 
     function getDeadlineText(app) {
       const days = getDaysUntil(app.eventDate, app.eventTime);
-      if (days === null) return 'Дата не указана';
-      if (days < 0) return 'Время выступления прошло';
-      if (days === 0) return 'Сегодня';
-      if (days === 1) return 'Завтра';
-      if (days === 2) return 'Через 2 дня';
-      return `Через ${days} дн.`;
+      if (days === null) return t('noDate');
+      if (days < 0) return t('timePassed');
+      if (days === 0) return t('today');
+      if (days === 1) return t('tomorrow');
+      if (days === 2) return t('inTwoDays');
+      return t('inDays', { n: days });
     }
 
     function escapeHtml(value) {
@@ -636,6 +824,92 @@
         okBtn.addEventListener('click', onOk);
         cancelBtn.addEventListener('click', onCancel);
       });
+    }
+
+
+    function applyLanguage() {
+      document.querySelector('h1').textContent = t('appTitle');
+
+      const loginTitle = document.querySelector('#loginOverlay h3');
+      if (loginTitle) loginTitle.textContent = t('loginTitle');
+
+      const loginNote = document.querySelector('#loginOverlay .section-note');
+      if (loginNote) loginNote.textContent = t('loginNote');
+
+      loginPassword.placeholder = t('loginPlaceholder');
+      loginButton.textContent = t('loginButton');
+      loginLoadingText.innerHTML = `<span class="spinner"></span>${t('loginLoading')}`;
+
+      installButton.textContent = t('installButton');
+      exportPdfButton.textContent = t('exportPdfButton');
+      logoutButton.textContent = t('logoutButton');
+
+      document.querySelector('.version-badge').textContent = `${t('versionLabel')}: ${APP_VERSION}`;
+
+      document.getElementById('toggleFormLabel').textContent = `➕ ${t('newRequest')}`;
+
+      const formNote = document.querySelector('#formCollapse .section-note');
+      if (formNote) formNote.textContent = t('formNote');
+
+      document.querySelector('label[for="customerName"]').textContent = `${t('customerName')} *`;
+      document.querySelector('label[for="customerPhone"]').textContent = `${t('customerPhone')} *`;
+      document.querySelector('label[for="eventType"]').textContent = `${t('eventType')} *`;
+      document.querySelector('label[for="eventDate"]').textContent = `${t('eventDate')} *`;
+      document.querySelector('label[for="eventTime"]').textContent = `${t('eventTime')} *`;
+      document.querySelector('label[for="venue"]').textContent = `${t('venue')} *`;
+      document.querySelector('label[for="city"]').textContent = `${t('city')} *`;
+      document.querySelector('label[for="comments"]').textContent = t('comments');
+
+      document.getElementById('customerName').placeholder = t('customerNamePlaceholder');
+      document.getElementById('customerPhone').placeholder = t('customerPhonePlaceholder');
+      document.getElementById('venue').placeholder = t('venuePlaceholder');
+      document.getElementById('comments').placeholder = t('commentsPlaceholder');
+
+      saveButton.textContent = t('save');
+      resetButton.textContent = t('clear');
+      searchInput.placeholder = t('searchPlaceholder');
+
+      const listTitle = document.querySelector('.list-card h3');
+      if (listTitle) listTitle.textContent = t('requestList');
+
+      currentFilterChip.textContent = `${t('filterLabel')}: ${getFilterLabel(state.currentFilter)}`;
+
+      const toggleFiltersText = document.querySelector('#toggleFiltersBtn span:first-child');
+      if (toggleFiltersText) toggleFiltersText.textContent = t('filtersTitle');
+
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      if (filterBtns[0]) filterBtns[0].querySelector('.small').textContent = t('allRequests');
+      if (filterBtns[1]) filterBtns[1].querySelector('.small').textContent = t('activeRequests');
+      if (filterBtns[2]) filterBtns[2].querySelector('.small').textContent = t('cancelledRequests');
+      if (filterBtns[3]) filterBtns[3].querySelector('.small').textContent = t('completedRequests');
+
+      const eventType = document.getElementById('eventType');
+      if (eventType && eventType.options.length >= 4) {
+        eventType.options[0].text = t('wedding');
+        eventType.options[1].text = t('corporate');
+        eventType.options[2].text = t('privateReception');
+        eventType.options[3].text = t('other');
+      }
+
+      const exportTitle = document.querySelector('#exportOverlay h3');
+      if (exportTitle) exportTitle.textContent = t('exportTitle');
+
+      const exportNote = document.querySelector('#exportOverlay .section-note');
+      if (exportNote) exportNote.textContent = t('exportNote');
+
+      if (exportMonthBtn) exportMonthBtn.childNodes[0].textContent = t('exportMonth');
+      if (exportAllBtn) exportAllBtn.childNodes[0].textContent = t('exportAll');
+
+      const exportMonthSmall = exportMonthBtn.querySelector('small');
+      const exportAllSmall = exportAllBtn.querySelector('small');
+      if (exportMonthSmall) exportMonthSmall.textContent = t('exportMonthSmall');
+      if (exportAllSmall) exportAllSmall.textContent = t('exportAllSmall');
+
+      if (exportCancelBtn) exportCancelBtn.textContent = t('close');
+      if (document.getElementById('confirmTitle')) document.getElementById('confirmTitle').textContent = t('confirmTitle');
+      if (document.getElementById('confirmText')) document.getElementById('confirmText').textContent = t('confirmText');
+      if (document.getElementById('confirmCancelBtn')) document.getElementById('confirmCancelBtn').textContent = t('confirmCancel');
+      if (document.getElementById('confirmOkBtn')) document.getElementById('confirmOkBtn').textContent = t('confirmOk');
     }
 
     function hideMessages() {
@@ -800,11 +1074,11 @@
 
     function renderApplications() {
       const items = getFilteredApplications();
-      currentFilterChip.textContent = `Фильтр: ${FILTER_LABELS[state.currentFilter]}`;
-      listDescription.textContent = items.length ? `Найдено заявок: ${items.length}` : 'По выбранному фильтру пока нет заявок.';
+      currentFilterChip.textContent = `${t('filterLabel')}: ${getFilterLabel(state.currentFilter)}`;
+      listDescription.textContent = items.length ? `${t('foundRequests')}: ${items.length}` : t('noRequestsByFilter');
 
       if (!items.length) {
-        applicationList.innerHTML = '<div class="empty-state">Заявки не найдены. Попробуйте изменить фильтр или строку поиска.</div>';
+        applicationList.innerHTML = `<div class="empty-state">${t('noApplications')}</div>`;
         return;
       }
 
@@ -812,45 +1086,45 @@
         <article class="application-card ${getCardClass(app)}">
           <div class="app-top">
             <div>
-              <h4 class="app-title">${escapeHtml(app.customerName || 'Без имени')}</h4>
+              <h4 class="app-title">${escapeHtml(app.customerName || t('noName'))}</h4>
               <div class="app-subtitle">${escapeHtml(app.eventType || '—')} · ${escapeHtml(app.city || '—')} · ${escapeHtml(app.venue || '—')}</div>
             </div>
-            <div class="status-pill">${STATUS_LABELS[app.status] || app.status || '—'} · ${getDeadlineText(app)}</div>
+            <div class="status-pill">${getStatusLabel(app.status)} · ${getDeadlineText(app)}</div>
           </div>
 
           <div class="app-grid">
-            <div class="app-item"><span>Телефон</span>${escapeHtml(app.customerPhone || '—')}</div>
-            <div class="app-item"><span>Дата и время</span>${formatDateTime(app.eventDate, app.eventTime)}</div>
-            <div class="app-item"><span>Город</span>${escapeHtml(app.city || '—')}</div>
-            <div class="app-item"><span>Место проведения</span>${escapeHtml(app.venue || '—')}</div>
-            <div class="app-item"><span>Комментарий</span>${escapeHtml(app.comments || '—')}</div>
-            <div class="app-item"><span>ID заявки</span>${escapeHtml(app.id || '—')}</div>
+            <div class="app-item"><span>${t('phone')}</span>${escapeHtml(app.customerPhone || '—')}</div>
+            <div class="app-item"><span>${t('dateTime')}</span>${formatDateTime(app.eventDate, app.eventTime)}</div>
+            <div class="app-item"><span>${t('cityLabel')}</span>${escapeHtml(app.city || '—')}</div>
+            <div class="app-item"><span>${t('venueLabel')}</span>${escapeHtml(app.venue || '—')}</div>
+            <div class="app-item"><span>${t('commentLabel')}</span>${escapeHtml(app.comments || '—')}</div>
+            <div class="app-item"><span>${t('requestId')}</span>${escapeHtml(app.id || '—')}</div>
           </div>
 
           <div class="app-actions">
             <a class="action-btn call" href="tel:992${normalizePhone(app.customerPhone || '')}" onclick="triggerHaptic()">
               <span>📞</span>
-              <small>Позвонить</small>
+              <small>${t('call')}</small>
             </a>
 
             <a class="action-btn whatsapp" href="https://wa.me/992${normalizePhone(app.customerPhone || '')}?text=${encodeURIComponent(getWhatsAppText(app))}" target="_blank" onclick="triggerHaptic()">
               <span>💬</span>
-              <small>WhatsApp</small>
+              <small>${t('whatsapp')}</small>
             </a>
 
             <button class="action-btn edit" type="button" onclick="triggerHaptic(); handleEdit('${app.id}')">
               <span>✏️</span>
-              <small>Изменить</small>
+              <small>${t('edit')}</small>
             </button>
 
             ${app.status !== 'cancelled'
               ? `<button class="action-btn cancel" type="button" onclick="triggerHaptic(); changeStatus('${app.id}', 'cancelled')">
                    <span>❌</span>
-                   <small>Отменить</small>
+                   <small>${t('cancel')}</small>
                  </button>`
               : `<button class="action-btn restore" type="button" onclick="triggerHaptic(); changeStatus('${app.id}', 'active')">
                    <span>↩️</span>
-                   <small>Восстановить</small>
+                   <small>${t('restore')}</small>
                  </button>`
             }
           </div>
@@ -1081,6 +1355,12 @@
       resetButton.addEventListener('click', resetForm);
       logoutButton.addEventListener('click', logout);
       installButton.addEventListener('click', installApp);
+      languageSwitcher.addEventListener('change', e => {
+        currentLang = e.target.value;
+        localStorage.setItem('padida_lang', currentLang);
+        applyLanguage();
+        renderApplications();
+      });
 
       loginButton.addEventListener('click', async () => {
         const password = loginPassword.value.trim();
@@ -1160,6 +1440,9 @@
       toggleCollapse(formCollapse, toggleFormArrow, false);
       toggleCollapse(filtersCollapse, toggleFiltersArrow, false);
       registerServiceWorker();
+
+      languageSwitcher.value = currentLang;
+      applyLanguage();
 
       if (state.password) {
         loginOverlay.classList.add('hidden');
