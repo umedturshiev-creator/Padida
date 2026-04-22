@@ -641,6 +641,8 @@
         confirmRestoreText: 'Вернуть заявку {name} в активные?',
         confirmLogoutTitle: 'Подтвердите выход',
         confirmLogoutText: 'Выйти из системы?',
+        passwordLabel: 'Пароль',
+        loginWarning: 'Это базовая защита доступа для текущей архитектуры.',
       },
       tj: {
         appTitle: 'Театри Падида',
@@ -729,6 +731,8 @@
         confirmRestoreText: 'Дархости {name}-ро ба фаъол баргардонем?',
         confirmLogoutTitle: 'Баромадро тасдиқ кунед',
         confirmLogoutText: 'Аз система бароед?',
+        passwordLabel: 'Рамз',
+        loginWarning: 'Ин муҳофизати ибтидоии дастрасӣ барои меъмории ҷорӣ мебошад.',
       }
     };
 
@@ -918,6 +922,12 @@
 
       const loginNote = document.querySelector('#loginOverlay .section-note');
       if (loginNote) loginNote.textContent = t('loginNote');
+
+      const passwordLabel = document.querySelector('label[for="loginPassword"]');
+      if (passwordLabel) passwordLabel.textContent = t('passwordLabel');
+
+      const warningNote = document.querySelector('#loginOverlay .warning-note');
+      if (warningNote) warningNote.textContent = t('loginWarning');
 
       loginPassword.placeholder = t('loginPlaceholder');
       loginButton.textContent = t('loginButton');
