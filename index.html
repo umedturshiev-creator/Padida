@@ -263,7 +263,13 @@
       </div>
       <div class="field">
         <label for="loginPassword">Пароль</label>
-        <input id="loginPassword" type="password" placeholder="Введите пароль" />
+        <input
+  id="loginPassword"
+  type="password"
+  inputmode="numeric"
+  pattern="[0-9]*"
+  placeholder="Введите пароль"
+/>
       </div>
       <div class="warning-note">
         Это базовая защита доступа для текущей архитектуры.
