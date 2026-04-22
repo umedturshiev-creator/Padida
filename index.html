@@ -632,7 +632,15 @@
         confirmTitle: 'Подтверждение',
         confirmText: 'Вы уверены?',
         confirmCancel: 'Отмена',
-        confirmOk: 'Подтвердить'
+        confirmOk: 'Подтвердить',
+        newRequestTitle: 'Новая заявка',
+        editRequest: 'Редактирование заявки',
+        confirmCancelTitle: 'Подтвердите отмену',
+        confirmCancelText: 'Отменить заявку {name}?',
+        confirmRestoreTitle: 'Подтвердите восстановление',
+        confirmRestoreText: 'Вернуть заявку {name} в активные?',
+        confirmLogoutTitle: 'Подтвердите выход',
+        confirmLogoutText: 'Выйти из системы?',
       },
       tj: {
         appTitle: 'Театри Падида',
@@ -712,7 +720,15 @@
         confirmTitle: 'Тасдиқ',
         confirmText: 'Шумо мутмаин ҳастед?',
         confirmCancel: 'Бекор кардан',
-        confirmOk: 'Тасдиқ кардан'
+        confirmOk: 'Тасдиқ кардан',
+        newRequestTitle: 'Дархости нав',
+        editRequest: 'Таҳрири дархост',
+        confirmCancelTitle: 'Бекоркуниро тасдиқ кунед',
+        confirmCancelText: 'Дархости {name}-ро бекор кунед?',
+        confirmRestoreTitle: 'Барқароркуниро тасдиқ кунед',
+        confirmRestoreText: 'Дархости {name}-ро ба фаъол баргардонем?',
+        confirmLogoutTitle: 'Баромадро тасдиқ кунед',
+        confirmLogoutText: 'Аз система бароед?',
       }
     };
 
@@ -932,6 +948,8 @@
       document.getElementById('venue').placeholder = t('venuePlaceholder');
       document.getElementById('comments').placeholder = t('commentsPlaceholder');
 
+      formTitle.textContent = state.editingId ? t('editRequest') : t('newRequestTitle');
+
       saveButton.textContent = t('save');
       resetButton.textContent = t('clear');
       searchInput.placeholder = t('searchPlaceholder');
@@ -1042,7 +1060,7 @@
       document.getElementById('city').value = app.city || 'Душанбе';
       document.getElementById('comments').value = app.comments || '';
       state.editingId = app.id;
-      formTitle.textContent = 'Редактирование заявки';
+      formTitle.textContent = t('editRequest');
       toggleCollapse(formCollapse, toggleFormArrow, true);
       validateForm();
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1054,7 +1072,7 @@
       document.getElementById('eventType').value = 'Свадьба';
       document.getElementById('eventTime').value = '18:00';
       state.editingId = null;
-      formTitle.textContent = 'Новая заявка';
+      formTitle.textContent = t('newRequestTitle');
       requiredFieldIds.forEach(id => document.getElementById(id).classList.remove('invalid'));
       hideMessages();
       validateForm();
@@ -1211,10 +1229,16 @@
       const app = state.applications.find(item => item.id === id);
       if (!app) return;
 
-      const texts = {
-        cancelled: ['Подтвердите отмену', `Отменить заявку ${app.customerName}?`],
-        active: ['Подтвердите восстановление', `Вернуть заявку ${app.customerName} в активные?`]
-      };
+const texts = {
+  cancelled: [
+    t('confirmCancelTitle'),
+    t('confirmCancelText', { name: app.customerName || t('noName') })
+  ],
+  active: [
+    t('confirmRestoreTitle'),
+    t('confirmRestoreText', { name: app.customerName || t('noName') })
+  ]
+};
 
       const confirmed = await showConfirm(texts[status][0], texts[status][1]);
       if (!confirmed) return;
@@ -1358,7 +1382,7 @@
     }
 
     async function logout() {
-      const confirmed = await showConfirm('Подтвердите выход', 'Выйти из системы?');
+      const confirmed = await showConfirm(t('confirmLogoutTitle'), t('confirmLogoutText'));
       if (!confirmed) return;
 
       sessionStorage.removeItem('padida_password');
