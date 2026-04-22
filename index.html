@@ -406,7 +406,6 @@
           <button class="danger-btn" id="logoutButton" type="button">Выйти</button>
         </div>
       </div>
-      <div class="version-badge">Версия приложения: v1.0.8</div>
     </section>
 
     <section class="layout">
@@ -976,7 +975,10 @@
       exportPdfButton.textContent = t('exportPdfButton');
       logoutButton.textContent = t('logoutButton');
 
-      document.querySelector('.version-badge').textContent = `${t('versionLabel')}: ${APP_VERSION}`;
+      const versionBadge = document.querySelector('.version-badge');
+if (versionBadge) {
+  versionBadge.textContent = `${t('versionLabel')}: ${APP_VERSION}`;
+}
 
       document.getElementById('toggleFormLabel').textContent = `➕ ${t('newRequest')}`;
 
