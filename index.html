@@ -118,6 +118,16 @@
     .install-btn { color:#fff; background: linear-gradient(135deg, #14b8a6, #0ea5e9); }
     .pdf-btn { color:#fff; background: linear-gradient(135deg, #f97316, #fb923c); }
 
+    #languageSwitcher {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      color:#fff;
+      background: rgba(255,255,255,0.1);
+      border:1px solid rgba(255,255,255,0.12);
+      border-radius:12px;
+    }
+
     .toggle-btn { width:100%; display:flex; align-items:center; justify-content:space-between; background: rgba(255,255,255,0.06); color:#fff; border:1px solid var(--border); }
     .collapsible { display:none; margin-top: 14px; }
     .collapsible.open { display:block; }
@@ -241,10 +251,22 @@
       .hero, .form-card, .list-card, .login-card, .modal-card { padding:14px; }
       .two-col, .app-grid, .mini-filters { grid-template-columns:1fr; }
       .app-top { flex-direction:column; }
-      .hero-top { align-items:flex-start; flex-wrap:wrap; }
+      .hero-top { display:grid; grid-template-columns: 1fr; gap:12px; align-items:start; }
       .brand { width:100%; }
-      .hero-actions { width:100%; justify-content:flex-start; flex-wrap:wrap; }
-      .hero-actions button { padding:8px 10px; font-size:12px; }
+      .hero-actions {
+        width:100%;
+        display:grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap:10px;
+        align-items:stretch;
+      }
+      .hero-actions button,
+      .hero-actions select {
+        width:100%;
+        min-height:44px;
+        padding:10px 12px;
+        font-size:13px;
+      }
       .version-badge { font-size:11px; padding:6px 10px; }
       .toast-wrap { left:12px; right:12px; bottom:12px; }
       .toast { min-width: 0; max-width: unset; }
@@ -263,7 +285,7 @@
       </div>
       <div class="field">
         <label for="loginPassword">Пароль</label>
-        <input id="loginPassword" type="password" placeholder="Введите пароль" />
+        <input id="loginPassword" type="password" inputmode="numeric" pattern="[0-9]*" placeholder="Введите пароль" />
       </div>
       <div class="warning-note">
         Это базовая защита доступа для текущей архитектуры.
@@ -348,7 +370,7 @@
           <button class="danger-btn" id="logoutButton" type="button">Выйти</button>
         </div>
       </div>
-      <div class="version-badge">Версия приложения: v1.0.7</div>
+      <div class="version-badge">Версия приложения: v1.0.8</div>
     </section>
 
     <section class="layout">
@@ -468,11 +490,11 @@
       </section>
     </section>
 
-    <div class="footer">Театр Падида · Программа приема заявок · v1.0.7</div>
+    <div class="footer">Театр Падида · Программа приема заявок · v1.0.8</div>
   </main>
 
   <script>
-    const APP_VERSION = 'v1.0.7';
+    const APP_VERSION = 'v1.0.8';
     const API_URL = 'https://script.google.com/macros/s/AKfycbxVq0f5JuvsGSemErm2BI7TgoXHz6SWzrWHQ6bPEnnfadvBws6ZQAYbgM5Bn-UB_k_f/exec';
 
     const CITIES = [
@@ -481,6 +503,55 @@
       'Фархор','Дангара','Восе','Яван','Кушониён','Хуросон','Шахритус','Кубодиён',
       'Айни','Шахринав','Рудаки','Варзоб','Рашт','Таджикабад','Мургаб','Хорог'
     ];
+
+    const CITY_TRANSLATIONS = {
+      'Душанбе': 'Душанбе',
+      'Худжанд': 'Хуҷанд',
+      'Бохтар': 'Бохтар',
+      'Куляб': 'Кӯлоб',
+      'Турсунзаде': 'Турсунзода',
+      'Истаравшан': 'Истаравшан',
+      'Пенджикент': 'Панҷакент',
+      'Исфара': 'Исфара',
+      'Канибадам': 'Конибодом',
+      'Вахдат': 'Ваҳдат',
+      'Гиссар': 'Ҳисор',
+      'Нурек': 'Норак',
+      'Рогун': 'Роғун',
+      'Левакант': 'Левакант',
+      'Бустон': 'Бӯстон',
+      'Гулистон': 'Гулистон',
+      'Фархор': 'Фархор',
+      'Дангара': 'Данғара',
+      'Восе': 'Восеъ',
+      'Яван': 'Ёвон',
+      'Кушониён': 'Кӯшониён',
+      'Хуросон': 'Хуросон',
+      'Шахритус': 'Шаҳритус',
+      'Кубодиён': 'Қубодиён',
+      'Айни': 'Айнӣ',
+      'Шахринав': 'Шаҳринав',
+      'Рудаки': 'Рӯдакӣ',
+      'Варзоб': 'Варзоб',
+      'Рашт': 'Рашт',
+      'Таджикабад': 'Тоҷикобод',
+      'Мургаб': 'Мурғоб',
+      'Хорог': 'Хоруғ'
+    };
+
+    function getTranslatedCity(city) {
+      if (currentLang === 'tj') return CITY_TRANSLATIONS[city] || city || '—';
+      return city || '—';
+    }
+
+    function populateCities() {
+      const citySelect = document.getElementById('city');
+      citySelect.innerHTML = CITIES.map(city => {
+        const label = currentLang === 'tj' ? (CITY_TRANSLATIONS[city] || city) : city;
+        return `<option value="${city}" ${city === 'Душанбе' ? 'selected' : ''}>${label}</option>`;
+      }).join('');
+    }
+
 
     const i18n = {
       ru: {
@@ -721,10 +792,6 @@
       loginLoadingText.style.display = isBusy ? 'block' : 'none';
     }
 
-    function populateCities() {
-      const citySelect = document.getElementById('city');
-      citySelect.innerHTML = CITIES.map(city => `<option value="${city}" ${city === 'Душанбе' ? 'selected' : ''}>${city}</option>`).join('');
-    }
 
     function toggleCollapse(el, arrowEl, force) {
       const shouldOpen = typeof force === 'boolean' ? force : !el.classList.contains('open');
@@ -882,6 +949,10 @@
       if (filterBtns[1]) filterBtns[1].querySelector('.small').textContent = t('activeRequests');
       if (filterBtns[2]) filterBtns[2].querySelector('.small').textContent = t('cancelledRequests');
       if (filterBtns[3]) filterBtns[3].querySelector('.small').textContent = t('completedRequests');
+
+      const currentCityValue = document.getElementById('city').value || 'Душанбе';
+      populateCities();
+      document.getElementById('city').value = currentCityValue;
 
       const eventType = document.getElementById('eventType');
       if (eventType && eventType.options.length >= 4) {
@@ -1087,7 +1158,7 @@
           <div class="app-top">
             <div>
               <h4 class="app-title">${escapeHtml(app.customerName || t('noName'))}</h4>
-              <div class="app-subtitle">${escapeHtml(app.eventType || '—')} · ${escapeHtml(app.city || '—')} · ${escapeHtml(app.venue || '—')}</div>
+              <div class="app-subtitle">${escapeHtml(app.eventType || '—')} · ${escapeHtml(getTranslatedCity(app.city))} · ${escapeHtml(app.venue || '—')}</div>
             </div>
             <div class="status-pill">${getStatusLabel(app.status)} · ${getDeadlineText(app)}</div>
           </div>
@@ -1095,7 +1166,7 @@
           <div class="app-grid">
             <div class="app-item"><span>${t('phone')}</span>${escapeHtml(app.customerPhone || '—')}</div>
             <div class="app-item"><span>${t('dateTime')}</span>${formatDateTime(app.eventDate, app.eventTime)}</div>
-            <div class="app-item"><span>${t('cityLabel')}</span>${escapeHtml(app.city || '—')}</div>
+            <div class="app-item"><span>${t('cityLabel')}</span>${escapeHtml(getTranslatedCity(app.city))}</div>
             <div class="app-item"><span>${t('venueLabel')}</span>${escapeHtml(app.venue || '—')}</div>
             <div class="app-item"><span>${t('commentLabel')}</span>${escapeHtml(app.comments || '—')}</div>
             <div class="app-item"><span>${t('requestId')}</span>${escapeHtml(app.id || '—')}</div>
@@ -1247,7 +1318,7 @@
                 <td>${escapeHtml(app.customerPhone || '—')}</td>
                 <td>${escapeHtml(app.eventType || '—')}</td>
                 <td>${escapeHtml(formatDateTime(app.eventDate, app.eventTime))}</td>
-                <td>${escapeHtml(app.city || '—')}</td>
+                <td>${escapeHtml(getTranslatedCity(app.city))}</td>
                 <td>${escapeHtml(app.venue || '—')}</td>
                 <td>${escapeHtml(STATUS_LABELS[app.status] || app.status || '—')}</td>
                 <td>${escapeHtml(app.comments || '—')}</td>
@@ -1384,6 +1455,10 @@
         } finally {
           setLoginBusy(false);
         }
+      });
+
+      loginPassword.addEventListener('input', e => {
+        e.target.value = e.target.value.replace(/\D/g, '');
       });
 
       loginPassword.addEventListener('keydown', e => {
