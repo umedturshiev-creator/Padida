@@ -1378,21 +1378,21 @@ const texts = {
       const wrapper = document.createElement('div');
       wrapper.className = 'pdf-export-area';
       wrapper.innerHTML = `
-        <h1>Театр Падида</h1>
-        <h2>Экспорт заявок</h2>
-        <div>Дата экспорта: ${dateLabel}</div>
-        <div>Период: ${label}</div>
+<h1>${t('appTitle')}</h1>
+<h2>${t('exportTitle')}</h2>
+<div>${t('dateTime')}: ${dateLabel}</div>
+<div>${t('filterLabel')}: ${label}</div>
         <table>
           <thead>
             <tr>
-              <th>Имя</th>
-              <th>Телефон</th>
-              <th>Тип</th>
-              <th>Дата и время</th>
-              <th>Город</th>
-              <th>Место</th>
-              <th>Статус</th>
-              <th>Комментарий</th>
+           <th>${t('customerName')}</th>
+<th>${t('phone')}</th>
+<th>${t('eventType')}</th>
+<th>${t('dateTime')}</th>
+<th>${t('cityLabel')}</th>
+<th>${t('venueLabel')}</th>
+<th>${t('statusActive').replace('Фаъол','Ҳолат')}</th>
+<th>${t('commentLabel')}</th>
             </tr>
           </thead>
           <tbody>
@@ -1404,7 +1404,7 @@ const texts = {
                 <td>${escapeHtml(formatDateTime(app.eventDate, app.eventTime))}</td>
                 <td>${escapeHtml(getTranslatedCity(app.city))}</td>
                 <td>${escapeHtml(app.venue || '—')}</td>
-                <td>${escapeHtml(STATUS_LABELS[app.status] || app.status || '—')}</td>
+                <td>${escapeHtml(getStatusLabel(app.status))}</td>
                 <td>${escapeHtml(app.comments || '—')}</td>
               </tr>
             `).join('')}
