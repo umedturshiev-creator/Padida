@@ -105,10 +105,9 @@
   color: #fff;
 }
 
-.date-highlight {
-  color: #ef4444;
+.app-item .date-highlight {
+  color: #ef4444 !important;
   font-weight: 700;
-  text-shadow: 0 0 6px rgba(239, 68, 68, 0.3);
 }
 
 .lang-toggle.active {
@@ -1277,7 +1276,9 @@ function getApplicationTimestamp(app) {
             <div class="app-item"><span>${t('phone')}</span>${escapeHtml(app.customerPhone || '—')}</div>
            <div class="app-item">
   <span>${t('dateTime')}</span>
-  <span class="date-highlight">${formatDateTime(app.eventDate, app.eventTime)}</span>
+  <span class="date-highlight">
+  ${formatDateTime(app.eventDate, app.eventTime)}
+  </span>
 </div>
             <div class="app-item"><span>${t('cityLabel')}</span>${escapeHtml(getTranslatedCity(app.city))}</div>
             <div class="app-item"><span>${t('venueLabel')}</span>${escapeHtml(app.venue || '—')}</div>
