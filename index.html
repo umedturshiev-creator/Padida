@@ -1180,20 +1180,23 @@ if (eventType && eventType.options.length >= 4) {
       }
     }
 
-    function sortApplications() {
+function sortApplications() {
+  const now = new Date();
+
   state.applications.sort((a, b) => {
     const aTime = getApplicationTimestamp(a);
     const bTime = getApplicationTimestamp(b);
 
-    if (aTime !== bTime) return aTime - bTime;
+    const aPast = aTime < now.getTime();
+    const bPast = bTime < now.getTime();
 
-    const statusOrder = {
-      active: 0,
-      cancelled: 1,
-      completed: 2
-    };
+    // 1. Сначала будущие, потом прошедшие
+    if (aPast !== bPast) {
+      return aPast ? 1 : -1;
+    }
 
-    return (statusOrder[a.status] ?? 99) - (statusOrder[b.status] ?? 99);
+    // 2. Внутри группы сортируем по времени
+    return aTime - bTime;
   });
 }
 
