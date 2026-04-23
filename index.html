@@ -874,12 +874,19 @@
       }).format(date);
     }
 
-    function getDaysUntil(eventDate, eventTime) {
-      if (!eventDate) return null;
-      const dateTime = new Date(`${eventDate}T${eventTime || '00:00'}:00`);
-      if (Number.isNaN(dateTime.getTime())) return null;
-      return Math.ceil((dateTime - new Date()) / 86400000);
-    }
+function getDaysUntil(eventDate, eventTime) {
+  if (!eventDate) return null;
+
+  const event = new Date(`${eventDate}T${eventTime || '00:00'}:00`);
+  if (Number.isNaN(event.getTime())) return null;
+
+  const now = new Date();
+
+  const nowStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const eventStart = new Date(event.getFullYear(), event.getMonth(), event.getDate());
+
+  return Math.round((eventStart - nowStart) / 86400000);
+}
 
     function getCardClass(app) {
       if (app.status !== 'active') return '';
@@ -1174,13 +1181,29 @@ if (eventType && eventType.options.length >= 4) {
     }
 
     function sortApplications() {
-      state.applications.sort((a, b) => {
-        const aDate = new Date(`${a.eventDate || '2100-01-01'}T${a.eventTime || '00:00'}:00`).getTime();
-        const bDate = new Date(`${b.eventDate || '2100-01-01'}T${b.eventTime || '00:00'}:00`).getTime();
-        return aDate - bDate;
-      });
-    }
+  state.applications.sort((a, b) => {
+    const aTime = getApplicationTimestamp(a);
+    const bTime = getApplicationTimestamp(b);
 
+    if (aTime !== bTime) return aTime - bTime;
+
+    const statusOrder = {
+      active: 0,
+      cancelled: 1,
+      completed: 2
+    };
+
+    return (statusOrder[a.status] ?? 99) - (statusOrder[b.status] ?? 99);
+  });
+}
+
+function getApplicationTimestamp(app) {
+  if (!app.eventDate) return Number.MAX_SAFE_INTEGER;
+
+  const value = new Date(`${app.eventDate}T${app.eventTime || '00:00'}:00`).getTime();
+  return Number.isNaN(value) ? Number.MAX_SAFE_INTEGER : value;
+}
+    
     function renderStats() {
       document.getElementById('countAll').textContent = state.applications.length;
       document.getElementById('countActive').textContent = state.applications.filter(a => a.status === 'active').length;
