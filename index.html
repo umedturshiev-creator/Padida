@@ -1173,18 +1173,18 @@ if (eventType && eventType.options.length >= 4) {
       return data;
     }
 
-    async function loadApplications() {
-      applicationList.innerHTML = '<div class="empty-state">Загрузка заявок...</div>';
-      try {
-        const data = await apiRequest('list');
-        state.applications = Array.isArray(data.items) ? data.items : [];
-        sortApplications();
-        renderStats();
-        ();
-      } catch (error) {
-        applicationList.innerHTML = `<div class="empty-state">Не удалось загрузить заявки.<br>${escapeHtml(error.message || String(error))}</div>`;
-      }
-    }
+async function loadApplications() {
+  applicationList.innerHTML = '<div class="empty-state">Загрузка заявок...</div>';
+  try {
+    const data = await apiRequest('list');
+    state.applications = Array.isArray(data.items) ? data.items : [];
+    sortApplications();
+    renderStats();
+    renderApplications();
+  } catch (error) {
+    applicationList.innerHTML = `<div class="empty-state">Не удалось загрузить заявки.<br>${escapeHtml(error.message || String(error))}</div>`;
+  }
+}
 
 function sortApplications() {
   const now = new Date();
