@@ -105,6 +105,12 @@
   color: #fff;
 }
 
+.date-highlight {
+  color: #ef4444;
+  font-weight: 700;
+  text-shadow: 0 0 6px rgba(239, 68, 68, 0.3);
+}
+
 .lang-toggle.active {
   background: linear-gradient(135deg, #6366f1, #7c3aed);
   color: #fff;
@@ -1174,7 +1180,7 @@ if (eventType && eventType.options.length >= 4) {
         state.applications = Array.isArray(data.items) ? data.items : [];
         sortApplications();
         renderStats();
-        renderApplications();
+        ();
       } catch (error) {
         applicationList.innerHTML = `<div class="empty-state">Не удалось загрузить заявки.<br>${escapeHtml(error.message || String(error))}</div>`;
       }
@@ -1269,7 +1275,10 @@ function getApplicationTimestamp(app) {
 
           <div class="app-grid">
             <div class="app-item"><span>${t('phone')}</span>${escapeHtml(app.customerPhone || '—')}</div>
-            <div class="app-item"><span>${t('dateTime')}</span>${formatDateTime(app.eventDate, app.eventTime)}</div>
+           <div class="app-item">
+  <span>${t('dateTime')}</span>
+  <span class="date-highlight">${formatDateTime(app.eventDate, app.eventTime)}</span>
+</div>
             <div class="app-item"><span>${t('cityLabel')}</span>${escapeHtml(getTranslatedCity(app.city))}</div>
             <div class="app-item"><span>${t('venueLabel')}</span>${escapeHtml(app.venue || '—')}</div>
             <div class="app-item"><span>${t('commentLabel')}</span>${escapeHtml(app.comments || '—')}</div>
